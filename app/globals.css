@@ -360,6 +360,15 @@ html.lenis { height: auto; }
   transform: translateY(-2px);
 }
 
+/* Hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Masonry grid */
 .masonry-grid {
   columns: 3 280px;

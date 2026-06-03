@@ -36,7 +36,7 @@ export default function Footer() {
     <footer className="bg-[#050505] border-t border-[#111]" role="contentinfo">
       {/* CTA Banner */}
       <div className="border-b border-[#111] bg-[#080808]">
-        <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto px-6 py-10 sm:py-16 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div>
             <p className="text-[#8B0000] text-xs tracking-[0.4em] uppercase mb-2">¿Listo para transformarte?</p>
             <h2 className="text-3xl sm:text-4xl font-black uppercase text-[#E8E2D9]">
@@ -64,7 +64,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 py-10 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="lg:col-span-1">

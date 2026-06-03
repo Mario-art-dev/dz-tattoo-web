@@ -47,7 +47,7 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-32 bg-[#050505] border-t border-[#0f0f0f]"
+      className="relative py-14 sm:py-24 lg:py-32 bg-[#050505] border-t border-[#0f0f0f]"
       aria-label="Sobre nosotros"
     >
       {/* Grid bg */}
@@ -56,7 +56,7 @@ export default function About() {
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header row */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-20 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-16 lg:mb-20 border-b border-[#111] pb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">00 /</span>

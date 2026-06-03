@@ -28,7 +28,7 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" ref={sectionRef} className="relative py-40 bg-[#080808] overflow-hidden" aria-label="Contacto">
+    <section id="contact" ref={sectionRef} className="relative py-14 sm:py-24 lg:py-32 bg-[#080808] overflow-hidden" aria-label="Contacto">
       {/* Ambient glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#8B0000]/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
@@ -36,12 +36,12 @@ export default function Contact() {
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header — more persuasive */}
-        <div className="text-center mb-16 ct-card">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16 ct-card">
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">08 /</span>
             <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Contacto</span>
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black uppercase leading-[0.9] mb-6">
+          <h2 className="text-[2.4rem] sm:text-5xl lg:text-7xl font-black uppercase leading-[0.9] mb-6">
             Tu tatuaje soñado<br />
             <span className="text-gradient">empieza con una llamada</span>
           </h2>

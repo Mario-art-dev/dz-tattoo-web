@@ -63,14 +63,14 @@ export default function Gallery() {
   }, [lb]);
 
   return (
-    <section id="gallery" ref={sectionRef} className="relative py-32 bg-[#050505] border-t border-[#0f0f0f]" aria-label="Galería">
+    <section id="gallery" ref={sectionRef} className="relative py-14 sm:py-24 lg:py-32 bg-[#050505] border-t border-[#0f0f0f]" aria-label="Galería">
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 border-b border-[#111] pb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">06 /</span>

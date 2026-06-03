@@ -78,7 +78,7 @@ export default function Booking() {
 
   if (success) {
     return (
-      <section id="booking" className="relative py-40 bg-[#050505]">
+      <section id="booking" className="relative py-14 sm:py-24 lg:py-32 bg-[#050505]">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <div className="w-24 h-24 rounded-full bg-[#8B0000]/20 border border-[#8B0000]/40 flex items-center justify-center mx-auto mb-8">
             <CheckCircle size={48} className="text-[#8B0000]" />
@@ -101,7 +101,7 @@ export default function Booking() {
   }
 
   return (
-    <section id="booking" ref={sectionRef} className="relative py-40 bg-[#050505] overflow-hidden" aria-label="Reservar cita">
+    <section id="booking" ref={sectionRef} className="relative py-14 sm:py-24 lg:py-32 bg-[#050505] overflow-hidden" aria-label="Reservar cita">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[700px] bg-[#8B0000]/6 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
@@ -109,7 +109,7 @@ export default function Booking() {
 
       <div className="max-w-6xl mx-auto px-6">
         {/* HERO BOOKING HEADER */}
-        <div className="text-center mb-20 bk-reveal">
+        <div className="text-center mb-10 sm:mb-16 lg:mb-20 bk-reveal">
           <div className="inline-flex items-center gap-2 bg-[#8B0000]/15 border border-[#8B0000]/30 text-[#C41E1E] text-xs font-bold tracking-[0.3em] uppercase px-5 py-2.5 rounded-full mb-8">
             <Sparkles size={12} />
             Primera consulta gratuita
@@ -118,7 +118,7 @@ export default function Booking() {
             <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">07 /</span>
             <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Reservas</span>
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-8xl font-black uppercase leading-[0.9] tracking-tight mb-6">
+          <h2 className="text-4xl sm:text-6xl lg:text-8xl font-black uppercase leading-[0.9] tracking-tight mb-6">
             Tu arte te<br />
             <span className="text-gradient">está esperando</span>
           </h2>
@@ -129,15 +129,15 @@ export default function Booking() {
         </div>
 
         {/* Trust badges */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16 bk-reveal">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8 sm:mb-12 lg:mb-16 bk-reveal">
           {TRUST_ITEMS.map((t) => (
-            <div key={t.label} className="border border-[#111] bg-[#080808] rounded-2xl p-5 flex items-start gap-3 hover:border-[#8B0000]/30 transition-colors duration-300">
-              <div className="w-10 h-10 rounded-full bg-[#8B0000]/15 flex items-center justify-center flex-shrink-0">
-                <t.icon size={18} className="text-[#8B0000]" />
+            <div key={t.label} className="border border-[#111] bg-[#080808] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start gap-2 sm:gap-3 hover:border-[#8B0000]/30 transition-colors duration-300">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#8B0000]/15 flex items-center justify-center flex-shrink-0">
+                <t.icon size={15} className="text-[#8B0000]" />
               </div>
               <div>
-                <p className="text-[#E8E2D9] text-sm font-bold">{t.label}</p>
-                <p className="text-[#555] text-xs mt-0.5">{t.sub}</p>
+                <p className="text-[#E8E2D9] text-xs sm:text-sm font-bold leading-tight">{t.label}</p>
+                <p className="text-[#555] text-[10px] sm:text-xs mt-0.5 hidden sm:block">{t.sub}</p>
               </div>
             </div>
           ))}
