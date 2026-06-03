@@ -1,0 +1,81 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
+import CursorFollower from "@/components/ui/CursorFollower";
+import CookieBanner from "@/components/ui/CookieBanner";
+import Navigation from "@/components/ui/Navigation";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://dztattoo.es'),
+  title: "D.Z Tattoo Studio | Tatuajes Premium en Silla, Valencia",
+  description:
+    "D.Z Tattoo Studio — Arte con alma. Especialistas en realismo, fine line, microblading, micropigmentación y eliminación láser en Silla, Valencia. Reserva tu cita.",
+  keywords: [
+    "tatuajes Silla",
+    "tatuajes Valencia",
+    "realismo Valencia",
+    "fine line Valencia",
+    "microblading Valencia",
+    "micropigmentación Valencia",
+    "cover up Valencia",
+    "láser tatuajes Valencia",
+    "estudio tatuajes premium",
+    "DZ Tattoo",
+  ],
+  authors: [{ name: "D.Z Tattoo Studio" }],
+  creator: "D.Z Tattoo Studio",
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    url: "https://dztattoo.es",
+    siteName: "D.Z Tattoo Studio",
+    title: "D.Z Tattoo Studio | Tatuajes Premium en Valencia",
+    description:
+      "Arte con alma. Especialistas en realismo, fine line, microblading y láser en Silla, Valencia.",
+    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "D.Z Tattoo Studio",
+    description: "Arte con alma. Tatuajes premium en Silla, Valencia.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  alternates: { canonical: "https://dztattoo.es" },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="es"
+      className={`${geistSans.variable} ${geistMono.variable} antialiased grain-overlay`}
+    >
+      <body className="bg-[#050505] text-[#E8E2D9] min-h-screen overflow-x-hidden">
+        <SmoothScrollProvider>
+          <CursorFollower />
+          <Navigation />
+          {children}
+          <CookieBanner />
+        </SmoothScrollProvider>
+      </body>
+    </html>
+  );
+}
