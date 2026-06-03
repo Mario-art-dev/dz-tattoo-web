@@ -5,27 +5,32 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { InstagramIcon } from '@/components/ui/InstagramIcon';
+import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const artists = [
   {
+    id: 'DNZ',
     name: 'Dani Zaragoza',
-    role: 'Fundador & Tatuador principal',
-    specialties: ['Realismo', 'Fine Line', 'Custom', 'Cover Ups'],
-    bio: 'Más de 6 años de experiencia convirtiendo ideas en arte permanente. Especialista en realismo fotográfico y fine line con un estilo inconfundible que combina precisión técnica con sensibilidad artística.',
+    role: 'Fundador & Tatuador',
+    specialties: ['Realismo', 'Fine Line', 'Custom', 'Cover Up'],
+    bio: 'Más de 6 años convirtiendo ideas en arte permanente. Especialista en realismo fotográfico y fine line. Su firma artística combina precisión técnica con sensibilidad única.',
     instagram: 'https://www.instagram.com/d.z.tattoo',
     image: '/images/artist-dani.jpg',
     years: '6+',
+    works: '800+',
   },
   {
+    id: 'SRY',
     name: 'Sara Rey',
-    role: 'Artista & Esteticista',
-    specialties: ['Microblading', 'Micropigmentación', 'Joyería Dental', 'Fine Line'],
-    bio: 'Especialista en micropigmentación y técnicas de belleza semipermanente. Combina su pasión por el arte con un ojo clínico para resultados naturales y duraderos.',
+    role: 'Artista & Estética',
+    specialties: ['Microblading', 'Micropigmentación', 'Tooth Gems', 'Fine Line'],
+    bio: 'Especialista en micropigmentación y técnicas de belleza semipermanente. Ojo clínico para resultados naturales, precisos y duraderos que realzan la belleza de cada cliente.',
     instagram: 'https://www.instagram.com/d.z.tattoo',
     image: '/images/artist-sara.jpg',
     years: '4+',
+    works: '400+',
   },
 ];
 
@@ -34,106 +39,112 @@ export default function Artists() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.artist-card',
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.2,
-          ease: 'power4.out',
-          scrollTrigger: { trigger: '.artists-grid', start: 'top 80%' },
-        }
-      );
+      gsap.fromTo('.artist-card', { opacity: 0, y: 40 }, {
+        opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power4.out',
+        scrollTrigger: { trigger: '.artists-grid', start: 'top 80%' },
+      });
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="artists"
-      ref={sectionRef}
-      className="relative py-32 bg-[#080808] overflow-hidden"
-      aria-label="Nuestros artistas"
-    >
-      {/* Background text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-        <span className="text-[#0d0d0d] text-[20vw] font-black uppercase tracking-tighter">ARTISTS</span>
-      </div>
+    <section id="artists" ref={sectionRef} className="relative py-32 bg-[#050505] border-t border-[#0f0f0f]" aria-label="Artistas">
+      {/* Grid bg */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
+        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
-          <span className="text-[#8B0000] text-xs tracking-[0.4em] uppercase">El equipo</span>
-          <h2 className="text-4xl sm:text-6xl font-black uppercase mt-4 leading-tight">
-            Las manos que<br />
-            <span className="text-gradient">hacen el arte</span>
-          </h2>
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16 border-b border-[#111] pb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">03 /</span>
+              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">El equipo</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
+              Las manos que<br />
+              <span className="text-gradient">hacen el arte</span>
+            </h2>
+          </div>
+          <p className="text-[#555] text-xs font-mono max-w-[200px] leading-relaxed">
+            D.Z Studio — dos artistas,<br />un mismo estándar de excelencia.
+          </p>
         </div>
 
-        <div className="artists-grid grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {/* Artists grid */}
+        <div className="artists-grid grid grid-cols-1 lg:grid-cols-2 gap-px bg-[#111]">
           {artists.map((artist) => (
             <div
-              key={artist.name}
-              className="artist-card group relative overflow-hidden bg-[#0d0d0d] border border-[#1a1a1a] hover:border-[#8B0000]/40 transition-all duration-500 opacity-0"
+              key={artist.id}
+              className="artist-card opacity-0 bg-[#050505] group hover:bg-[#080000] transition-colors duration-500"
             >
-              {/* Image */}
-              <div className="relative aspect-[3/4] overflow-hidden">
+              {/* Image zone */}
+              <div className="relative aspect-[4/3] overflow-hidden border-b border-[#111]">
                 <Image
                   src={artist.image}
                   alt={artist.name}
                   fill
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                 />
-                {/* Fallback */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#111] via-[#1a0000]/50 to-[#050505] flex items-end" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-20">
-                  <span className="text-8xl font-black text-[#8B0000]">{artist.name.charAt(0)}</span>
+                <div className="absolute inset-0 bg-gradient-to-br from-[#080808] via-[#0d0000]/40 to-[#050505] opacity-80" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-[#8B0000]/10 text-[8rem] font-black select-none">{artist.id}</span>
                 </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
 
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/40 to-transparent" />
+                {/* Code label */}
+                <div className="absolute top-4 left-4 font-mono text-[10px] tracking-[0.3em] text-[#8B0000]/60 border border-[#8B0000]/20 px-2 py-1">
+                  {artist.id}
+                </div>
               </div>
 
-              {/* Content */}
+              {/* Info zone */}
               <div className="p-8">
-                <div className="flex items-start justify-between mb-4">
+                {/* Name row */}
+                <div className="flex items-start justify-between mb-5 pb-5 border-b border-[#111]">
                   <div>
-                    <h3 className="text-[#E8E2D9] text-2xl font-black uppercase">{artist.name}</h3>
-                    <p className="text-[#8B0000] text-xs tracking-[0.2em] uppercase mt-1">{artist.role}</p>
+                    <h3 className="text-[#E8E2D9] text-xl font-black uppercase tracking-wide">{artist.name}</h3>
+                    <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.3em] uppercase mt-1">{artist.role}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-[#E8E2D9] text-3xl font-black">{artist.years}</p>
-                    <p className="text-[#B0A89E] text-[10px] tracking-widest uppercase">años</p>
+                  <div className="text-right font-mono">
+                    <p className="text-[#E8E2D9] text-2xl font-black">{artist.years}</p>
+                    <p className="text-[#555] text-[10px] tracking-widest uppercase">años</p>
                   </div>
                 </div>
 
                 <p className="text-[#B0A89E] text-sm leading-relaxed mb-6">{artist.bio}</p>
 
+                {/* Specialties */}
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {artist.specialties.map((spec) => (
-                    <span key={spec} className="text-[10px] tracking-widest uppercase border border-[#8B0000]/30 text-[#B0A89E] px-3 py-1">
-                      {spec}
+                  {artist.specialties.map((s) => (
+                    <span key={s} className="text-[10px] font-mono tracking-[0.15em] uppercase text-[#8B0000] border border-[#8B0000]/25 px-2.5 py-1">
+                      {s}
                     </span>
                   ))}
                 </div>
 
-                <a
-                  href={artist.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-[#B0A89E] hover:text-[#E8E2D9] text-xs tracking-widest uppercase transition-colors group/ig"
-                  aria-label={`Instagram de ${artist.name}`}
-                >
-                  <InstagramIcon size={14} className="group-hover/ig:text-[#8B0000] transition-colors" />
-                  Ver trabajos
-                </a>
+                {/* Stats + link */}
+                <div className="flex items-center justify-between border-t border-[#111] pt-5">
+                  <div className="flex gap-6">
+                    <div>
+                      <p className="text-[#E8E2D9] font-black text-lg">{artist.works}</p>
+                      <p className="text-[#555] text-[10px] font-mono tracking-widest uppercase">Obras</p>
+                    </div>
+                  </div>
+                  <a
+                    href={artist.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-[#555] hover:text-[#8B0000] text-xs font-mono tracking-widest uppercase transition-colors"
+                    aria-label={`Instagram de ${artist.name}`}
+                  >
+                    <InstagramIcon size={14} />
+                    Ver trabajos
+                  </a>
+                </div>
               </div>
-
-              {/* Red accent line */}
-              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8B0000] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           ))}
         </div>

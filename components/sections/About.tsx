@@ -4,54 +4,42 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const stats = [
+  { value: '6+', label: 'Años de experiencia', meta: 'Years' },
+  { value: '1K+', label: 'Tatuajes realizados', meta: 'Works' },
+  { value: '5.0', label: 'Google Reviews', meta: 'Rating' },
+  { value: '100%', label: 'Material desechable', meta: 'Hygiene' },
+];
+
+const values = [
+  { code: 'ART', label: 'Arte personalizado', desc: 'Cada diseño nace desde cero, exclusivo para ti.' },
+  { code: 'TEC', label: 'Técnica impecable', desc: 'Años de práctica en realismo, fine line y más.' },
+  { code: 'HYG', label: 'Higiene certificada', desc: 'Protocolo ISO. Material nuevo en cada sesión.' },
+  { code: 'EXP', label: 'Experiencia premium', desc: 'Atención personalizada de principio a fin.' },
+];
+
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        imageRef.current,
-        { clipPath: 'inset(100% 0 0 0)', scale: 1.1 },
-        {
-          clipPath: 'inset(0% 0 0 0)',
-          scale: 1,
-          duration: 1.2,
-          ease: 'power4.inOut',
-          scrollTrigger: { trigger: imageRef.current, start: 'top 80%', toggleActions: 'play none none none' },
-        }
-      );
-
-      gsap.fromTo(
-        contentRef.current?.querySelectorAll('.reveal-item') ?? [],
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: contentRef.current, start: 'top 75%' },
-        }
-      );
-
-      gsap.fromTo(
-        lineRef.current,
-        { scaleX: 0, transformOrigin: 'left' },
-        {
-          scaleX: 1,
-          duration: 1,
-          ease: 'power2.inOut',
-          scrollTrigger: { trigger: lineRef.current, start: 'top 80%' },
-        }
-      );
+      gsap.fromTo('.about-stat', { opacity: 0, y: 20 }, {
+        opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.about-stats', start: 'top 80%' },
+      });
+      gsap.fromTo('.about-value', { opacity: 0, x: -20 }, {
+        opacity: 1, x: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: '.about-values', start: 'top 82%' },
+      });
+      gsap.fromTo('.about-image', { clipPath: 'inset(100% 0 0 0)' }, {
+        clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power4.inOut',
+        scrollTrigger: { trigger: '.about-image', start: 'top 80%' },
+      });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
@@ -59,95 +47,98 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-32 bg-[#050505] overflow-hidden"
+      className="relative py-32 bg-[#050505] border-t border-[#0f0f0f]"
       aria-label="Sobre nosotros"
     >
-      {/* Decorative red line */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#8B0000] to-transparent opacity-30" />
+      {/* Grid bg */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
+        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-        {/* Image */}
-        <div ref={imageRef} className="relative aspect-[3/4] max-h-[640px] overflow-hidden rounded-none">
-          <Image
-            src="/images/about-studio.jpg"
-            alt="Interior de D.Z Tattoo Studio"
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            onError={(e) => {
-              const el = e.currentTarget as HTMLImageElement;
-              el.style.display = 'none';
-            }}
-          />
-          {/* Fallback gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#111] via-[#1a0000] to-[#050505]" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-24 h-24 border border-[#8B0000]/30 rotate-45 mx-auto mb-6 flex items-center justify-center">
-                <span className="text-2xl font-black text-[#8B0000] -rotate-45">DZ</span>
-              </div>
-              <p className="text-[#B0A89E] text-xs tracking-[0.3em] uppercase">D.Z Tattoo Studio</p>
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header row */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-20 border-b border-[#111] pb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">00 /</span>
+              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Sobre nosotros</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
+              Arte con alma,<br />
+              <span className="text-gradient">precisión sin límites</span>
+            </h2>
+          </div>
+          <p className="text-[#B0A89E] text-sm leading-relaxed max-w-xs font-mono">
+            D.Z Tattoo Studio — Silla, Valencia.<br />
+            Estudio de tatuajes premium est. 2018.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left: stats + values */}
+          <div className="space-y-12">
+            {/* Stats grid */}
+            <div className="about-stats grid grid-cols-2 gap-px bg-[#0f0f0f] border border-[#0f0f0f]">
+              {stats.map((s) => (
+                <div key={s.label} className="about-stat bg-[#050505] p-6 group hover:bg-[#080000] transition-colors duration-300">
+                  <p className="text-[#8B0000]/50 text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{s.meta}</p>
+                  <p className="text-[#E8E2D9] text-3xl font-black mb-1">{s.value}</p>
+                  <p className="text-[#555] text-[11px] tracking-wider uppercase">{s.label}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Values list */}
+            <div className="about-values border border-[#111]">
+              {values.map((v, i) => (
+                <div key={v.code} className={cn(
+                  'about-value flex items-start gap-5 p-5 group hover:bg-[#0a0000] transition-colors duration-300',
+                  i < values.length - 1 && 'border-b border-[#111]'
+                )}>
+                  <span className="text-[#8B0000]/40 text-xs font-mono tracking-[0.2em] flex-shrink-0 mt-0.5">{v.code}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[#E8E2D9] text-sm font-bold uppercase tracking-wider mb-1 group-hover:text-[#E8E2D9]">{v.label}</p>
+                    <p className="text-[#B0A89E] text-xs leading-relaxed">{v.desc}</p>
+                  </div>
+                  <div className="w-1 h-full bg-[#8B0000]/0 group-hover:bg-[#8B0000]/30 transition-colors" />
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-60" />
-
-          {/* Years badge */}
-          <div className="absolute bottom-8 left-8 border border-[#8B0000]/30 bg-[#050505]/80 px-6 py-4">
-            <p className="text-[#8B0000] text-3xl font-black">6+</p>
-            <p className="text-[#B0A89E] text-[10px] tracking-widest uppercase">Años de arte</p>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div ref={contentRef} className="space-y-8">
-          <div className="reveal-item">
-            <span className="text-[#8B0000] text-xs tracking-[0.4em] uppercase">Sobre nosotros</span>
-          </div>
-
-          <div ref={lineRef} className="h-px bg-gradient-to-r from-[#8B0000] to-transparent max-w-[120px] reveal-item" />
-
-          <h2 className="text-4xl sm:text-5xl font-black leading-tight uppercase reveal-item">
-            Arte con alma,<br />
-            <span className="text-gradient">precisión sin límites</span>
-          </h2>
-
-          <p className="text-[#B0A89E] leading-relaxed text-sm sm:text-base reveal-item">
-            D.Z Tattoo Studio nació de la pasión por el arte y el compromiso con la excelencia.
-            Somos un estudio premium ubicado en Silla, Valencia, donde cada tatuaje es una obra
-            de arte personalizada que refleja tu esencia.
-          </p>
-
-          <p className="text-[#B0A89E] leading-relaxed text-sm sm:text-base reveal-item">
-            Trabajamos con los mejores materiales del mercado, bajo los más estrictos protocolos
-            de higiene y esterilización. Nuestro equipo de artistas especialistas te guiará desde
-            el primer boceto hasta el resultado final, creando una experiencia única e irrepetible.
-          </p>
-
-          <div className="grid grid-cols-2 gap-6 reveal-item">
-            {[
-              { label: 'Higiene certificada', desc: 'Protocolos ISO de esterilización' },
-              { label: 'Diseños exclusivos', desc: 'Arte 100% personalizado' },
-              { label: 'Equipo premium', desc: 'Materiales de primera calidad' },
-              { label: 'Atención personal', desc: 'Cada cliente, único' },
-            ].map((item) => (
-              <div key={item.label} className="border-l border-[#8B0000]/30 pl-4">
-                <p className="text-[#E8E2D9] font-bold text-sm">{item.label}</p>
-                <p className="text-[#B0A89E] text-xs mt-1">{item.desc}</p>
+          {/* Right: image */}
+          <div className="relative">
+            <div className="about-image relative aspect-[3/4] overflow-hidden border border-[#111]">
+              <Image
+                src="/images/about-studio.jpg"
+                alt="Interior D.Z Tattoo Studio"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              />
+              {/* Fallback */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0d0d0d] via-[#150000]/60 to-[#050505]" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="border border-[#8B0000]/20 p-12">
+                  <div className="w-20 h-20 border border-[#8B0000]/40 rotate-45 mx-auto flex items-center justify-center">
+                    <span className="text-[#8B0000] font-black text-xl -rotate-45">DZ</span>
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-70" />
+            </div>
 
-          <div className="reveal-item">
-            <a
-              href="https://www.instagram.com/d.z.tattoo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-outline inline-flex items-center gap-3 px-6 py-3 text-xs font-medium tracking-[0.15em] uppercase"
-            >
-              Ver en Instagram
-            </a>
+            {/* Info label on image */}
+            <div className="absolute bottom-0 left-0 right-0 border-t border-[#111] bg-[#050505]/90 backdrop-blur-sm flex items-center justify-between px-6 py-4">
+              <div>
+                <p className="text-[#555] text-[10px] font-mono tracking-widest uppercase">Estudio</p>
+                <p className="text-[#E8E2D9] text-sm font-bold">Av. Luis Vives 12, Silla</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[#555] text-[10px] font-mono tracking-widest uppercase">Instagram</p>
+                <p className="text-[#8B0000] text-sm font-mono">@d.z.tattoo</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

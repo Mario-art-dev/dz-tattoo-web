@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { Menu, X, Phone } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const navLinks = [
-  { label: 'Inicio', href: '#hero' },
-  { label: 'Nosotros', href: '#about' },
+  { label: 'Studio', href: '#about' },
   { label: 'Servicios', href: '#services' },
   { label: 'Artistas', href: '#artists' },
   { label: 'Galería', href: '#gallery' },
@@ -18,11 +19,10 @@ const navLinks = [
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const navRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -31,79 +31,82 @@ export default function Navigation() {
     const menu = menuRef.current;
     if (!menu) return;
     if (menuOpen) {
-      gsap.fromTo(menu, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' });
-      gsap.fromTo(menu.querySelectorAll('a'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power3.out', delay: 0.1 });
+      gsap.fromTo(menu, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+      gsap.fromTo(menu.querySelectorAll('.mobile-link'), { opacity: 0, x: -20 }, { opacity: 1, x: 0, stagger: 0.07, duration: 0.4, delay: 0.1 });
     }
   }, [menuOpen]);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const go = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <>
       <header
-        ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? 'nav-glass py-3' : 'py-6'
-        }`}
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+          scrolled ? 'bg-[#050505]/92 backdrop-blur-xl border-b border-[#111]' : 'bg-transparent'
+        )}
         role="banner"
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-18 py-3">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group" aria-label="D.Z Tattoo Studio">
-            <div className="relative w-10 h-10">
-              <div className="absolute inset-0 border border-[#8B0000] rotate-45 transition-transform duration-500 group-hover:rotate-[405deg]" />
-              <span className="absolute inset-0 flex items-center justify-center text-[#E8E2D9] font-bold text-sm tracking-widest">DZ</span>
+            <div className="relative w-12 h-12 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105">
+              <Image
+                src="/images/logo.svg"
+                alt="D.Z Tattoo Studio Logo"
+                fill
+                className="object-cover"
+                sizes="48px"
+                priority
+              />
             </div>
             <div className="hidden sm:block">
               <p className="text-[#E8E2D9] font-bold text-sm tracking-[0.2em] uppercase leading-none">D.Z Tattoo</p>
-              <p className="text-[#8B0000] text-[10px] tracking-[0.3em] uppercase">Studio</p>
+              <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.35em] uppercase mt-0.5">Studio · Valencia</p>
             </div>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-8" aria-label="Navegación principal">
-            {navLinks.map((link) => (
+          <nav className="hidden lg:flex items-center gap-8" aria-label="Navegación">
+            {navLinks.map((l) => (
               <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="text-[#B0A89E] text-xs tracking-[0.15em] uppercase hover:text-[#E8E2D9] transition-colors duration-300 relative group"
+                key={l.label}
+                href={l.href}
+                onClick={e => go(e, l.href)}
+                className="text-[#666] text-[11px] font-mono tracking-[0.2em] uppercase hover:text-[#E8E2D9] transition-colors duration-200 relative group"
               >
-                {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#8B0000] transition-all duration-300 group-hover:w-full" />
+                {l.label}
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#8B0000] group-hover:w-full transition-all duration-300" />
               </a>
             ))}
           </nav>
 
-          {/* CTA */}
-          <div className="flex items-center gap-4">
+          {/* Right CTAs */}
+          <div className="flex items-center gap-3">
             <a
               href="tel:+34722201072"
-              className="hidden sm:flex items-center gap-2 text-[#B0A89E] text-xs tracking-wider hover:text-[#E8E2D9] transition-colors"
-              aria-label="Llamar al estudio"
+              className="hidden md:flex items-center gap-1.5 text-[#555] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest transition-colors"
             >
-              <Phone size={14} />
-              <span className="hidden md:inline">722 20 10 72</span>
+              <Phone size={12} />
+              722 20 10 72
             </a>
             <a
               href="#booking"
-              onClick={(e) => handleNavClick(e, '#booking')}
-              className="btn-primary px-5 py-2.5 text-xs font-medium tracking-[0.15em] uppercase rounded-none"
+              onClick={e => go(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#booking')}
+              className="btn-primary-round px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase hidden sm:block"
             >
               Reservar
             </a>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden text-[#E8E2D9] p-1"
+              className="lg:hidden text-[#E8E2D9] border border-[#222] rounded-xl p-2 hover:border-[#8B0000]/60 transition-colors"
               aria-label="Menú"
-              aria-expanded={menuOpen}
             >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
@@ -111,32 +114,32 @@ export default function Navigation() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div
-          ref={menuRef}
-          className="fixed inset-0 z-40 bg-[#050505]/98 flex flex-col justify-center px-8"
-          role="dialog"
-          aria-label="Menú móvil"
-        >
-          <nav className="flex flex-col gap-8">
-            {navLinks.map((link) => (
+        <div ref={menuRef} className="fixed inset-0 z-40 bg-[#050505] flex flex-col justify-center px-8">
+          {/* Logo in menu */}
+          <div className="absolute top-5 left-6">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden">
+              <Image src="/images/logo.svg" alt="D.Z Tattoo Studio" fill className="object-cover" sizes="48px" />
+            </div>
+          </div>
+
+          <nav className="flex flex-col gap-7">
+            {navLinks.map((l) => (
               <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="text-[#E8E2D9] text-4xl font-bold tracking-tight hover:text-[#8B0000] transition-colors duration-300"
+                key={l.label}
+                href={l.href}
+                onClick={e => go(e, l.href)}
+                className="mobile-link text-[#E8E2D9] text-4xl font-black uppercase hover:text-[#8B0000] transition-colors leading-none"
               >
-                {link.label}
+                {l.label}
               </a>
             ))}
-            <div className="mt-8 pt-8 border-t border-[#1a1a1a] flex flex-col gap-4">
-              <a href="tel:+34722201072" className="text-[#B0A89E] text-sm tracking-widest">
-                +34 722 20 10 72
-              </a>
-              <a href="mailto:info@dztattoo.es" className="text-[#B0A89E] text-sm tracking-widest">
-                info@dztattoo.es
-              </a>
-            </div>
           </nav>
+
+          <div className="mt-12 pt-8 border-t border-[#111] space-y-3">
+            <a href="tel:+34722201072" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">+34 722 20 10 72</a>
+            <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">@d.z.tattoo</a>
+            <a href="#booking" onClick={e => go(e, '#booking')} className="mobile-link btn-primary-round inline-block mt-4 px-8 py-3.5 text-sm font-bold tracking-widest uppercase">Reservar cita ahora</a>
+          </div>
         </div>
       )}
     </>

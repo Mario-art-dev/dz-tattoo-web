@@ -3,52 +3,17 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const steps = [
-  {
-    number: '01',
-    title: 'Consulta inicial',
-    description:
-      'Cuéntanos tu idea, qué emoción quieres llevar en la piel, dónde y cómo. Primera consulta gratuita presencial o por WhatsApp.',
-    duration: '30 min — Gratuita',
-  },
-  {
-    number: '02',
-    title: 'Diseño personalizado',
-    description:
-      'Nuestros artistas crean un boceto exclusivo para ti. Revisamos juntos hasta que el diseño capture exactamente tu visión.',
-    duration: '24-48h',
-  },
-  {
-    number: '03',
-    title: 'Preparación',
-    description:
-      'Te enviamos toda la información para prepararte antes de la sesión: hidratación, alimentación, ropa recomendada.',
-    duration: 'Antes de la cita',
-  },
-  {
-    number: '04',
-    title: 'La sesión',
-    description:
-      'Trabajamos en un entorno impecable, con música y ambiente que hagan de la experiencia algo único. Tu comodidad, nuestra prioridad.',
-    duration: 'Variable según diseño',
-  },
-  {
-    number: '05',
-    title: 'Cuidado post-tatuaje',
-    description:
-      'Te damos instrucciones detalladas de cuidado y realizamos un seguimiento de la cicatrización para garantizar los mejores resultados.',
-    duration: 'Seguimiento 4 semanas',
-  },
-  {
-    number: '06',
-    title: 'Revisión gratuita',
-    description:
-      'Una vez cicatrizado, revisamos el resultado juntos. Si algo necesita retoque, lo hacemos sin coste adicional.',
-    duration: 'A las 6-8 semanas',
-  },
+  { n: '01', code: 'CONSULT', title: 'Consulta inicial', desc: 'Cuéntanos tu idea. Presencial o por WhatsApp. Primera consulta completamente gratuita.', meta: '30 min · Gratis' },
+  { n: '02', code: 'DESIGN', title: 'Diseño personalizado', desc: 'Creamos un boceto exclusivo para ti. Lo revisamos juntos hasta capturar tu visión exacta.', meta: '24–48h' },
+  { n: '03', code: 'PREP', title: 'Preparación', desc: 'Te enviamos instrucciones completas: hidratación, alimentación, ropa recomendada.', meta: 'Previo a la cita' },
+  { n: '04', code: 'SESSION', title: 'La sesión', desc: 'Ambiente impecable, música, comodidad total. Trabajamos con material nuevo y esterilizado.', meta: 'Variable' },
+  { n: '05', code: 'CARE', title: 'Cuidados post-tattoo', desc: 'Instrucciones detalladas y seguimiento de cicatrización durante 4 semanas.', meta: '4 semanas' },
+  { n: '06', code: 'REVIEW', title: 'Revisión gratuita', desc: 'A las 6–8 semanas revisamos el resultado. Retoques incluidos sin coste adicional.', meta: '6–8 semanas' },
 ];
 
 export default function Process() {
@@ -56,105 +21,86 @@ export default function Process() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const steps = sectionRef.current?.querySelectorAll('.process-step') ?? [];
-      steps.forEach((step, i) => {
-        gsap.fromTo(
-          step,
-          { opacity: 0, x: i % 2 === 0 ? -40 : 40 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: step, start: 'top 85%' },
-          }
-        );
+      gsap.fromTo('.process-item', { opacity: 0, y: 25 }, {
+        opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.process-grid', start: 'top 82%' },
       });
-
-      // Animate the vertical line
-      gsap.fromTo(
-        '.process-line',
-        { scaleY: 0, transformOrigin: 'top' },
-        {
-          scaleY: 1,
-          duration: 2,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.process-container',
-            start: 'top 70%',
-            end: 'bottom 80%',
-            scrub: 1,
-          },
-        }
-      );
+      gsap.fromTo('.process-line', { scaleY: 0, transformOrigin: 'top' }, {
+        scaleY: 1, duration: 1.5, ease: 'none',
+        scrollTrigger: { trigger: '.process-grid', start: 'top 75%', end: 'bottom 80%', scrub: 0.5 },
+      });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="process"
-      ref={sectionRef}
-      className="relative py-32 bg-[#080808] overflow-hidden"
-      aria-label="Proceso de trabajo"
-    >
+    <section id="process" ref={sectionRef} className="relative py-32 bg-[#080808] border-t border-[#0f0f0f]" aria-label="Proceso">
+      {/* Grid bg */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
+        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
+
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-20">
-          <span className="text-[#8B0000] text-xs tracking-[0.4em] uppercase">Proceso</span>
-          <h2 className="text-4xl sm:text-6xl font-black uppercase mt-4 leading-tight">
-            Tu experiencia,<br />
-            <span className="text-gradient">paso a paso</span>
-          </h2>
-          <p className="text-[#B0A89E] max-w-xl mx-auto mt-6 text-sm leading-relaxed">
-            Cada tatuaje es un viaje compartido. Te acompañamos desde la primera idea hasta el resultado final con total transparencia y dedicación.
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16 border-b border-[#111] pb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">04 /</span>
+              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Proceso</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
+              Tu experiencia,<br />
+              <span className="text-gradient">paso a paso</span>
+            </h2>
+          </div>
+          <p className="text-[#555] text-xs font-mono max-w-[220px] leading-relaxed">
+            De la idea al resultado final.<br />6 etapas con total transparencia.
           </p>
         </div>
 
-        <div className="process-container relative max-w-3xl mx-auto">
-          {/* Vertical line */}
-          <div className="absolute left-8 top-0 bottom-0 w-px bg-[#1a1a1a] hidden sm:block">
-            <div className="process-line absolute inset-0 bg-gradient-to-b from-[#8B0000] to-transparent" />
-          </div>
-
-          <div className="flex flex-col gap-0">
-            {steps.map((step, index) => (
-              <div
-                key={step.number}
-                className="process-step opacity-0 flex gap-8 sm:gap-16 items-start relative"
-              >
-                {/* Number bubble */}
-                <div className="relative flex-shrink-0 z-10">
-                  <div className="w-16 h-16 border border-[#8B0000]/40 bg-[#080808] flex items-center justify-center group-hover:border-[#8B0000] transition-colors">
-                    <span className="text-[#8B0000] font-black text-sm font-mono">{step.number}</span>
+        {/* Two-column grid for steps */}
+        <div className="process-grid grid grid-cols-1 md:grid-cols-2 gap-px bg-[#111] border border-[#111]">
+          {steps.map((s, i) => (
+            <div
+              key={s.n}
+              className={cn(
+                'process-item opacity-0 bg-[#080808] p-7 group hover:bg-[#0a0000] transition-colors duration-300',
+                'flex flex-col gap-4'
+              )}
+            >
+              {/* Header row */}
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 border border-[#8B0000]/30 group-hover:border-[#8B0000]/60 flex items-center justify-center transition-colors">
+                    <span className="text-[#8B0000] text-[10px] font-mono">{s.n}</span>
                   </div>
-                  {index < steps.length - 1 && (
-                    <div className="absolute left-1/2 top-16 w-px h-16 bg-gradient-to-b from-[#8B0000]/20 to-transparent sm:hidden" />
-                  )}
+                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#555] group-hover:text-[#8B0000]/60 transition-colors uppercase">
+                    {s.code}
+                  </span>
                 </div>
-
-                {/* Content */}
-                <div className={`pb-16 flex-1 ${index === steps.length - 1 ? 'pb-0' : ''}`}>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                    <h3 className="text-[#E8E2D9] font-black text-xl uppercase">{step.title}</h3>
-                    <span className="text-[#8B0000] text-[10px] tracking-widest uppercase border border-[#8B0000]/30 px-3 py-1 flex-shrink-0">
-                      {step.duration}
-                    </span>
-                  </div>
-                  <p className="text-[#B0A89E] text-sm leading-relaxed">{step.description}</p>
-                </div>
+                <span className="text-[#8B0000] text-[10px] font-mono tracking-wider border border-[#8B0000]/20 px-2.5 py-1">
+                  {s.meta}
+                </span>
               </div>
-            ))}
-          </div>
+
+              <div>
+                <h3 className="text-[#E8E2D9] font-black text-base uppercase tracking-wide mb-2">{s.title}</h3>
+                <p className="text-[#B0A89E] text-sm leading-relaxed">{s.desc}</p>
+              </div>
+
+              {/* Bottom accent */}
+              <div className="h-px bg-[#8B0000]/0 group-hover:bg-[#8B0000]/20 transition-all duration-500" />
+            </div>
+          ))}
         </div>
 
-        <div className="text-center mt-16">
+        <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-[#111]">
+          <p className="text-[#555] text-xs font-mono">Proceso claro · Sin sorpresas · Arte garantizado</p>
           <a
             href="#booking"
             onClick={(e) => { e.preventDefault(); document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' }); }}
-            className="btn-primary inline-flex items-center gap-3 px-8 py-4 text-sm font-medium tracking-[0.15em] uppercase"
+            className="btn-primary-round inline-flex items-center gap-2 px-6 py-3 text-xs tracking-wider uppercase"
           >
-            Comenzar el proceso
+            Comenzar ahora
           </a>
         </div>
       </div>

@@ -1,4 +1,15 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@keyframes fadeOutLabel {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  70% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateX(0.5rem) scale(0.95); }
+}
+
+.animate-fadeOut {
+  animation: fadeOutLabel 3s ease-in-out forwards;
+}
 
 @theme inline {
   --color-background: #050505;
@@ -197,45 +208,156 @@ html.lenis { height: auto; }
   clip-path: inset(0 0% 0 0);
 }
 
-/* Premium button */
+/* ============================================
+   PREMIUM ROUNDED BUTTONS
+   ============================================ */
+
+/* Sharp variant (legacy/table rows) */
 .btn-primary {
   position: relative;
   overflow: hidden;
-  background: var(--red);
+  background: linear-gradient(135deg, #9B0000 0%, #6B0000 100%);
   color: var(--offwhite);
-  border: 1px solid rgba(196, 30, 30, 0.3);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(196, 30, 30, 0.4);
+  border-radius: 8px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .btn-primary::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
   transform: translateX(-100%);
   transition: transform 0.5s ease;
+  border-radius: 8px;
 }
-
-.btn-primary:hover::before {
-  transform: translateX(100%);
-}
-
+.btn-primary:hover::before { transform: translateX(100%); }
 .btn-primary:hover {
-  background: var(--red-mid);
-  box-shadow: 0 0 30px rgba(139, 0, 0, 0.5), 0 0 80px rgba(139, 0, 0, 0.2);
+  background: linear-gradient(135deg, #C41E1E 0%, #8B0000 100%);
+  box-shadow: 0 8px 32px rgba(139, 0, 0, 0.6), 0 2px 8px rgba(139, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* ROUND variant — main CTAs */
+.btn-primary-round {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #C41E1E 0%, #8B0000 60%, #5a0000 100%);
+  color: var(--offwhite);
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px rgba(139, 0, 0, 0.45), 0 1px 4px rgba(0,0,0,0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-primary-round::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+.btn-primary-round:hover {
+  background: linear-gradient(135deg, #E02020 0%, #A50000 60%, #6B0000 100%);
+  box-shadow: 0 8px 40px rgba(196, 30, 30, 0.7), 0 2px 8px rgba(0,0,0,0.5);
+  transform: translateY(-2px) scale(1.02);
+}
+.btn-primary-round:active { transform: translateY(0) scale(0.99); }
+
+/* Outline round */
+.btn-outline-round {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--offwhite);
+  border: 1.5px solid rgba(232, 226, 217, 0.25);
+  border-radius: 9999px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-outline-round:hover {
+  border-color: rgba(196, 30, 30, 0.7);
+  background: rgba(139, 0, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(139, 0, 0, 0.25);
+  transform: translateY(-1px);
 }
 
+/* Legacy outline (sharp, kept for tables) */
 .btn-outline {
   position: relative;
   background: transparent;
   color: var(--offwhite);
-  border: 1px solid rgba(232, 226, 217, 0.25);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(232, 226, 217, 0.2);
+  border-radius: 8px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .btn-outline:hover {
   border-color: rgba(196, 30, 30, 0.6);
   background: rgba(139, 0, 0, 0.1);
+}
+
+/* BIG CTA — booking hero button */
+.btn-cta {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #E02020 0%, #9B0000 50%, #5a0000 100%);
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 8px 48px rgba(196, 30, 30, 0.65), 0 2px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-cta::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  border-radius: 9999px 9999px 0 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
+  pointer-events: none;
+}
+.btn-cta:hover {
+  background: linear-gradient(135deg, #FF3030 0%, #C41E1E 50%, #7a0000 100%);
+  box-shadow: 0 12px 60px rgba(196, 30, 30, 0.8), 0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);
+  transform: translateY(-3px) scale(1.03);
+}
+.btn-cta:active { transform: translateY(0) scale(0.99); }
+
+/* WhatsApp round button */
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #1a8a3a 0%, #0d6b2a 100%);
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 4px 24px rgba(20, 120, 50, 0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-whatsapp:hover {
+  background: linear-gradient(135deg, #22a848 0%, #158534 100%);
+  box-shadow: 0 8px 36px rgba(20, 150, 60, 0.65);
+  transform: translateY(-2px);
 }
 
 /* Masonry grid */

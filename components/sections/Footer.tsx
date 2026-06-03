@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Phone, MapPin, MessageCircle } from 'lucide-react';
 import { InstagramIcon } from '@/components/ui/InstagramIcon';
 
@@ -46,7 +47,7 @@ export default function Footer() {
             <a
               href="#booking"
               onClick={(e) => { e.preventDefault(); document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="btn-primary px-8 py-4 text-sm font-medium tracking-[0.15em] uppercase text-center"
+              className="btn-cta px-8 py-4 text-sm font-bold tracking-[0.15em] uppercase text-center"
             >
               Reservar cita
             </a>
@@ -54,7 +55,7 @@ export default function Footer() {
               href="https://wa.me/34722201072"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-outline flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium tracking-[0.15em] uppercase"
+              className="btn-whatsapp flex items-center justify-center gap-2 px-8 py-4 text-sm font-bold tracking-[0.15em] uppercase"
             >
               <MessageCircle size={16} />
               WhatsApp
@@ -68,12 +69,12 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="relative w-10 h-10 border border-[#8B0000] rotate-45 flex items-center justify-center">
-                <span className="text-[#E8E2D9] font-black text-sm -rotate-45">DZ</span>
+              <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+                <Image src="/images/logo.svg" alt="D.Z Tattoo Studio" fill className="object-cover" sizes="56px" />
               </div>
               <div>
                 <p className="text-[#E8E2D9] font-bold text-sm tracking-[0.2em] uppercase">D.Z Tattoo</p>
-                <p className="text-[#8B0000] text-[10px] tracking-[0.3em] uppercase">Studio</p>
+                <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.3em] uppercase">Studio · Valencia</p>
               </div>
             </div>
             <p className="text-[#B0A89E] text-sm leading-relaxed mb-6">

@@ -4,201 +4,126 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
-  {
-    id: 'custom',
-    number: '01',
-    title: 'Custom Tattoos',
-    subtitle: 'Diseño exclusivo',
-    description:
-      'Cada tatuaje nace de cero, diseñado específicamente para ti. Trabajamos contigo para capturar tu visión con la firma artística de nuestros tatuadores.',
-    tags: ['Diseño original', 'Consulta personalizada', 'Arte único'],
-    icon: '◈',
-  },
-  {
-    id: 'realism',
-    number: '02',
-    title: 'Realismo',
-    subtitle: 'Fotorrealismo en piel',
-    description:
-      'Retratos, naturaleza, animales y escenas que parecen fotografías. Técnica avanzada de sombreado y detalle que convierte tu piel en un lienzo de alta resolución.',
-    tags: ['Retratos', 'Naturaleza', 'Blanco y negro', 'Color'],
-    icon: '◉',
-  },
-  {
-    id: 'fineline',
-    number: '03',
-    title: 'Fine Line',
-    subtitle: 'Delicadeza infinita',
-    description:
-      'Líneas ultra finas, detalles minimalistas y composiciones elegantes. Tatuajes sutiles con un impacto visual extraordinario.',
-    tags: ['Minimalista', 'Geométrico', 'Botánico', 'Lettering'],
-    icon: '◻',
-  },
-  {
-    id: 'coverup',
-    number: '04',
-    title: 'Cover Ups',
-    subtitle: 'Nueva historia sobre la anterior',
-    description:
-      'Transformamos tatuajes que ya no te representan en nuevas obras de arte. Evaluamos cada caso para encontrar la solución perfecta.',
-    tags: ['Evaluación gratuita', 'Transformación', 'Nueva vida'],
-    icon: '◈',
-  },
-  {
-    id: 'laser',
-    number: '05',
-    title: 'Eliminación Láser',
-    subtitle: 'Borrón y cuenta nueva',
-    description:
-      'Tecnología láser de última generación para la eliminación segura y efectiva de tatuajes. Sesiones progresivas adaptadas a cada tipo de tinta y piel.',
-    tags: ['Tecnología avanzada', 'Seguimiento personalizado', 'Sin cicatrices'],
-    icon: '◎',
-  },
-  {
-    id: 'gems',
-    number: '06',
-    title: 'Joyería Dental',
-    subtitle: 'Tooth Gems',
-    description:
-      'Añade un toque de brillo a tu sonrisa con gemas dentales premium. Aplicación profesional sin daño al esmalte.',
-    tags: ['Cristal Swarovski', 'Sin daño', 'Reversible'],
-    icon: '◇',
-  },
-  {
-    id: 'microblading',
-    number: '07',
-    title: 'Microblading',
-    subtitle: 'Cejas perfectas',
-    description:
-      'Técnica de micropigmentación para cejas que imita el pelo natural pelo a pelo. Resultado natural y duradero hasta 2 años.',
-    tags: ['Pelo a pelo', 'Natural', 'Larga duración'],
-    icon: '◈',
-  },
-  {
-    id: 'micropig',
-    number: '08',
-    title: 'Micropigmentación',
-    subtitle: 'Maquillaje semipermanente',
-    description:
-      'Labios, eyeliner y cejas definidos permanentemente. Despiértate perfecta cada día con resultados naturales y duraderos.',
-    tags: ['Labios', 'Eyeliner', 'Cejas', 'Semi-permanent'],
-    icon: '◉',
-  },
+  { id: '01', title: 'Custom Tattoos', tag: 'CUSTOM', desc: 'Diseños exclusivos creados desde cero para ti. Ninguna copia, solo arte original.', detail: 'Consulta · Boceto · Sesión · Revisión' },
+  { id: '02', title: 'Realismo', tag: 'REALISM', desc: 'Fotorrealismo en piel. Retratos, naturaleza, animales con detalle de alta resolución.', detail: 'B&N · Color · Retrato · Naturaleza' },
+  { id: '03', title: 'Fine Line', tag: 'FINE LINE', desc: 'Líneas ultra finas, minimalismo con máximo impacto visual. Elegancia en su forma más pura.', detail: 'Minimalista · Botánico · Geométrico · Lettering' },
+  { id: '04', title: 'Cover Ups', tag: 'COVER', desc: 'Transformamos cualquier tatuaje anterior en una nueva obra de arte. Evaluación gratuita.', detail: 'Evaluación · Diseño · Transformación' },
+  { id: '05', title: 'Eliminación Láser', tag: 'LASER', desc: 'Tecnología láser de última generación. Sesiones progresivas y seguimiento personalizado.', detail: 'Q-Switch · Progresivo · Sin cicatrices' },
+  { id: '06', title: 'Tooth Gems', tag: 'GEMS', desc: 'Joyería dental con cristales Swarovski premium. Aplicación sin daño al esmalte.', detail: 'Swarovski · Sin daño · Reversible' },
+  { id: '07', title: 'Microblading', tag: 'MICRO', desc: 'Cejas pelo a pelo con resultado natural y duradero hasta 2 años. Forma perfecta.', detail: 'Pelo a pelo · Natural · 2 años duración' },
+  { id: '08', title: 'Micropigmentación', tag: 'PIGMENT', desc: 'Labios, eyeliner y cejas semipermanentes. Maquillaje perfecto al despertar cada día.', detail: 'Labios · Eyeliner · Cejas · Semipermanente' },
 ];
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [activeService, setActiveService] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.service-row',
-        { opacity: 0, x: -30 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.6,
-          stagger: 0.08,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: '.services-list', start: 'top 80%' },
-        }
-      );
+      gsap.fromTo('.svc-row', { opacity: 0, x: -30 }, {
+        opacity: 1, x: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out',
+        scrollTrigger: { trigger: '.svc-list', start: 'top 82%' },
+      });
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="services"
-      ref={sectionRef}
-      className="relative py-32 bg-[#050505]"
-      aria-label="Servicios"
-    >
+    <section id="services" ref={sectionRef} className="relative py-32 bg-[#080808] border-t border-[#0f0f0f]" aria-label="Servicios">
+      {/* Grid bg */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
+        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
+
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-20">
-          <span className="text-[#8B0000] text-xs tracking-[0.4em] uppercase">Servicios</span>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mt-4">
-            <h2 className="text-4xl sm:text-6xl font-black uppercase leading-tight">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16 border-b border-[#111] pb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">01 /</span>
+              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Servicios</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
               Todo lo que<br />
               <span className="text-gradient">tu piel merece</span>
             </h2>
-            <p className="text-[#B0A89E] text-sm max-w-xs leading-relaxed">
-              Ofrecemos una gama completa de servicios de arte corporal realizados con la más alta técnica y profesionalismo.
-            </p>
+          </div>
+          <div className="font-mono text-right text-[#555] text-xs">
+            <p className="text-[#E8E2D9] text-2xl font-black mb-1">08</p>
+            <p className="tracking-widest uppercase">Especialidades</p>
           </div>
         </div>
 
-        <div className="services-list border-t border-[#1a1a1a]">
-          {services.map((service) => (
+        {/* Services table */}
+        <div className="svc-list border border-[#111]">
+          {/* Table header */}
+          <div className="hidden md:grid grid-cols-[60px_1fr_120px_200px_80px] gap-0 border-b border-[#111] bg-[#0a0a0a]">
+            {['#', 'Servicio', 'Código', 'Detalles', ''].map((h) => (
+              <div key={h} className="px-4 py-3 text-[10px] font-mono tracking-[0.3em] text-[#444] uppercase border-r border-[#111] last:border-r-0">
+                {h}
+              </div>
+            ))}
+          </div>
+
+          {services.map((s, i) => (
             <div
-              key={service.id}
-              className="service-row group border-b border-[#1a1a1a] opacity-0"
-              onMouseEnter={() => setActiveService(service.id)}
-              onMouseLeave={() => setActiveService(null)}
+              key={s.id}
+              className={cn(
+                'svc-row opacity-0 grid grid-cols-1 md:grid-cols-[60px_1fr_120px_200px_80px] gap-0',
+                i < services.length - 1 && 'border-b border-[#111]',
+                'group cursor-pointer hover:bg-[#0a0000] transition-colors duration-300'
+              )}
+              onMouseEnter={() => setHovered(s.id)}
+              onMouseLeave={() => setHovered(null)}
             >
-              <button
-                className="w-full flex items-center gap-6 py-6 sm:py-8 text-left cursor-pointer"
-                aria-label={`Ver servicio: ${service.title}`}
-                onClick={() => setActiveService(activeService === service.id ? null : service.id)}
-              >
-                <span className="text-[#8B0000]/40 text-sm font-mono w-8 flex-shrink-0 group-hover:text-[#8B0000] transition-colors">
-                  {service.number}
+              {/* Number */}
+              <div className="hidden md:flex items-center px-4 py-5 border-r border-[#111]">
+                <span className="text-[#8B0000]/40 text-xs font-mono">{s.id}</span>
+              </div>
+
+              {/* Title + desc */}
+              <div className="px-4 md:px-5 py-5 border-r border-[#111] md:border-r-0">
+                <p className="text-[#E8E2D9] font-black text-base sm:text-lg uppercase tracking-wide group-hover:text-[#E8E2D9] mb-1">
+                  {s.title}
+                </p>
+                <p className="text-[#B0A89E] text-xs leading-relaxed max-w-md">{s.desc}</p>
+              </div>
+
+              {/* Code tag */}
+              <div className="hidden md:flex items-center px-4 border-l border-r border-[#111]">
+                <span className="text-[10px] font-mono tracking-[0.2em] text-[#8B0000]/60 group-hover:text-[#8B0000] transition-colors">
+                  {s.tag}
                 </span>
+              </div>
 
-                <span className="text-[#E8E2D9]/20 text-2xl w-8 flex-shrink-0 group-hover:text-[#8B0000]/50 transition-colors">
-                  {service.icon}
-                </span>
+              {/* Detail */}
+              <div className="hidden md:flex items-center px-4 border-r border-[#111]">
+                <p className="text-[#555] text-[10px] font-mono leading-relaxed">{s.detail}</p>
+              </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
-                    <h3 className="text-[#E8E2D9] text-xl sm:text-2xl font-black uppercase group-hover:text-gradient transition-all duration-300">
-                      {service.title}
-                    </h3>
-                    <span className="text-[#8B0000] text-xs tracking-widest uppercase hidden sm:block">
-                      {service.subtitle}
-                    </span>
-                  </div>
-                  <div
-                    className={`overflow-hidden transition-all duration-500 ease-out ${
-                      activeService === service.id ? 'max-h-40 opacity-100 mt-3' : 'max-h-0 opacity-0'
-                    }`}
-                  >
-                    <p className="text-[#B0A89E] text-sm leading-relaxed">{service.description}</p>
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      {service.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[10px] tracking-widest uppercase border border-[#8B0000]/30 text-[#8B0000] px-3 py-1"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
+              {/* Arrow */}
+              <div className="hidden md:flex items-center justify-center px-4">
                 <ArrowRight
-                  size={18}
-                  className="text-[#8B0000]/0 group-hover:text-[#8B0000] transition-all duration-300 flex-shrink-0 translate-x-2 group-hover:translate-x-0"
+                  size={14}
+                  className="text-[#8B0000]/0 group-hover:text-[#8B0000] transition-all duration-300 translate-x-2 group-hover:translate-x-0"
                 />
-              </button>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-[#111]">
+          <p className="text-[#555] text-xs font-mono">Primera consulta gratuita · Presencial o WhatsApp</p>
           <a
             href="#booking"
             onClick={(e) => { e.preventDefault(); document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' }); }}
-            className="btn-primary inline-flex items-center gap-3 px-8 py-4 text-sm font-medium tracking-[0.15em] uppercase"
+            className="btn-primary-round inline-flex items-center gap-2 px-6 py-3 text-xs tracking-wider uppercase"
           >
-            Consulta tu servicio
-            <ArrowRight size={16} />
+            Reservar consulta <ArrowRight size={14} />
           </a>
         </div>
       </div>

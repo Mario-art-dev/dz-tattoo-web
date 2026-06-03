@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Black circle background -->
+  <circle cx="200" cy="200" r="195" fill="#0a0a0a" stroke="#1a0000" stroke-width="2"/>
+  <!-- Subtle red radial glow center -->
+  <radialGradient id="glow" cx="50%" cy="45%" r="50%">
+    <stop offset="0%" stop-color="#3a0000" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+  </radialGradient>
+  <circle cx="200" cy="190" r="195" fill="url(#glow)"/>
+
+  <!-- Sparkle top-left -->
+  <g transform="translate(75,130)">
+    <line x1="0" y1="-18" x2="0" y2="18" stroke="white" stroke-width="2" opacity="0.9"/>
+    <line x1="-18" y1="0" x2="18" y2="0" stroke="white" stroke-width="2" opacity="0.9"/>
+    <line x1="-10" y1="-10" x2="10" y2="10" stroke="white" stroke-width="1" opacity="0.6"/>
+    <line x1="10" y1="-10" x2="-10" y2="10" stroke="white" stroke-width="1" opacity="0.6"/>
+  </g>
+  <!-- Sparkle right -->
+  <g transform="translate(325,155)">
+    <line x1="0" y1="-22" x2="0" y2="22" stroke="white" stroke-width="2" opacity="0.9"/>
+    <line x1="-22" y1="0" x2="22" y2="0" stroke="white" stroke-width="2" opacity="0.9"/>
+    <line x1="-12" y1="-12" x2="12" y2="12" stroke="white" stroke-width="1" opacity="0.6"/>
+    <line x1="12" y1="-12" x2="-12" y2="12" stroke="white" stroke-width="1" opacity="0.6"/>
+  </g>
+  <!-- Sparkle bottom-right -->
+  <g transform="translate(310,275)">
+    <line x1="0" y1="-12" x2="0" y2="12" stroke="white" stroke-width="1.5" opacity="0.7"/>
+    <line x1="-12" y1="0" x2="12" y2="0" stroke="white" stroke-width="1.5" opacity="0.7"/>
+  </g>
+
+  <!-- DZ shadow/glow -->
+  <text x="200" y="205" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="130" fill="#3a0000" opacity="0.8" transform="translate(3,3)">DZ</text>
+
+  <!-- DZ white outline -->
+  <text x="200" y="205" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="130" fill="none" stroke="white" stroke-width="6" paint-order="stroke">DZ</text>
+
+  <!-- DZ red fill -->
+  <defs>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#CC0000"/>
+      <stop offset="50%" stop-color="#8B0000"/>
+      <stop offset="100%" stop-color="#550000"/>
+    </linearGradient>
+  </defs>
+  <text x="200" y="205" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="130" fill="url(#redGrad)" stroke="none">DZ</text>
+
+  <!-- "Tattoo" script text shadow -->
+  <text x="203" y="295" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="68" fill="black" opacity="0.5" transform="translate(2,2)">Tattoo</text>
+
+  <!-- "Tattoo" script text -->
+  <text x="200" y="292" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="68" fill="white" font-weight="400">Tattoo</text>
+
+  <!-- Decorative underline swash -->
+  <path d="M 120 310 Q 200 328 280 310" stroke="white" stroke-width="1.5" fill="none" opacity="0.7"/>
+  <path d="M 140 318 Q 200 334 260 318" stroke="white" stroke-width="0.8" fill="none" opacity="0.4"/>
+</svg>

@@ -1,4 +1,4 @@
-import Hero from '@/components/sections/Hero';
+import LandingPage from '@/components/ui/landing-page';
 import About from '@/components/sections/About';
 import Philosophy from '@/components/sections/Philosophy';
 import Services from '@/components/sections/Services';
@@ -13,7 +13,10 @@ import Footer from '@/components/sections/Footer';
 export default function HomePage() {
   return (
     <main id="top">
-      <Hero />
+      {/* Scroll-driven 3D hero with tattoo machine */}
+      <LandingPage />
+
+      {/* Full website sections — OpenCodeDesign style */}
       <About />
       <Philosophy />
       <Services />
