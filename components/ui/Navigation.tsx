@@ -56,12 +56,13 @@ export default function Navigation() {
           <Link href="/" className="flex items-center gap-3 group" aria-label="D.Z Tattoo Studio">
             <div className="relative w-12 h-12 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105">
               <Image
-                src="/images/logo.svg"
+                src="/images/logo.png"
                 alt="D.Z Tattoo Studio Logo"
                 fill
                 className="object-cover"
                 sizes="48px"
                 priority
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }}
               />
             </div>
             <div className="hidden sm:block">
@@ -118,7 +119,8 @@ export default function Navigation() {
           {/* Logo in menu */}
           <div className="absolute top-5 left-6">
             <div className="relative w-12 h-12 rounded-full overflow-hidden">
-              <Image src="/images/logo.svg" alt="D.Z Tattoo Studio" fill className="object-cover" sizes="48px" />
+              <Image src="/images/logo.png" alt="D.Z Tattoo Studio" fill className="object-cover" sizes="48px"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }} />
             </div>
           </div>
 
