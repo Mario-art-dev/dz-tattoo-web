@@ -8,6 +8,46 @@ import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
+function AnimatedStat({ value, meta, label }: { value: string; meta: string; label: string }) {
+  const numRef = useRef<HTMLParagraphElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!numRef.current || !wrapRef.current) return;
+    const m = value.match(/^(\d+(?:\.\d+)?)(.*)/);
+    if (!m) return;
+    const target = parseFloat(m[1]);
+    const suffix = m[2];
+    const dp = m[1].includes('.') ? 1 : 0;
+
+    const ctx = gsap.context(() => {
+      const obj = { n: 0 };
+      gsap.to(obj, {
+        n: target,
+        duration: 2.2,
+        ease: 'power2.out',
+        onUpdate() {
+          if (numRef.current) numRef.current.textContent = obj.n.toFixed(dp) + suffix;
+        },
+        scrollTrigger: {
+          trigger: wrapRef.current,
+          start: 'top 88%',
+          toggleActions: 'play reset play reset',
+        },
+      });
+    });
+    return () => ctx.revert();
+  }, [value]);
+
+  return (
+    <div ref={wrapRef} className="about-stat bg-[#050505] p-6 group hover:bg-[#0f0808] transition-colors duration-300">
+      <p className="text-[#666] text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{meta}</p>
+      <p ref={numRef} className="text-[#E8E2D9] text-3xl font-black mb-1">{value}</p>
+      <p className="text-[#555] text-[11px] tracking-wider uppercase">{label}</p>
+    </div>
+  );
+}
+
 const stats = [
   { value: '6+', label: 'Años de experiencia', meta: 'Years' },
   { value: '1K+', label: 'Tatuajes realizados', meta: 'Works' },
@@ -97,11 +137,7 @@ export default function About() {
             {/* Stats grid */}
             <div className="about-stats grid grid-cols-2 gap-px bg-[#111] border border-[#111]">
               {stats.map((s) => (
-                <div key={s.label} className="about-stat bg-[#050505] p-6 group hover:bg-[#0f0808] transition-colors duration-300">
-                  <p className="text-[#666] text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{s.meta}</p>
-                  <p className="text-[#E8E2D9] text-3xl font-black mb-1">{s.value}</p>
-                  <p className="text-[#555] text-[11px] tracking-wider uppercase">{s.label}</p>
-                </div>
+                <AnimatedStat key={s.label} value={s.value} meta={s.meta} label={s.label} />
               ))}
             </div>
 

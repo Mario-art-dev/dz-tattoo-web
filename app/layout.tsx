@@ -6,6 +6,8 @@ import CursorFollower from "@/components/ui/CursorFollower";
 import CookieBanner from "@/components/ui/CookieBanner";
 import Navigation from "@/components/ui/Navigation";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import PageIntro from "@/components/ui/PageIntro";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -79,6 +81,8 @@ export default function RootLayout({
     >
       <body className="bg-[#050505] text-[#E8E2D9] min-h-screen overflow-x-hidden">
         <SmoothScrollProvider>
+          <PageIntro />
+          <ScrollProgress />
           <CursorFollower />
           <Navigation />
           <ScrollReveal />

@@ -6,17 +6,26 @@ import { ArrowRight, MessageCircle, Star, MapPin, Phone } from 'lucide-react';
 
 const SERVICES_QUICK = ['Custom Tattoo', 'Realismo', 'Fine Line', 'Cover Up', 'Microblading', 'Micropigmentación', 'Tooth Gems', 'Láser'];
 
+const DZ_LETTERS = ['D', 'Z'];
+const TATTOO_LETTERS = ['T', 'a', 't', 't', 'o', 'o'];
+
 export default function LandingPage() {
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Set initial hidden state before first paint
+      gsap.set('.h-char', { yPercent: 115 });
+      gsap.set(['.h-badge', '.h-sub-line', '.h-sub', '.h-trust'], { opacity: 0 });
+      gsap.set('.h-cta', { opacity: 0, y: 15 });
+
       const tl = gsap.timeline({ delay: 0.15 });
-      tl.fromTo('.h-badge', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' })
-        .fromTo('.h-line', { opacity: 0, y: 60, skewY: 3 }, { opacity: 1, y: 0, skewY: 0, duration: 0.9, stagger: 0.12, ease: 'power4.out' }, '-=0.25')
-        .fromTo('.h-sub', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
-        .fromTo('.h-cta', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' }, '-=0.35')
-        .fromTo('.h-trust', { opacity: 0 }, { opacity: 1, duration: 0.7 }, '-=0.2');
+      tl.to('.h-badge', { opacity: 1, duration: 0.5, ease: 'power3.out' })
+        .to('.h-char', { yPercent: 0, duration: 0.85, stagger: 0.055, ease: 'power4.out' }, '-=0.2')
+        .to('.h-sub-line', { opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.45')
+        .to('.h-sub', { opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.35')
+        .to('.h-cta', { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' }, '-=0.3')
+        .to('.h-trust', { opacity: 1, duration: 0.7 }, '-=0.2');
     }, heroRef);
     return () => ctx.revert();
   }, []);
@@ -52,22 +61,32 @@ export default function LandingPage() {
           </span>
         </div>
 
-        {/* Headline */}
+        {/* Headline — per character */}
         <h1 className="mb-3 sm:mb-4">
-          <span className="block overflow-hidden">
-            <span className="h-line block text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-[#E8E2D9]">
-              DZ
-            </span>
-          </span>
-          <span className="block overflow-hidden">
-            <span className="h-line block text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-gradient">
-              Tattoo
-            </span>
-          </span>
+          <div className="overflow-hidden leading-[0.88]">
+            {DZ_LETTERS.map((char, i) => (
+              <span
+                key={i}
+                className="h-char text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-[#E8E2D9] inline-block"
+              >
+                {char}
+              </span>
+            ))}
+          </div>
+          <div className="overflow-hidden leading-[0.88]">
+            {TATTOO_LETTERS.map((char, i) => (
+              <span
+                key={i}
+                className="h-char text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-gradient inline-block"
+              >
+                {char}
+              </span>
+            ))}
+          </div>
         </h1>
 
         {/* Subtitle */}
-        <p className="h-line overflow-hidden mb-6 sm:mb-8">
+        <p className="h-sub-line overflow-hidden mb-6 sm:mb-8">
           <span className="block text-[#B0A89E] text-sm sm:text-lg tracking-[0.5em] uppercase font-light">
             Tatuajes con alma
           </span>
@@ -79,7 +98,7 @@ export default function LandingPage() {
           <span className="text-[#E8E2D9]">Primera consulta totalmente gratuita.</span>
         </p>
 
-        {/* CTAs — full width on mobile */}
+        {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-10 sm:mb-14">
           <a
             href="#booking-form"
