@@ -12,14 +12,14 @@ export default function ScrollReveal() {
         gsap.fromTo(el,
           { opacity: 0, y: 18 },
           { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
-            scrollTrigger: { trigger: el, start: 'top 91%', toggleActions: 'play reverse play reverse' } }
+            scrollTrigger: { trigger: el, start: 'top 91%', toggleActions: 'play none none reset' } }
         );
       });
       gsap.utils.toArray<HTMLElement>('.sec-meta').forEach((el) => {
         gsap.fromTo(el,
           { opacity: 0, y: 14 },
           { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
-            scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play reverse play reverse' } }
+            scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none reset' } }
         );
       });
     });

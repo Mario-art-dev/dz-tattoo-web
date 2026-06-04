@@ -21,7 +21,7 @@ export default function Contact() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.ct-card', { opacity: 0, y: 25, scale: 0.98 }, {
         opacity: 1, y: 0, scale: 1, duration: 1.2, stagger: 0.18, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);
     return () => ctx.revert();

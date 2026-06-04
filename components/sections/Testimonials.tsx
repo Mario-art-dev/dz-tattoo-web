@@ -43,7 +43,7 @@ export default function Testimonials() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.t-reveal', { opacity: 0, y: 20 }, {
         opacity: 1, y: 0, duration: 1.4, stagger: 0.2,
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);
     return () => ctx.revert();

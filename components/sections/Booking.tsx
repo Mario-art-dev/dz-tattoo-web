@@ -53,23 +53,23 @@ export default function Booking() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.bk-line', { yPercent: 110 }, {
         yPercent: 0, duration: 1.1, stagger: 0.1, ease: 'power4.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 72%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 72%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.bk-sub', { opacity: 0, y: 20 }, {
         opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 68%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 68%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.bk-badge', { opacity: 0, scale: 0.92 }, {
         opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.5)',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.bk-trust', { opacity: 0, y: 16 }, {
         opacity: 1, y: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out',
-        scrollTrigger: { trigger: '.bk-trust-row', start: 'top 85%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '.bk-trust-row', start: 'top 85%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.bk-card', { opacity: 0, y: 35 }, {
         opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.12,
-        scrollTrigger: { trigger: '.bk-card-row', start: 'top 82%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: '.bk-card-row', start: 'top 82%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);
     return () => ctx.revert();
