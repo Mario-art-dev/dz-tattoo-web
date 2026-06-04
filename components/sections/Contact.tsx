@@ -38,7 +38,7 @@ export default function Contact() {
         {/* Header — more persuasive */}
         <div className="text-center mb-8 sm:mb-12 lg:mb-16 ct-card">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">08 /</span>
+            <span className="text-[#666] text-xs font-mono tracking-[0.3em]">08 /</span>
             <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Contacto</span>
           </div>
           <h2 className="text-[2.4rem] sm:text-5xl lg:text-7xl font-black uppercase leading-[0.9] mb-6">
@@ -81,14 +81,14 @@ export default function Contact() {
             aria-label="Llamar al estudio"
           >
             <div className="w-12 h-12 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center">
-              <Phone size={22} className="text-[#C41E1E]" />
+              <Phone size={22} className="text-[#E8E2D9]" />
             </div>
             <div>
               <p className="text-[#555] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Teléfono</p>
               <h3 className="text-[#E8E2D9] text-lg font-black uppercase mb-1">Llámanos</h3>
-              <p className="text-[#C41E1E] text-sm font-mono font-bold">+34 722 20 10 72</p>
+              <p className="text-[#E8E2D9] text-sm font-mono font-bold">+34 722 20 10 72</p>
             </div>
-            <div className="flex items-center gap-1 text-[#555] text-xs group-hover:text-[#C41E1E] transition-colors">
+            <div className="flex items-center gap-1 text-[#555] text-xs group-hover:text-[#E8E2D9] transition-colors">
               <ArrowRight size={12} /> Llamar ahora
             </div>
           </a>
@@ -101,14 +101,14 @@ export default function Contact() {
             aria-label="Instagram"
           >
             <div className="w-12 h-12 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center">
-              <InstagramIcon size={22} className="text-[#C41E1E]" />
+              <InstagramIcon size={22} className="text-[#E8E2D9]" />
             </div>
             <div>
               <p className="text-[#555] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Instagram</p>
               <h3 className="text-[#E8E2D9] text-lg font-black uppercase mb-1">@d.z.tattoo</h3>
               <p className="text-[#B0A89E] text-xs leading-relaxed">Descubre nuestro trabajo y referencias</p>
             </div>
-            <div className="flex items-center gap-1 text-[#555] text-xs group-hover:text-[#C41E1E] transition-colors">
+            <div className="flex items-center gap-1 text-[#555] text-xs group-hover:text-[#E8E2D9] transition-colors">
               <ArrowRight size={12} /> Ver perfil
             </div>
           </a>
@@ -129,7 +129,7 @@ export default function Contact() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 border-t border-[#111]">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center flex-shrink-0">
-                  <MapPin size={18} className="text-[#C41E1E]" />
+                  <MapPin size={18} className="text-[#E8E2D9]" />
                 </div>
                 <div>
                   <p className="text-[#E8E2D9] font-bold">Av. Luis Vives 12</p>
@@ -150,7 +150,7 @@ export default function Contact() {
           <div className="ct-card rounded-3xl border border-[#1a1a1a] bg-[#0a0a0a] p-8 flex flex-col">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center">
-                <Clock size={18} className="text-[#C41E1E]" />
+                <Clock size={18} className="text-[#E8E2D9]" />
               </div>
               <div>
                 <p className="text-[#E8E2D9] font-bold uppercase tracking-wide text-sm">Horario</p>
@@ -165,7 +165,7 @@ export default function Contact() {
                     <p className="text-[#E8E2D9] text-sm font-medium">{h.day}</p>
                     {h.note && <p className="text-[#555] text-[10px] mt-0.5">{h.note}</p>}
                   </div>
-                  <span className={`text-xs font-mono font-bold flex-shrink-0 ${h.open && h.time !== 'Cerrado' ? 'text-[#C41E1E]' : 'text-[#444]'}`}>
+                  <span className={`text-xs font-mono font-bold flex-shrink-0 ${h.open && h.time !== 'Cerrado' ? 'text-[#E8E2D9]' : 'text-[#444]'}`}>
                     {h.time}
                   </span>
                 </div>

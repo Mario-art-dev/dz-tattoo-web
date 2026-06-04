@@ -40,8 +40,21 @@ export default function Booking() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [dateError, setDateError] = useState('');
 
   const update = (f: keyof FormData, v: string | boolean) => setForm(p => ({ ...p, [f]: v }));
+
+  const handleDateChange = (v: string) => {
+    if (!v) { update('fecha', ''); setDateError(''); return; }
+    const d = new Date(v + 'T12:00:00');
+    if (d.getDay() === 0) {
+      setDateError('Los domingos el estudio está cerrado. Por favor elige otro día.');
+      update('fecha', '');
+    } else {
+      setDateError('');
+      update('fecha', v);
+    }
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -49,7 +62,6 @@ export default function Booking() {
         opacity: 1, y: 0, duration: 0.8, stagger: 0.12,
         scrollTrigger: { trigger: sectionRef.current, start: 'top 72%' },
       });
-      // Pulsing glow on the CTA
       gsap.to('.booking-glow', {
         boxShadow: '0 0 80px rgba(196,30,30,0.5), 0 0 160px rgba(139,0,0,0.25)',
         repeat: -1, yoyo: true, duration: 2, ease: 'sine.inOut',
@@ -61,6 +73,7 @@ export default function Booking() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.privacidad) { setError('Acepta la política de privacidad para continuar.'); return; }
+    if (dateError) { setError(dateError); return; }
     setLoading(true); setError('');
     try {
       await addDoc(collection(db, 'citas'), { ...form, status: 'pendiente', createdAt: serverTimestamp() });
@@ -73,15 +86,15 @@ export default function Booking() {
     }
   };
 
-  const inputClass = 'w-full bg-[#0a0a0a] border border-[#222] focus:border-[#C41E1E] text-[#E8E2D9] placeholder-[#444] px-5 py-4 text-sm transition-all duration-200 outline-none rounded-2xl';
-  const labelClass = 'block text-[#B0A89E] text-xs tracking-[0.12em] uppercase mb-2 font-medium';
+  const inputClass = 'w-full bg-[#080808] border border-[#1e1e1e] focus:border-[#555] text-[#E8E2D9] placeholder-[#3a3a3a] px-5 py-4 text-sm transition-all duration-200 outline-none rounded-2xl';
+  const labelClass = 'block text-[#B0A89E] text-xs tracking-[0.15em] uppercase mb-2.5 font-semibold';
 
   if (success) {
     return (
       <section id="booking" className="relative py-14 sm:py-24 lg:py-32 bg-[#050505]">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <div className="w-24 h-24 rounded-full bg-[#8B0000]/20 border border-[#8B0000]/40 flex items-center justify-center mx-auto mb-8">
-            <CheckCircle size={48} className="text-[#8B0000]" />
+            <CheckCircle size={48} className="text-[#B0A89E]" />
           </div>
           <h2 className="text-4xl font-black uppercase mb-4">¡Solicitud enviada!</h2>
           <p className="text-[#B0A89E] leading-relaxed mb-10 text-lg">
@@ -102,71 +115,75 @@ export default function Booking() {
 
   return (
     <section id="booking" ref={sectionRef} className="relative py-14 sm:py-24 lg:py-32 bg-[#050505] overflow-hidden" aria-label="Reservar cita">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[700px] bg-[#8B0000]/6 rounded-full blur-[140px] pointer-events-none" />
+      {/* Background glows */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#8B0000]/8 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#8B0000]/5 rounded-full blur-[100px] pointer-events-none translate-x-1/3" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
-        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
+        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '60px 60px' }} />
 
-      <div className="max-w-6xl mx-auto px-6">
-        {/* HERO BOOKING HEADER */}
-        <div className="text-center mb-10 sm:mb-16 lg:mb-20 bk-reveal">
-          <div className="inline-flex items-center gap-2 bg-[#8B0000]/15 border border-[#8B0000]/30 text-[#C41E1E] text-xs font-bold tracking-[0.3em] uppercase px-5 py-2.5 rounded-full mb-8">
-            <Sparkles size={12} />
-            Primera consulta gratuita
-          </div>
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">07 /</span>
-            <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Reservas</span>
-          </div>
-          <h2 className="text-4xl sm:text-6xl lg:text-8xl font-black uppercase leading-[0.9] tracking-tight mb-6">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6">
+        {/* HEADER */}
+        <div className="text-center mb-10 sm:mb-14 lg:mb-18 bk-reveal">
+          <span className="inline-flex items-center gap-2 bg-[#8B0000]/12 border border-[#8B0000]/25 text-[#E8E2D9] text-[10px] sm:text-xs font-bold tracking-[0.35em] uppercase px-5 py-2.5 rounded-full mb-6 sm:mb-8">
+            <Sparkles size={11} className="flex-shrink-0" />
+            Primera consulta 100% gratuita
+          </span>
+          <h2 className="text-4xl sm:text-6xl lg:text-8xl font-black uppercase leading-[0.88] tracking-tight mb-5 sm:mb-6">
             Tu arte te<br />
             <span className="text-gradient">está esperando</span>
           </h2>
-          <p className="text-[#B0A89E] text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            Cada gran tatuaje comienza con una conversación. Cuéntanos tu idea y nuestros artistas
-            crearán algo que llevarás con orgullo para siempre.
+          <p className="text-[#B0A89E] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+            Cuéntanos tu idea. Nuestros artistas crearán algo único que llevarás con orgullo para siempre.
           </p>
         </div>
 
-        {/* Trust badges */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8 sm:mb-12 lg:mb-16 bk-reveal">
+        {/* Trust badges — horizontal on mobile */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 mb-8 sm:mb-12 bk-reveal">
           {TRUST_ITEMS.map((t) => (
-            <div key={t.label} className="border border-[#111] bg-[#080808] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start gap-2 sm:gap-3 hover:border-[#8B0000]/30 transition-colors duration-300">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#8B0000]/15 flex items-center justify-center flex-shrink-0">
-                <t.icon size={15} className="text-[#8B0000]" />
+            <div key={t.label} className="bg-[#080808] border border-[#1a1a1a] rounded-2xl p-3.5 sm:p-5 flex items-center gap-2.5 sm:gap-3 hover:border-[#333] transition-colors duration-300">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1a1a1a] flex items-center justify-center flex-shrink-0">
+                <t.icon size={14} className="text-[#E8E2D9]" />
               </div>
-              <div>
-                <p className="text-[#E8E2D9] text-xs sm:text-sm font-bold leading-tight">{t.label}</p>
-                <p className="text-[#555] text-[10px] sm:text-xs mt-0.5 hidden sm:block">{t.sub}</p>
+              <div className="min-w-0">
+                <p className="text-[#E8E2D9] text-[10px] sm:text-xs font-bold leading-tight">{t.label}</p>
+                <p className="text-[#555] text-[9px] sm:text-[10px] mt-0.5 hidden sm:block truncate">{t.sub}</p>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* LEFT: Form */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10">
+          {/* LEFT: Form card */}
           <div className="lg:col-span-3 bk-reveal">
-            {/* Step indicator */}
-            <div className="flex items-center gap-3 mb-10">
-              {[1, 2, 3].map((s) => (
-                <div key={s} className="flex items-center gap-3">
-                  <div className={cn(
-                    'w-10 h-10 rounded-full border-2 text-xs font-bold flex items-center justify-center transition-all duration-300',
-                    step === s ? 'border-[#C41E1E] bg-[#C41E1E] text-white shadow-lg shadow-red-900/50' :
-                    step > s ? 'border-[#8B0000] bg-[#8B0000]/20 text-[#8B0000]' :
-                    'border-[#222] text-[#444]'
-                  )}>
-                    {step > s ? '✓' : s}
+            <div className="bg-[#080808] border border-[#1a1a1a] rounded-3xl p-6 sm:p-8">
+              {/* Step indicator */}
+              <div className="flex items-center gap-2 sm:gap-3 mb-8">
+                {[
+                  { n: 1, label: 'Tus datos' },
+                  { n: 2, label: 'Tu proyecto' },
+                  { n: 3, label: 'Fecha' },
+                ].map((s, i) => (
+                  <div key={s.n} className="flex items-center gap-2 sm:gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className={cn(
+                        'w-8 h-8 sm:w-9 sm:h-9 rounded-full text-xs font-black flex items-center justify-center transition-all duration-300 flex-shrink-0',
+                        step === s.n ? 'bg-white text-[#0a0a0a]' :
+                        step > s.n ? 'bg-[#2a2a2a] text-[#E8E2D9]' :
+                        'bg-[#141414] text-[#444] border border-[#222]'
+                      )}>
+                        {step > s.n ? '✓' : s.n}
+                      </div>
+                      <span className={cn(
+                        'text-[10px] font-mono tracking-wider uppercase hidden sm:block transition-colors duration-300',
+                        step === s.n ? 'text-[#E8E2D9]' : 'text-[#444]'
+                      )}>{s.label}</span>
+                    </div>
+                    {i < 2 && <div className={cn('h-px flex-1 min-w-[16px] max-w-[32px] transition-colors duration-500', step > s.n ? 'bg-[#333]' : 'bg-[#1a1a1a]')} />}
                   </div>
-                  {s < 3 && <div className={cn('h-px w-10 transition-colors duration-500', step > s ? 'bg-[#8B0000]' : 'bg-[#222]')} />}
-                </div>
-              ))}
-              <span className="ml-2 text-[#555] text-xs font-mono">
-                {step === 1 ? 'Tus datos' : step === 2 ? 'Tu proyecto' : 'Fecha y confirmación'}
-              </span>
-            </div>
+                ))}
+              </div>
 
-            <form onSubmit={submit} className="space-y-6">
+            <form onSubmit={submit} className="space-y-5">
               {step === 1 && (
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -239,7 +256,12 @@ export default function Booking() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label htmlFor="fecha" className={labelClass}>Fecha preferida</label>
-                      <input id="fecha" type="date" value={form.fecha} onChange={e => update('fecha', e.target.value)} min={new Date().toISOString().split('T')[0]} className={`${inputClass} [color-scheme:dark]`} />
+                      <input id="fecha" type="date" value={form.fecha} onChange={e => handleDateChange(e.target.value)} min={new Date().toISOString().split('T')[0]} className={`${inputClass} [color-scheme:dark]`} />
+                      {dateError && (
+                        <p className="mt-2 text-[11px] text-[#ff8080] font-medium flex items-center gap-1.5">
+                          <span>⚠</span> {dateError}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="hora" className={labelClass}>Hora preferida</label>
@@ -259,7 +281,7 @@ export default function Booking() {
                     <input id="privacidad" type="checkbox" checked={form.privacidad} onChange={e => update('privacidad', e.target.checked)} className="mt-1 cursor-pointer accent-[#C41E1E] w-4 h-4" required />
                     <label htmlFor="privacidad" className="text-[#B0A89E] text-xs leading-relaxed cursor-pointer">
                       Acepto la{' '}
-                      <a href="/privacidad" className="text-[#C41E1E] hover:underline font-medium">Política de Privacidad</a>{' '}
+                      <a href="/privacidad" className="text-[#E8E2D9] hover:underline font-medium">Política de Privacidad</a>{' '}
                       y consiento el tratamiento de mis datos para gestionar mi solicitud. *
                     </label>
                   </div>
@@ -271,11 +293,11 @@ export default function Booking() {
                   )}
 
                   <div className="flex gap-3">
-                    <button type="button" onClick={() => setStep(2)} className="btn-outline-round flex-1 py-4 text-sm font-bold tracking-wider uppercase">Atrás</button>
+                    <button type="button" onClick={() => setStep(2)} className="btn-outline-round flex-1">Atrás</button>
                     <button
                       type="submit"
-                      disabled={loading || !form.privacidad}
-                      className="btn-cta flex-[2] py-4 text-sm font-bold tracking-[0.15em] uppercase disabled:opacity-40 disabled:cursor-not-allowed"
+                      disabled={loading || !form.privacidad || !!dateError}
+                      className="btn-cta flex-[2] disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       {loading ? <><Loader2 size={16} className="animate-spin" /> Enviando...</> : <>Solicitar mi cita <ArrowRight size={16} /></>}
                     </button>
@@ -283,6 +305,7 @@ export default function Booking() {
                 </div>
               )}
             </form>
+            </div>{/* end card */}
           </div>
 
           {/* RIGHT: Sidebar persuasion */}
@@ -291,7 +314,7 @@ export default function Booking() {
             <div className="booking-glow relative rounded-3xl overflow-hidden border border-[#8B0000]/30 bg-gradient-to-br from-[#0d0000] via-[#0a0000] to-[#050505] p-8 text-center">
               <div className="absolute inset-0 bg-[#8B0000]/5 pointer-events-none" />
               <div className="relative z-10">
-                <p className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase mb-3">¿Tienes prisa?</p>
+                <p className="text-[#B0A89E] text-xs font-mono tracking-[0.4em] uppercase mb-3">¿Tienes prisa?</p>
                 <h3 className="text-[#E8E2D9] text-2xl font-black uppercase mb-3 leading-tight">
                   Escríbenos ahora por WhatsApp
                 </h3>
@@ -315,7 +338,7 @@ export default function Booking() {
             {/* Social proof */}
             <div className="border border-[#111] rounded-2xl bg-[#080808] p-6">
               <div className="flex items-center gap-2 mb-4">
-                {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-[#8B0000] text-[#8B0000]" />)}
+                {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-[#8B0000] text-[#B0A89E]" />)}
                 <span className="text-[#E8E2D9] font-black ml-1">5.0</span>
               </div>
               <blockquote className="text-[#B0A89E] text-sm italic leading-relaxed mb-4">

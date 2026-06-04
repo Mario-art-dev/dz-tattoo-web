@@ -44,7 +44,7 @@ export default function Services() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-16 border-b border-[#111] pb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">01 /</span>
+              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">01 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Servicios</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
@@ -82,7 +82,7 @@ export default function Services() {
             >
               {/* Number */}
               <div className="hidden md:flex items-center px-4 py-5 border-r border-[#111]">
-                <span className="text-[#8B0000]/40 text-xs font-mono">{s.id}</span>
+                <span className="text-[#555] text-xs font-mono">{s.id}</span>
               </div>
 
               {/* Title + desc */}
@@ -95,7 +95,7 @@ export default function Services() {
 
               {/* Code tag */}
               <div className="hidden md:flex items-center px-4 border-l border-r border-[#111]">
-                <span className="text-[10px] font-mono tracking-[0.2em] text-[#8B0000]/60 group-hover:text-[#8B0000] transition-colors">
+                <span className="text-[10px] font-mono tracking-[0.2em] text-[#666] group-hover:text-[#E8E2D9] transition-colors">
                   {s.tag}
                 </span>
               </div>
@@ -109,7 +109,7 @@ export default function Services() {
               <div className="hidden md:flex items-center justify-center px-4">
                 <ArrowRight
                   size={14}
-                  className="text-[#8B0000]/0 group-hover:text-[#8B0000] transition-all duration-300 translate-x-2 group-hover:translate-x-0"
+                  className="text-[#8B0000]/0 group-hover:text-[#E8E2D9] transition-all duration-300 translate-x-2 group-hover:translate-x-0"
                 />
               </div>
             </div>

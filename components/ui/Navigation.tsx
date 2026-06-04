@@ -51,23 +51,23 @@ export default function Navigation() {
         )}
         role="banner"
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-18 py-3">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between py-4 sm:py-5">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group" aria-label="D.Z Tattoo Studio">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105">
+            <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105 flex-shrink-0">
               <Image
                 src="/images/logo.png"
                 alt="D.Z Tattoo Studio Logo"
                 fill
                 className="object-cover"
-                sizes="48px"
+                sizes="64px"
                 priority
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }}
               />
             </div>
             <div className="hidden sm:block">
               <p className="text-[#E8E2D9] font-bold text-sm tracking-[0.2em] uppercase leading-none">D.Z Tattoo</p>
-              <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.35em] uppercase mt-0.5">Studio · Valencia</p>
+              <p className="text-[#B0A89E] text-[10px] font-mono tracking-[0.35em] uppercase mt-0.5">Studio · Valencia</p>
             </div>
           </Link>
 
@@ -98,7 +98,7 @@ export default function Navigation() {
             <a
               href="#booking"
               onClick={e => go(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#booking')}
-              className="btn-primary-round px-5 py-2.5 text-[11px] font-bold tracking-[0.15em] uppercase hidden sm:block"
+              className="btn-primary-round px-6 py-3 text-xs font-bold tracking-[0.15em] uppercase hidden sm:block"
             >
               Reservar
             </a>
@@ -119,7 +119,7 @@ export default function Navigation() {
           {/* Logo in menu */}
           <div className="absolute top-5 left-6">
             <div className="relative w-12 h-12 rounded-full overflow-hidden">
-              <Image src="/images/logo.png" alt="D.Z Tattoo Studio" fill className="object-cover" sizes="48px"
+              <Image src="/images/logo.png" alt="D.Z Tattoo Studio" fill className="object-cover" sizes="64px"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }} />
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function Navigation() {
                 key={l.label}
                 href={l.href}
                 onClick={e => go(e, l.href)}
-                className="mobile-link text-[#E8E2D9] text-4xl font-black uppercase hover:text-[#8B0000] transition-colors leading-none"
+                className="mobile-link text-[#E8E2D9] text-4xl font-black uppercase hover:text-[#E8E2D9] transition-colors leading-none"
               >
                 {l.label}
               </a>

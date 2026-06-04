@@ -54,7 +54,7 @@ export default function Philosophy() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-16 border-b border-[#111] pb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">02 /</span>
+              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">02 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Filosofía</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
@@ -76,7 +76,7 @@ export default function Philosophy() {
                 <div className="flex items-center gap-3">
                   <span className="text-[#8B0000] text-[10px] font-mono tracking-[0.3em] border border-[#8B0000]/20 px-2 py-0.5">{p.code}</span>
                 </div>
-                <span className="text-[#8B0000]/20 text-4xl font-black font-mono group-hover:text-[#8B0000]/30 transition-colors">{p.n}</span>
+                <span className="text-[#444] text-4xl font-black font-mono group-hover:text-[#555] transition-colors">{p.n}</span>
               </div>
               <h3 className="text-[#E8E2D9] font-black uppercase tracking-wide text-base mb-3">{p.title}</h3>
               <p className="text-[#B0A89E] text-sm leading-relaxed">{p.desc}</p>

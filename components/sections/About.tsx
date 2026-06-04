@@ -59,7 +59,7 @@ export default function About() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-16 lg:mb-20 border-b border-[#111] pb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">00 /</span>
+              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">00 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Sobre nosotros</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
@@ -80,7 +80,7 @@ export default function About() {
             <div className="about-stats grid grid-cols-2 gap-px bg-[#0f0f0f] border border-[#0f0f0f]">
               {stats.map((s) => (
                 <div key={s.label} className="about-stat bg-[#050505] p-6 group hover:bg-[#080000] transition-colors duration-300">
-                  <p className="text-[#8B0000]/50 text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{s.meta}</p>
+                  <p className="text-[#666] text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{s.meta}</p>
                   <p className="text-[#E8E2D9] text-3xl font-black mb-1">{s.value}</p>
                   <p className="text-[#555] text-[11px] tracking-wider uppercase">{s.label}</p>
                 </div>
@@ -94,7 +94,7 @@ export default function About() {
                   'about-value flex items-start gap-5 p-5 group hover:bg-[#0a0000] transition-colors duration-300',
                   i < values.length - 1 && 'border-b border-[#111]'
                 )}>
-                  <span className="text-[#8B0000]/40 text-xs font-mono tracking-[0.2em] flex-shrink-0 mt-0.5">{v.code}</span>
+                  <span className="text-[#555] text-xs font-mono tracking-[0.2em] flex-shrink-0 mt-0.5">{v.code}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-[#E8E2D9] text-sm font-bold uppercase tracking-wider mb-1 group-hover:text-[#E8E2D9]">{v.label}</p>
                     <p className="text-[#B0A89E] text-xs leading-relaxed">{v.desc}</p>

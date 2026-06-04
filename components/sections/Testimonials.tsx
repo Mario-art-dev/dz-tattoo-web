@@ -65,7 +65,7 @@ export default function Testimonials() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-16 border-b border-[#111] pb-8 t-reveal">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">05 /</span>
+              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">05 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Testimonios</span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black uppercase leading-tight">

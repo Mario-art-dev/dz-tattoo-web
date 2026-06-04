@@ -44,7 +44,7 @@ export default function Process() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-16 border-b border-[#111] pb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">04 /</span>
+              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">04 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Proceso</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
@@ -73,7 +73,7 @@ export default function Process() {
                   <div className="w-8 h-8 border border-[#8B0000]/30 group-hover:border-[#8B0000]/60 flex items-center justify-center transition-colors">
                     <span className="text-[#8B0000] text-[10px] font-mono">{s.n}</span>
                   </div>
-                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#555] group-hover:text-[#8B0000]/60 transition-colors uppercase">
+                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#555] group-hover:text-[#666] transition-colors uppercase">
                     {s.code}
                   </span>
                 </div>

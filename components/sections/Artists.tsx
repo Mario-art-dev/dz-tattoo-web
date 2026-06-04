@@ -58,7 +58,7 @@ export default function Artists() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-16 border-b border-[#111] pb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[#8B0000]/60 text-xs font-mono tracking-[0.3em]">03 /</span>
+              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">03 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">El equipo</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
@@ -90,12 +90,12 @@ export default function Artists() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#080808] via-[#0d0000]/40 to-[#050505] opacity-80" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[#8B0000]/10 text-[8rem] font-black select-none">{artist.id}</span>
+                  <span className="text-[#333] text-[8rem] font-black select-none">{artist.id}</span>
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
 
                 {/* Code label */}
-                <div className="absolute top-4 left-4 font-mono text-[10px] tracking-[0.3em] text-[#8B0000]/60 border border-[#8B0000]/20 px-2 py-1">
+                <div className="absolute top-4 left-4 font-mono text-[10px] tracking-[0.3em] text-[#666] border border-[#8B0000]/20 px-2 py-1">
                   {artist.id}
                 </div>
               </div>
@@ -137,7 +137,7 @@ export default function Artists() {
                     href={artist.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-[#555] hover:text-[#8B0000] text-xs font-mono tracking-widest uppercase transition-colors"
+                    className="flex items-center gap-2 text-[#555] hover:text-[#E8E2D9] text-xs font-mono tracking-widest uppercase transition-colors"
                     aria-label={`Instagram de ${artist.name}`}
                   >
                     <InstagramIcon size={14} />

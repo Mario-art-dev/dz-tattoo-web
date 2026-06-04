@@ -246,11 +246,17 @@ html.lenis { height: auto; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   background: linear-gradient(135deg, #C41E1E 0%, #8B0000 60%, #5a0000 100%);
   color: var(--offwhite);
   border: none;
   border-radius: 9999px;
-  box-shadow: 0 4px 20px rgba(139, 0, 0, 0.45), 0 1px 4px rgba(0,0,0,0.5);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.6rem;
+  box-shadow: 0 6px 28px rgba(139, 0, 0, 0.5), 0 2px 6px rgba(0,0,0,0.5);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
@@ -260,12 +266,12 @@ html.lenis { height: auto; }
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%);
   pointer-events: none;
 }
 .btn-primary-round:hover {
   background: linear-gradient(135deg, #E02020 0%, #A50000 60%, #6B0000 100%);
-  box-shadow: 0 8px 40px rgba(196, 30, 30, 0.7), 0 2px 8px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 44px rgba(196, 30, 30, 0.75), 0 2px 8px rgba(0,0,0,0.5);
   transform: translateY(-2px) scale(1.02);
 }
 .btn-primary-round:active { transform: translateY(0) scale(0.99); }
@@ -277,36 +283,28 @@ html.lenis { height: auto; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   background: transparent;
   color: var(--offwhite);
-  border: 1.5px solid rgba(232, 226, 217, 0.25);
+  border: 1.5px solid rgba(232, 226, 217, 0.28);
   border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.6rem;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
 }
 .btn-outline-round:hover {
-  border-color: rgba(196, 30, 30, 0.7);
-  background: rgba(139, 0, 0, 0.12);
-  box-shadow: 0 4px 20px rgba(139, 0, 0, 0.25);
+  border-color: rgba(232, 226, 217, 0.6);
+  background: rgba(232, 226, 217, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transform: translateY(-1px);
 }
 
-/* Legacy outline (sharp, kept for tables) */
-.btn-outline {
-  position: relative;
-  background: transparent;
-  color: var(--offwhite);
-  border: 1px solid rgba(232, 226, 217, 0.2);
-  border-radius: 8px;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.btn-outline:hover {
-  border-color: rgba(196, 30, 30, 0.6);
-  background: rgba(139, 0, 0, 0.1);
-}
-
-/* BIG CTA — booking hero button */
+/* BIG CTA — hero/booking button */
 .btn-cta {
   position: relative;
   overflow: hidden;
@@ -318,7 +316,12 @@ html.lenis { height: auto; }
   color: #fff;
   border: none;
   border-radius: 9999px;
-  box-shadow: 0 8px 48px rgba(196, 30, 30, 0.65), 0 2px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 1.1rem 2rem;
+  box-shadow: 0 10px 52px rgba(196, 30, 30, 0.7), 0 2px 12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
@@ -329,12 +332,12 @@ html.lenis { height: auto; }
   top: 0; left: 0; right: 0;
   height: 50%;
   border-radius: 9999px 9999px 0 0;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.18), transparent);
   pointer-events: none;
 }
 .btn-cta:hover {
   background: linear-gradient(135deg, #FF3030 0%, #C41E1E 50%, #7a0000 100%);
-  box-shadow: 0 12px 60px rgba(196, 30, 30, 0.8), 0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);
+  box-shadow: 0 14px 64px rgba(196, 30, 30, 0.85), 0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);
   transform: translateY(-3px) scale(1.03);
 }
 .btn-cta:active { transform: translateY(0) scale(0.99); }
@@ -344,20 +347,39 @@ html.lenis { height: auto; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 9px;
   background: linear-gradient(135deg, #1a8a3a 0%, #0d6b2a 100%);
   color: #fff;
   border: none;
   border-radius: 9999px;
-  box-shadow: 0 4px 24px rgba(20, 120, 50, 0.5);
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 1.1rem 2rem;
+  box-shadow: 0 6px 28px rgba(20, 120, 50, 0.55);
   transition: all 0.3s ease;
   cursor: pointer;
   text-decoration: none;
 }
 .btn-whatsapp:hover {
   background: linear-gradient(135deg, #22a848 0%, #158534 100%);
-  box-shadow: 0 8px 36px rgba(20, 150, 60, 0.65);
+  box-shadow: 0 10px 40px rgba(20, 150, 60, 0.7);
   transform: translateY(-2px);
+}
+
+/* Legacy outline (sharp, kept for table rows) */
+.btn-outline {
+  position: relative;
+  background: transparent;
+  color: var(--offwhite);
+  border: 1px solid rgba(232, 226, 217, 0.2);
+  border-radius: 8px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-outline:hover {
+  border-color: rgba(232, 226, 217, 0.5);
+  background: rgba(232, 226, 217, 0.05);
 }
 
 /* Hide scrollbar */
