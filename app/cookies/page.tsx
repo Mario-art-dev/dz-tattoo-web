@@ -43,20 +43,14 @@ export default function Cookies() {
                   <tr>
                     <td className="py-3 pr-4 text-[#E8E2D9]">dz-cookies-accepted</td>
                     <td className="py-3 pr-4">Esencial</td>
-                    <td className="py-3 pr-4">Guardar preferencia de cookies</td>
+                    <td className="py-3 pr-4">Guardar tu preferencia de cookies</td>
                     <td className="py-3">1 año</td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-4 text-[#E8E2D9]">_ga</td>
-                    <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Google Analytics — análisis de tráfico</td>
-                    <td className="py-3">2 años</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 pr-4 text-[#E8E2D9]">_gid</td>
-                    <td className="py-3 pr-4">Analítica</td>
-                    <td className="py-3 pr-4">Google Analytics — sesión</td>
-                    <td className="py-3">24 horas</td>
+                    <td className="py-3 pr-4 text-[#E8E2D9]">dz_panel_auth</td>
+                    <td className="py-3 pr-4">Esencial</td>
+                    <td className="py-3 pr-4">Sesión del panel de gestión interno</td>
+                    <td className="py-3">Sesión</td>
                   </tr>
                 </tbody>
               </table>
@@ -65,12 +59,7 @@ export default function Cookies() {
 
           <section>
             <h2 className="text-[#E8E2D9] font-bold uppercase tracking-wider mb-4 text-base">Cookies esenciales</h2>
-            <p>Son necesarias para el funcionamiento básico del sitio. No pueden desactivarse. Solo se establecen en respuesta a acciones del usuario como establecer preferencias de privacidad.</p>
-          </section>
-
-          <section>
-            <h2 className="text-[#E8E2D9] font-bold uppercase tracking-wider mb-4 text-base">Cookies analíticas</h2>
-            <p>Nos ayudan a entender cómo los visitantes interactúan con el sitio web, recopilando información de forma anónima. Solo se activan si aceptas todas las cookies.</p>
+            <p>Este sitio web solo utiliza cookies estrictamente necesarias para su funcionamiento. No empleamos cookies de seguimiento, publicidad ni analítica de terceros. Las cookies esenciales no pueden desactivarse ya que son imprescindibles para el correcto funcionamiento del sitio.</p>
           </section>
 
           <section>

@@ -14,12 +14,12 @@ type FormData = {
   nombre: string; telefono: string; email: string;
   servicio: string; idea: string; zonaCorporal: string;
   tamano: string; fecha: string; hora: string;
-  comentarios: string; privacidad: boolean;
+  comentarios: string; privacidad: boolean; mayorEdad: boolean;
 };
 
 const INITIAL: FormData = {
   nombre: '', telefono: '', email: '', servicio: '', idea: '',
-  zonaCorporal: '', tamano: '', fecha: '', hora: '', comentarios: '', privacidad: false,
+  zonaCorporal: '', tamano: '', fecha: '', hora: '', comentarios: '', privacidad: false, mayorEdad: false,
 };
 
 const SERVICIOS = ['Custom Tattoo', 'Realismo', 'Fine Line', 'Cover Up', 'Eliminación Láser', 'Joyería Dental (Tooth Gems)', 'Microblading', 'Micropigmentación', 'Consulta general'];
@@ -77,6 +77,7 @@ export default function Booking() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!form.mayorEdad) { setError('Debes confirmar que eres mayor de 18 años.'); return; }
     if (!form.privacidad) { setError('Acepta la política de privacidad para continuar.'); return; }
     if (dateError) { setError(dateError); return; }
     setLoading(true); setError('');
@@ -333,6 +334,15 @@ export default function Booking() {
                   </div>
 
                   <label className="flex items-start gap-3.5 cursor-pointer group">
+                    <input type="checkbox" checked={form.mayorEdad}
+                      onChange={e => update('mayorEdad', e.target.checked)}
+                      className="mt-0.5 w-4 h-4 cursor-pointer accent-[#C41E1E] flex-shrink-0" required />
+                    <span className="text-[#555] text-xs leading-relaxed group-hover:text-[#777] transition-colors">
+                      Confirmo que soy <strong className="text-[#E8E2D9]">mayor de 18 años</strong>. *
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-3.5 cursor-pointer group">
                     <input type="checkbox" checked={form.privacidad}
                       onChange={e => update('privacidad', e.target.checked)}
                       className="mt-0.5 w-4 h-4 cursor-pointer accent-[#C41E1E] flex-shrink-0" required />
@@ -355,7 +365,7 @@ export default function Booking() {
                       Atrás
                     </button>
                     <button type="submit"
-                      disabled={loading || !form.privacidad || !!dateError}
+                      disabled={loading || !form.mayorEdad || !form.privacidad || !!dateError}
                       className="btn-cta flex-[2] py-5 disabled:opacity-30 disabled:cursor-not-allowed">
                       {loading
                         ? <><Loader2 size={16} className="animate-spin" /> Enviando...</>
