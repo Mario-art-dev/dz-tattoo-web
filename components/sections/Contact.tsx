@@ -28,7 +28,7 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" ref={sectionRef} className="relative py-14 sm:py-24 lg:py-32 bg-[#080808] overflow-hidden" aria-label="Contacto">
+    <section id="contact" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#080808] overflow-hidden" aria-label="Contacto">
       {/* Ambient glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#8B0000]/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
@@ -36,7 +36,7 @@ export default function Contact() {
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header — more persuasive */}
-        <div className="text-center mb-8 sm:mb-12 lg:mb-16 ct-card">
+        <div className="text-center mb-12 sm:mb-20 lg:mb-24 ct-card">
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="text-[#666] text-xs font-mono tracking-[0.3em]">08 /</span>
             <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Contacto</span>

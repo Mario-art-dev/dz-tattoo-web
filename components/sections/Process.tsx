@@ -21,9 +21,17 @@ export default function Process() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.process-item', { opacity: 0, y: 25 }, {
-        opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.process-grid', start: 'top 82%' },
+      gsap.fromTo('.proc-eyebrow', { opacity: 0, x: -20 }, {
+        opacity: 1, x: 0, duration: 0.55, ease: 'power3.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+      });
+      gsap.fromTo('h2', { opacity: 0, y: 45 }, {
+        opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
+      });
+      gsap.fromTo('.process-item', { opacity: 0, y: 28 }, {
+        opacity: 1, y: 0, duration: 0.65, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.process-grid', start: 'top 84%' },
       });
       gsap.fromTo('.process-line', { scaleY: 0, transformOrigin: 'top' }, {
         scaleY: 1, duration: 1.5, ease: 'none',
@@ -34,16 +42,16 @@ export default function Process() {
   }, []);
 
   return (
-    <section id="process" ref={sectionRef} className="relative py-14 sm:py-24 lg:py-32 bg-[#080808] border-t border-[#0f0f0f]" aria-label="Proceso">
+    <section id="process" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#080808] border-t border-[#0f0f0f]" aria-label="Proceso">
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-16 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-12 sm:mb-20 lg:mb-24 border-b border-[#111] pb-8">
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="proc-eyebrow flex items-center gap-3 mb-4">
               <span className="text-[#666] text-xs font-mono tracking-[0.3em]">04 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Proceso</span>
             </div>

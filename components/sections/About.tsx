@@ -27,17 +27,25 @@ export default function About() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.about-stat', { opacity: 0, y: 20 }, {
+      gsap.fromTo('.about-eyebrow', { opacity: 0, x: -20 }, {
+        opacity: 1, x: 0, duration: 0.55, ease: 'power3.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+      });
+      gsap.fromTo('h2', { opacity: 0, y: 45 }, {
+        opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
+      });
+      gsap.fromTo('.about-stat', { opacity: 0, y: 24 }, {
         opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.about-stats', start: 'top 80%' },
+        scrollTrigger: { trigger: '.about-stats', start: 'top 84%' },
       });
       gsap.fromTo('.about-value', { opacity: 0, x: -20 }, {
         opacity: 1, x: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
-        scrollTrigger: { trigger: '.about-values', start: 'top 82%' },
+        scrollTrigger: { trigger: '.about-values', start: 'top 85%' },
       });
       gsap.fromTo('.about-image', { clipPath: 'inset(100% 0 0 0)' }, {
-        clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power4.inOut',
-        scrollTrigger: { trigger: '.about-image', start: 'top 80%' },
+        clipPath: 'inset(0% 0 0 0)', duration: 1.4, ease: 'power4.inOut',
+        scrollTrigger: { trigger: '.about-image', start: 'top 82%' },
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -47,7 +55,7 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-14 sm:py-24 lg:py-32 bg-[#050505] border-t border-[#0f0f0f]"
+      className="relative py-20 sm:py-32 lg:py-44 bg-[#050505] border-t border-[#0f0f0f]"
       aria-label="Sobre nosotros"
     >
       {/* Grid bg */}
@@ -56,9 +64,9 @@ export default function About() {
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header row */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-16 lg:mb-20 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-14 sm:mb-20 lg:mb-28 border-b border-[#111] pb-8">
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="about-eyebrow flex items-center gap-3 mb-4">
               <span className="text-[#666] text-xs font-mono tracking-[0.3em]">00 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Sobre nosotros</span>
             </div>

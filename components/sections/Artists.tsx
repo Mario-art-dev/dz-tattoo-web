@@ -39,8 +39,20 @@ export default function Artists() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.artist-card', { opacity: 0, y: 40 }, {
-        opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power4.out',
+      gsap.fromTo('.art-eyebrow', { opacity: 0, x: -20 }, {
+        opacity: 1, x: 0, duration: 0.55, ease: 'power3.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+      });
+      gsap.fromTo('h2', { opacity: 0, y: 45 }, {
+        opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
+      });
+      gsap.fromTo('.artist-card', { opacity: 0, y: 50, scale: 0.97 }, {
+        opacity: 1, y: 0, scale: 1, duration: 0.9, stagger: 0.18, ease: 'power4.out',
+        scrollTrigger: { trigger: '.artists-grid', start: 'top 82%' },
+      });
+      gsap.fromTo('.artist-img', { clipPath: 'inset(100% 0 0 0)' }, {
+        clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power4.inOut', stagger: 0.15,
         scrollTrigger: { trigger: '.artists-grid', start: 'top 80%' },
       });
     }, sectionRef);
@@ -48,16 +60,16 @@ export default function Artists() {
   }, []);
 
   return (
-    <section id="artists" ref={sectionRef} className="relative py-14 sm:py-24 lg:py-32 bg-[#050505] border-t border-[#0f0f0f]" aria-label="Artistas">
+    <section id="artists" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#050505] border-t border-[#0f0f0f]" aria-label="Artistas">
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-16 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-12 sm:mb-20 lg:mb-24 border-b border-[#111] pb-8">
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="art-eyebrow flex items-center gap-3 mb-4">
               <span className="text-[#666] text-xs font-mono tracking-[0.3em]">03 /</span>
               <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">El equipo</span>
             </div>
@@ -79,12 +91,12 @@ export default function Artists() {
               className="artist-card opacity-0 bg-[#050505] group hover:bg-[#080000] transition-colors duration-500"
             >
               {/* Image zone */}
-              <div className="relative aspect-[4/3] overflow-hidden border-b border-[#111]">
+              <div className="artist-img relative aspect-[4/3] overflow-hidden border-b border-[#111]">
                 <Image
                   src={artist.image}
                   alt={artist.name}
                   fill
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.05]"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                 />

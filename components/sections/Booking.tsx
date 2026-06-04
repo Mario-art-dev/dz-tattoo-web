@@ -91,7 +91,7 @@ export default function Booking() {
 
   if (success) {
     return (
-      <section id="booking" className="relative py-14 sm:py-24 lg:py-32 bg-[#050505]">
+      <section id="booking" className="relative py-20 sm:py-32 lg:py-44 bg-[#050505]">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <div className="w-24 h-24 rounded-full bg-[#8B0000]/20 border border-[#8B0000]/40 flex items-center justify-center mx-auto mb-8">
             <CheckCircle size={48} className="text-[#B0A89E]" />
@@ -114,7 +114,7 @@ export default function Booking() {
   }
 
   return (
-    <section id="booking" ref={sectionRef} className="relative py-14 sm:py-24 lg:py-32 bg-[#050505] overflow-hidden" aria-label="Reservar cita">
+    <section id="booking" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#050505] overflow-hidden" aria-label="Reservar cita">
       {/* Background glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#8B0000]/8 rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#8B0000]/5 rounded-full blur-[100px] pointer-events-none translate-x-1/3" />
