@@ -40,7 +40,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
-                <Image src="/images/logo.png" alt="D.Z Tattoo Studio" fill className="object-cover" sizes="56px" onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }} />
+                <Image src="/images/logo.png" alt="D.Z Tattoo Studio" fill className="object-cover scale-[1.2]" sizes="56px" onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }} />
               </div>
               <div>
                 <p className="text-[#E8E2D9] font-bold text-sm tracking-[0.2em] uppercase">D.Z Tattoo</p>

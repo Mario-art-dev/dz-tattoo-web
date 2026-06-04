@@ -64,7 +64,7 @@ export default function Navigation() {
                 src="/images/logo.png"
                 alt="D.Z Tattoo Studio Logo"
                 fill
-                className="object-cover"
+                className="object-cover scale-[1.2]"
                 sizes="64px"
                 priority
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }}
@@ -124,7 +124,7 @@ export default function Navigation() {
           {/* Logo in menu */}
           <div className="absolute top-5 left-6">
             <div className="relative w-12 h-12 rounded-full overflow-hidden">
-              <Image src="/images/logo.png" alt="D.Z Tattoo Studio" fill className="object-cover" sizes="64px"
+              <Image src="/images/logo.png" alt="D.Z Tattoo Studio" fill className="object-cover scale-[1.2]" sizes="64px"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }} />
             </div>
           </div>
