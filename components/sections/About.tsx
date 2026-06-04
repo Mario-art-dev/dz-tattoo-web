@@ -24,7 +24,7 @@ function AnimatedStat({ value, meta, label }: { value: string; meta: string; lab
       const obj = { n: 0 };
       gsap.to(obj, {
         n: target,
-        duration: 2.2,
+        duration: 3.2,
         ease: 'power2.out',
         onUpdate() {
           if (numRef.current) numRef.current.textContent = obj.n.toFixed(dp) + suffix;
@@ -68,31 +68,31 @@ export default function About() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.about-eyebrow', { opacity: 0, x: -20 }, {
-        opacity: 1, x: 0, duration: 0.55, ease: 'power3.out',
+        opacity: 1, x: 0, duration: 1.0, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('h2', { clipPath: 'inset(0 100% 0 0)' }, {
-        clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power4.inOut',
+        clipPath: 'inset(0 0% 0 0)', duration: 1.8, ease: 'power3.inOut',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
-        opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 1.3, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
-        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 1.0, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.about-stat', { opacity: 0, y: 24 }, {
-        opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
+        opacity: 1, y: 0, duration: 1.1, stagger: 0.18, ease: 'power3.out',
         scrollTrigger: { trigger: '.about-stats', start: 'top 84%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.about-value', { opacity: 0, x: -20 }, {
-        opacity: 1, x: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+        opacity: 1, x: 0, duration: 1.1, stagger: 0.16, ease: 'power3.out',
         scrollTrigger: { trigger: '.about-values', start: 'top 85%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.about-image', { clipPath: 'inset(100% 0 0 0)' }, {
-        clipPath: 'inset(0% 0 0 0)', duration: 1.4, ease: 'power4.inOut',
+        clipPath: 'inset(0% 0 0 0)', duration: 2.2, ease: 'power4.inOut',
         scrollTrigger: { trigger: '.about-image', start: 'top 82%', toggleActions: 'play reverse play reverse' },
       });
     }, sectionRef);

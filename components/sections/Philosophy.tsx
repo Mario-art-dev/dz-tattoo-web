@@ -21,23 +21,23 @@ export default function Philosophy() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.phil-eyebrow', { clipPath: 'inset(0 100% 0 0)' }, {
-        clipPath: 'inset(0 0% 0 0)', duration: 0.65, ease: 'power3.inOut',
+        clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power2.inOut',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('h2', { clipPath: 'inset(0 100% 0 0)' }, {
-        clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power4.inOut',
+        clipPath: 'inset(0 0% 0 0)', duration: 1.8, ease: 'power3.inOut',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
-        opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 1.3, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
-        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 1.0, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.phil-card', { opacity: 0, y: 35 }, {
-        opacity: 1, y: 0, duration: 0.65, stagger: 0.12, ease: 'power3.out',
+        opacity: 1, y: 0, duration: 1.2, stagger: 0.2, ease: 'power3.out',
         scrollTrigger: { trigger: '.phil-grid', start: 'top 82%', toggleActions: 'play reverse play reverse' },
       });
       gsap.to('.marquee-track', {
