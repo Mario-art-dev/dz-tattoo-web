@@ -85,14 +85,14 @@ export default function Footer() {
                 href="https://www.instagram.com/d.z.tattoo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#B0A89E] hover:text-[#8B0000] transition-colors"
+                className="text-[#B0A89E] hover:text-[#E8E2D9] transition-colors"
                 aria-label="Instagram"
               >
                 <InstagramIcon size={20} />
               </a>
               <a
                 href="tel:+34722201072"
-                className="text-[#B0A89E] hover:text-[#8B0000] transition-colors"
+                className="text-[#B0A89E] hover:text-[#E8E2D9] transition-colors"
                 aria-label="Teléfono"
               >
                 <Phone size={20} />
@@ -101,7 +101,7 @@ export default function Footer() {
                 href="https://wa.me/34722201072"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#B0A89E] hover:text-[#8B0000] transition-colors"
+                className="text-[#B0A89E] hover:text-[#E8E2D9] transition-colors"
                 aria-label="WhatsApp"
               >
                 <MessageCircle size={20} />
@@ -118,7 +118,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => { e.preventDefault(); document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' }); }}
-                    className="text-[#B0A89E] text-sm hover:text-[#8B0000] transition-colors"
+                    className="text-[#B0A89E] text-sm hover:text-[#E8E2D9] transition-colors"
                   >
                     {link.label}
                   </a>
@@ -136,7 +136,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => { e.preventDefault(); document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' }); }}
-                    className="text-[#B0A89E] text-sm hover:text-[#8B0000] transition-colors"
+                    className="text-[#B0A89E] text-sm hover:text-[#E8E2D9] transition-colors"
                   >
                     {link.label}
                   </a>
@@ -158,7 +158,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={16} className="text-[#8B0000] flex-shrink-0" />
-                <a href="tel:+34722201072" className="text-[#B0A89E] text-sm hover:text-[#8B0000] transition-colors">
+                <a href="tel:+34722201072" className="text-[#B0A89E] text-sm hover:text-[#E8E2D9] transition-colors">
                   +34 722 20 10 72
                 </a>
               </div>
@@ -168,7 +168,7 @@ export default function Footer() {
                   href="https://www.instagram.com/d.z.tattoo"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#B0A89E] text-sm hover:text-[#8B0000] transition-colors"
+                  className="text-[#B0A89E] text-sm hover:text-[#E8E2D9] transition-colors"
                 >
                   @d.z.tattoo
                 </a>
@@ -187,7 +187,7 @@ export default function Footer() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[#555] text-xs tracking-wider hover:text-[#8B0000] transition-colors"
+                className="text-[#555] text-xs tracking-wider hover:text-[#E8E2D9] transition-colors"
               >
                 {link.label}
               </Link>
