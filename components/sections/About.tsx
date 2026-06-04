@@ -29,31 +29,31 @@ export default function About() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.about-eyebrow', { opacity: 0, x: -20 }, {
         opacity: 1, x: 0, duration: 0.55, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('h2', { opacity: 0, y: 45 }, {
         opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
         opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
         opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.about-stat', { opacity: 0, y: 24 }, {
         opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.about-stats', start: 'top 84%' },
+        scrollTrigger: { trigger: '.about-stats', start: 'top 84%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.about-value', { opacity: 0, x: -20 }, {
         opacity: 1, x: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
-        scrollTrigger: { trigger: '.about-values', start: 'top 85%' },
+        scrollTrigger: { trigger: '.about-values', start: 'top 85%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.about-image', { clipPath: 'inset(100% 0 0 0)' }, {
         clipPath: 'inset(0% 0 0 0)', duration: 1.4, ease: 'power4.inOut',
-        scrollTrigger: { trigger: '.about-image', start: 'top 82%' },
+        scrollTrigger: { trigger: '.about-image', start: 'top 82%', toggleActions: 'play reverse play reverse' },
       });
     }, sectionRef);
     return () => ctx.revert();

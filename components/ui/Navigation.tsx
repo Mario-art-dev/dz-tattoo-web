@@ -16,6 +16,10 @@ const navLinks = [
   { label: 'Contacto', href: '#contact' },
 ];
 
+const adminLinks = [
+  { label: 'Panel de control', href: '/panel' },
+];
+
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,6 +41,7 @@ export default function Navigation() {
   }, [menuOpen]);
 
   const go = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith('#')) { setMenuOpen(false); return; }
     e.preventDefault();
     setMenuOpen(false);
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
@@ -141,6 +146,13 @@ export default function Navigation() {
             <a href="tel:+34722201072" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">+34 722 20 10 72</a>
             <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">@d.z.tattoo</a>
             <a href="#booking" onClick={e => go(e, '#booking')} className="mobile-link btn-primary-round inline-block mt-4 px-8 py-3.5 text-sm font-bold tracking-widest uppercase">Reservar cita ahora</a>
+            <div className="pt-4 border-t border-[#0f0f0f]">
+              {adminLinks.map((l) => (
+                <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="mobile-link block text-[#8B0000]/60 text-[10px] font-mono tracking-[0.25em] uppercase hover:text-[#8B0000] transition-colors py-1">
+                  {l.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       )}

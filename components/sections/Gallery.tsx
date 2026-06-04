@@ -52,23 +52,23 @@ export default function Gallery() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.gal-eyebrow', { opacity: 0, x: -20 }, {
         opacity: 1, x: 0, duration: 0.55, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('h2', { opacity: 0, y: 45 }, {
         opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
         opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
         opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.gal-item', { opacity: 0, y: 30, scale: 0.95 }, {
         opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.05, ease: 'power3.out',
-        scrollTrigger: { trigger: '.gal-grid', start: 'top 84%' },
+        scrollTrigger: { trigger: '.gal-grid', start: 'top 84%', toggleActions: 'play reverse play reverse' },
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -142,7 +142,7 @@ export default function Gallery() {
         </div>
 
         <div className="mt-12 flex items-center justify-between border-t border-[#111] pt-8">
-          <p className="sec-meta text-[#555] text-xs font-mono">{filtered.length} obras · Instagram: @d.z.tattoo</p>
+          <p className="sec-meta text-[#555] text-xs font-mono">Más obras en Instagram · @d.z.tattoo</p>
           <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer"
             className="btn-outline-round inline-flex items-center gap-2 px-6 py-3 text-xs tracking-wider uppercase">
             Ver más trabajos

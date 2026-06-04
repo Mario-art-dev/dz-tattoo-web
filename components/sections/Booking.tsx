@@ -53,23 +53,23 @@ export default function Booking() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.bk-line', { yPercent: 110 }, {
         yPercent: 0, duration: 1.1, stagger: 0.1, ease: 'power4.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 72%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 72%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.bk-sub', { opacity: 0, y: 20 }, {
         opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 68%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 68%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.bk-badge', { opacity: 0, scale: 0.92 }, {
         opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.5)',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.bk-trust', { opacity: 0, y: 16 }, {
         opacity: 1, y: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out',
-        scrollTrigger: { trigger: '.bk-trust-row', start: 'top 85%' },
+        scrollTrigger: { trigger: '.bk-trust-row', start: 'top 85%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.bk-card', { opacity: 0, y: 35 }, {
         opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.12,
-        scrollTrigger: { trigger: '.bk-card-row', start: 'top 82%' },
+        scrollTrigger: { trigger: '.bk-card-row', start: 'top 82%', toggleActions: 'play reverse play reverse' },
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -129,13 +129,6 @@ export default function Booking() {
 
         {/* ── HEADER ── */}
         <div className="text-center mb-16 sm:mb-24 lg:mb-32">
-          <div className="bk-badge mb-8 sm:mb-10">
-            <span className="inline-flex items-center gap-2.5 bg-[#8B0000]/10 border border-[#8B0000]/20 text-[#E8E2D9] text-[10px] font-bold tracking-[0.35em] uppercase px-5 py-2.5 rounded-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#3aaa5a] animate-pulse flex-shrink-0" />
-              Agenda abierta · Últimas plazas esta semana
-            </span>
-          </div>
-
           <div className="mb-6 sm:mb-8">
             <div className="overflow-hidden mb-1">
               <h2 className="bk-line font-editorial text-[clamp(3.5rem,12vw,9rem)] italic font-light leading-[0.88] tracking-tight text-[#E8E2D9]">
@@ -155,24 +148,37 @@ export default function Booking() {
           </p>
         </div>
 
-        {/* ── TRUST STRIP ── */}
-        <div className="bk-trust-row grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-16 sm:mb-20">
-          {[
-            { icon: Star, label: '5.0 Google', sub: '+50 opiniones reales' },
-            { icon: CheckCircle, label: 'Consulta gratis', sub: 'Sin coste ni compromiso' },
-            { icon: CalendarDays, label: 'Respuesta 24h', sub: 'Te confirmamos rápido' },
-            { icon: Sparkles, label: 'Diseño exclusivo', sub: 'Arte 100% personalizado' },
-          ].map((t) => (
-            <div key={t.label} className="bk-trust flex items-center gap-3 border border-[#1a1a1a] rounded-2xl p-4 sm:p-5 hover:border-[#2a2a2a] transition-colors duration-300">
-              <div className="w-9 h-9 rounded-full bg-[#141414] flex items-center justify-center flex-shrink-0">
-                <t.icon size={15} className="text-[#E8E2D9]" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-[#E8E2D9] text-xs font-bold leading-tight truncate">{t.label}</p>
-                <p className="text-[#444] text-[10px] mt-0.5 hidden sm:block truncate">{t.sub}</p>
-              </div>
+        {/* ── GUARANTEE SECTION ── */}
+        <div className="mb-20 sm:mb-28">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-14 border-b border-[#111] pb-8">
+            <div>
+              <p className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase mb-3">Nuestra Garantía</p>
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase text-[#E8E2D9] leading-tight">
+                Tu satisfacción,<br />nuestro compromiso
+              </h3>
             </div>
-          ))}
+            <p className="text-[#555] text-xs font-mono max-w-[220px] leading-relaxed">
+              Estándares que no negociamos en cada sesión.
+            </p>
+          </div>
+          <div className="bk-trust-row grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {[
+              { icon: Star, label: '5.0 en Google', sub: '+50 opiniones reales de clientes' },
+              { icon: CheckCircle, label: 'Consulta gratuita', sub: 'Primera visita sin coste ni compromiso' },
+              { icon: CalendarDays, label: 'Respuesta en 24h', sub: 'Confirmamos tu cita rápidamente' },
+              { icon: Sparkles, label: 'Diseño exclusivo', sub: 'Arte 100% personalizado para ti' },
+            ].map((t) => (
+              <div key={t.label} className="bk-trust flex flex-col gap-5 border border-[#1a1a1a] rounded-2xl p-7 sm:p-8 hover:border-[#8B0000]/30 hover:bg-[#0a0000] transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-[#141414] border border-[#1a1a1a] flex items-center justify-center flex-shrink-0">
+                  <t.icon size={20} className="text-[#E8E2D9]" />
+                </div>
+                <div>
+                  <p className="text-[#E8E2D9] text-base font-bold leading-tight mb-2">{t.label}</p>
+                  <p className="text-[#555] text-sm leading-relaxed">{t.sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* ── MAIN GRID ── */}
@@ -382,27 +388,6 @@ export default function Booking() {
                   className="btn-whatsapp w-full py-4 text-sm font-bold tracking-[0.12em] uppercase justify-center">
                   <MessageCircle size={16} /> +34 722 20 10 72
                 </a>
-              </div>
-            </div>
-
-            {/* Review snippet */}
-            <div className="rounded-3xl border border-[#1a1a1a] bg-[#080808] p-7">
-              <div className="flex gap-0.5 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={13} className="fill-[#8B0000] text-[#8B0000]" />
-                ))}
-              </div>
-              <p className="text-[#B0A89E] text-sm italic leading-relaxed mb-5">
-                &ldquo;Dani entendió exactamente lo que quería. El resultado superó todas mis expectativas. El proceso completo fue impecable.&rdquo;
-              </p>
-              <div className="flex items-center gap-3 border-t border-[#111] pt-4">
-                <div className="w-7 h-7 rounded-full border border-[#8B0000]/25 flex items-center justify-center">
-                  <span className="text-[#8B0000] text-[10px] font-black">M</span>
-                </div>
-                <div>
-                  <p className="text-[#E8E2D9] text-xs font-bold">María G.</p>
-                  <p className="text-[#444] text-[10px] font-mono">Realismo · 2024</p>
-                </div>
               </div>
             </div>
 

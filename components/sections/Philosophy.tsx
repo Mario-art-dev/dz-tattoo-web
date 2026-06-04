@@ -22,23 +22,23 @@ export default function Philosophy() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.phil-eyebrow', { opacity: 0, x: -20 }, {
         opacity: 1, x: 0, duration: 0.55, ease: 'power3.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('h2', { opacity: 0, y: 45 }, {
         opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
         opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
         opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.phil-card', { opacity: 0, y: 35 }, {
         opacity: 1, y: 0, duration: 0.65, stagger: 0.12, ease: 'power3.out',
-        scrollTrigger: { trigger: '.phil-grid', start: 'top 82%' },
+        scrollTrigger: { trigger: '.phil-grid', start: 'top 82%', toggleActions: 'play reverse play reverse' },
       });
       gsap.to('.marquee-track', {
         xPercent: -50, ease: 'none',

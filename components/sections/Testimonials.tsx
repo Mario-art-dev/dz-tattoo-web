@@ -41,7 +41,7 @@ export default function Testimonials() {
     const ctx = gsap.context(() => {
       gsap.fromTo('.t-reveal', { opacity: 0, y: 20 }, {
         opacity: 1, y: 0, duration: 0.7, stagger: 0.1,
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -73,25 +73,17 @@ export default function Testimonials() {
               <span className="text-gradient">nuestros clientes</span>
             </h2>
           </div>
-          {/* Google badge */}
-          <div className="border border-[#111] px-6 py-4 flex items-center gap-4 bg-[#080808]">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-[#8B0000] text-[#8B0000]" />)}
-            </div>
-            <div className="h-8 w-px bg-[#1a1a1a]" />
-            <div className="font-mono">
-              <p className="text-[#E8E2D9] font-black text-lg leading-none">5.0</p>
-              <p className="text-[#555] text-[10px] tracking-widest uppercase mt-0.5">Google</p>
-            </div>
-          </div>
         </div>
 
         {/* Review display */}
         <div ref={trackRef} className="t-reveal mb-12">
           <div className="border border-[#111] bg-[#080808] p-8 sm:p-12">
-            {/* Stars */}
-            <div className="flex gap-1 mb-6">
-              {[...Array(r.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#8B0000] text-[#8B0000]" />)}
+            {/* Stars + rating */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex gap-1">
+                {[...Array(r.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#8B0000] text-[#8B0000]" />)}
+              </div>
+              <span className="text-[#E8E2D9] text-sm font-black font-mono">{r.rating}.0</span>
             </div>
 
             <blockquote className="text-[#E8E2D9] text-xl sm:text-2xl font-light leading-relaxed italic mb-8 max-w-3xl">
@@ -125,12 +117,12 @@ export default function Testimonials() {
               />
             ))}
           </div>
-          <div className="flex gap-2">
-            <button onClick={prev} className="border border-[#1a1a1a] hover:border-[#8B0000]/50 p-3 text-[#555] hover:text-[#E8E2D9] transition-all" aria-label="Anterior">
-              <ChevronLeft size={18} />
+          <div className="flex gap-3">
+            <button onClick={prev} className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl border border-[#1a1a1a] hover:border-[#8B0000]/50 hover:bg-[#8B0000]/10 text-[#555] hover:text-[#E8E2D9] transition-all duration-200 active:scale-95 group" aria-label="Anterior">
+              <ChevronLeft size={24} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
             </button>
-            <button onClick={next} className="border border-[#1a1a1a] hover:border-[#8B0000]/50 p-3 text-[#555] hover:text-[#E8E2D9] transition-all" aria-label="Siguiente">
-              <ChevronRight size={18} />
+            <button onClick={next} className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl border border-[#1a1a1a] hover:border-[#8B0000]/50 hover:bg-[#8B0000]/10 text-[#555] hover:text-[#E8E2D9] transition-all duration-200 active:scale-95 group" aria-label="Siguiente">
+              <ChevronRight size={24} className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>
           </div>
         </div>
