@@ -126,19 +126,20 @@ export default function Hero() {
 
         <h1
           ref={headlineRef}
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-black leading-[0.9] tracking-tight mb-6 uppercase"
-          aria-label="Tatuajes que cuentan tu historia"
+          className="text-[clamp(5rem,18vw,13rem)] font-black leading-[0.88] tracking-tight mb-6 uppercase"
+          aria-label="DZ Tattoo Studio — Tatuajes con alma"
         >
           <span className="block overflow-hidden">
-            <span className="word inline-block">Tatuajes</span>
+            <span className="word inline-block">DZ</span>
           </span>
           <span className="block overflow-hidden">
-            <span className="word inline-block text-gradient">que cuentan</span>
-          </span>
-          <span className="block overflow-hidden">
-            <span className="word inline-block">tu historia</span>
+            <span className="word inline-block text-gradient">Tattoo</span>
           </span>
         </h1>
+
+        <p className="overflow-hidden mb-8">
+          <span className="word inline-block text-[#B0A89E] text-base sm:text-xl tracking-[0.55em] uppercase font-light">Tatuajes con alma</span>
+        </p>
 
         <div
           ref={lineRef}
