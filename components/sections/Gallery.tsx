@@ -50,25 +50,25 @@ export default function Gallery() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.gal-eyebrow', { clipPath: 'inset(0 100% 0 0)' }, {
-        clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power2.inOut',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
+      gsap.fromTo('.gal-eyebrow', { opacity: 0, y: 10 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('h2', { clipPath: 'inset(0 100% 0 0)' }, {
         clipPath: 'inset(0 0% 0 0)', duration: 1.8, ease: 'power3.inOut',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play none none reset' },
       });
-      gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
-        opacity: 1, y: 0, duration: 1.3, ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
+      gsap.fromTo('.sec-desc', { opacity: 0, y: 14, filter: 'blur(6px)' }, {
+        opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.4, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
       });
-      gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
-        opacity: 1, y: 0, duration: 1.0, ease: 'power2.out',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play reverse play reverse' },
+      gsap.fromTo('.sec-meta', { opacity: 0, y: 10 }, {
+        opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
       });
-      gsap.fromTo('.gal-item', { opacity: 0, y: 30, scale: 0.95 }, {
-        opacity: 1, y: 0, scale: 1, duration: 1.0, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.gal-grid', start: 'top 84%', toggleActions: 'play reverse play reverse' },
+      gsap.fromTo('.gal-item', { clipPath: 'inset(0 0 100% 0)', opacity: 0 }, {
+        clipPath: 'inset(0 0 0% 0)', opacity: 1, duration: 1.1, stagger: 0.08, ease: 'power3.inOut',
+        scrollTrigger: { trigger: '.gal-grid', start: 'top 84%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);
     return () => ctx.revert();
