@@ -25,12 +25,12 @@ export default function Services() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.svc-eyebrow', { opacity: 0, x: -20 }, {
-        opacity: 1, x: 0, duration: 0.55, ease: 'power3.out',
+      gsap.fromTo('.svc-eyebrow', { clipPath: 'inset(0 100% 0 0)' }, {
+        clipPath: 'inset(0 0% 0 0)', duration: 0.65, ease: 'power3.inOut',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play reverse play reverse' },
       });
-      gsap.fromTo('h2', { opacity: 0, y: 45 }, {
-        opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
+      gsap.fromTo('h2', { clipPath: 'inset(0 100% 0 0)' }, {
+        clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power4.inOut',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play reverse play reverse' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {

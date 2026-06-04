@@ -19,7 +19,7 @@ export default function LandingPage() {
       gsap.set(['.h-badge', '.h-sub-line', '.h-sub'], { opacity: 0 });
       gsap.set('.h-cta', { opacity: 0, y: 15 });
 
-      const tl = gsap.timeline({ delay: 0.15 });
+      const tl = gsap.timeline({ delay: 1.95 });
       tl.to('.h-badge', { opacity: 1, duration: 0.5, ease: 'power3.out' })
         .to('.h-char', { yPercent: 0, duration: 0.85, stagger: 0.055, ease: 'power4.out' }, '-=0.2')
         .to('.h-sub-line', { opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.45')
