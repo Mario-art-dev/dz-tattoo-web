@@ -101,8 +101,8 @@ export default function Navigation() {
               722 20 10 72
             </a>
             <a
-              href="#booking"
-              onClick={e => go(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#booking')}
+              href="#booking-form"
+              onClick={e => go(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#booking-form')}
               className="btn-primary-round px-6 py-3 text-xs font-bold tracking-[0.15em] uppercase hidden sm:block"
             >
               Reservar
@@ -145,7 +145,7 @@ export default function Navigation() {
           <div className="mt-12 pt-8 border-t border-[#111] space-y-3">
             <a href="tel:+34722201072" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">+34 722 20 10 72</a>
             <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">@d.z.tattoo</a>
-            <a href="#booking" onClick={e => go(e, '#booking')} className="mobile-link btn-primary-round inline-block mt-4 px-8 py-3.5 text-sm font-bold tracking-widest uppercase">Reservar cita ahora</a>
+            <a href="#booking-form" onClick={e => go(e, '#booking-form')} className="mobile-link btn-primary-round inline-block mt-4 px-8 py-3.5 text-sm font-bold tracking-widest uppercase">Reservar cita ahora</a>
             <div className="pt-4 border-t border-[#0f0f0f]">
               {adminLinks.map((l) => (
                 <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="mobile-link block text-[#8B0000]/60 text-[10px] font-mono tracking-[0.25em] uppercase hover:text-[#8B0000] transition-colors py-1">

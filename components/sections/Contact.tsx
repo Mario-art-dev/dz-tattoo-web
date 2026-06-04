@@ -176,8 +176,8 @@ export default function Contact() {
             <div className="mt-8 pt-6 border-t border-[#111]">
               <p className="text-[#B0A89E] text-sm mb-4">¿Listo para empezar?</p>
               <a
-                href="#booking"
-                onClick={(e) => { e.preventDefault(); document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' }); }}
+                href="#booking-form"
+                onClick={(e) => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
                 className="btn-primary-round w-full py-3.5 text-xs font-bold tracking-[0.15em] uppercase flex items-center justify-center gap-2"
               >
                 Reservar cita <ArrowRight size={14} />

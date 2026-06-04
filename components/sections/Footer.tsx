@@ -22,7 +22,7 @@ const footerLinks = {
     { label: 'Proceso', href: '#process' },
     { label: 'Galería', href: '#gallery' },
     { label: 'Testimonios', href: '#testimonials' },
-    { label: 'Reservar cita', href: '#booking' },
+    { label: 'Reservar cita', href: '#booking-form' },
   ],
   legal: [
     { label: 'Aviso Legal', href: '/aviso-legal' },
@@ -45,8 +45,8 @@ export default function Footer() {
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <a
-              href="#booking"
-              onClick={(e) => { e.preventDefault(); document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' }); }}
+              href="#booking-form"
+              onClick={(e) => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
               className="btn-cta px-8 py-4 text-sm font-bold tracking-[0.15em] uppercase text-center"
             >
               Reservar cita

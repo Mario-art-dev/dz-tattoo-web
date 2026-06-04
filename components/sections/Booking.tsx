@@ -183,7 +183,7 @@ export default function Booking() {
         </div>
 
         {/* ── MAIN GRID ── */}
-        <div className="bk-card-row grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-12">
+        <div id="booking-form" className="bk-card-row grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-12">
 
           {/* LEFT: Form */}
           <div className="bk-card lg:col-span-3">

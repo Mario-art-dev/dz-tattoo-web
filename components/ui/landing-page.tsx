@@ -75,8 +75,8 @@ export default function LandingPage() {
         {/* CTAs — full width on mobile */}
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-10 sm:mb-14">
           <a
-            href="#booking"
-            onClick={e => { e.preventDefault(); document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' }); }}
+            href="#booking-form"
+            onClick={e => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
             className="h-cta btn-cta w-full sm:w-auto px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center"
           >
             Reservar cita gratis <ArrowRight size={16} className="flex-shrink-0" />

@@ -156,7 +156,7 @@ export default function Hero() {
 
         <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
-            onClick={() => handleScroll('#booking')}
+            onClick={() => handleScroll('#booking-form')}
             className="btn-primary group flex items-center gap-3 px-8 py-4 text-sm font-medium tracking-[0.15em] uppercase rounded-none w-full sm:w-auto justify-center"
             aria-label="Reservar cita"
           >
