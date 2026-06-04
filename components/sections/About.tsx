@@ -109,7 +109,7 @@ export default function About() {
             <div className="about-values border border-[#111]">
               {values.map((v, i) => (
                 <div key={v.code} className={cn(
-                  'about-value flex items-start gap-5 p-5 group hover:bg-[#0a0000] transition-colors duration-300',
+                  'about-value flex items-start gap-5 p-5 group hover:bg-[#0f0808] transition-colors duration-300',
                   i < values.length - 1 && 'border-b border-[#111]'
                 )}>
                   <span className="text-[#555] text-xs font-mono tracking-[0.2em] flex-shrink-0 mt-0.5">{v.code}</span>
