@@ -53,18 +53,25 @@ export default function LandingPage() {
         </div>
 
         {/* Headline */}
-        <h1 className="mb-5 sm:mb-7">
+        <h1 className="mb-3 sm:mb-4">
           <span className="block overflow-hidden">
-            <span className="h-line block text-[clamp(3.2rem,11vw,7rem)] font-black uppercase leading-[0.88] tracking-tight text-[#E8E2D9]">
-              Tatuajes
+            <span className="h-line block text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-[#E8E2D9]">
+              DZ
             </span>
           </span>
           <span className="block overflow-hidden">
-            <span className="h-line block text-[clamp(3.2rem,11vw,7rem)] font-black uppercase leading-[0.88] tracking-tight text-gradient">
-              con alma.
+            <span className="h-line block text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-gradient">
+              Tattoo
             </span>
           </span>
         </h1>
+
+        {/* Subtitle */}
+        <p className="h-line overflow-hidden mb-6 sm:mb-8">
+          <span className="block text-[#B0A89E] text-sm sm:text-lg tracking-[0.5em] uppercase font-light">
+            Tatuajes con alma
+          </span>
+        </p>
 
         {/* Description */}
         <p className="h-sub text-[#B0A89E] text-sm sm:text-base lg:text-lg leading-relaxed max-w-md mb-8 sm:mb-10">
