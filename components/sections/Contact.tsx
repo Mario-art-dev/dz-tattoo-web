@@ -119,7 +119,7 @@ export default function Contact() {
           <div className="lg:col-span-2 ct-card rounded-3xl overflow-hidden border border-[#1a1a1a] bg-[#0a0a0a]">
             <div className="relative" style={{ height: '360px' }}>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3079.4!2d-0.4141!3d39.3612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd604e5b6c5a8a5b%3A0x0!2sAv.+Luis+Vives+12%2C+46460+Silla%2C+Valencia!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses"
+                src="https://www.google.com/maps?q=D.Z.+Tattoo+Av+Luis+Vives+12+Silla+Valencia&output=embed"
                 width="100%" height="100%"
                 style={{ border: 0, filter: 'invert(92%) hue-rotate(180deg) saturate(0.65) brightness(0.72)' }}
                 allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
@@ -137,7 +137,7 @@ export default function Contact() {
                 </div>
               </div>
               <a
-                href="https://maps.google.com/?q=Av.+Luis+Vives+12,+46460+Silla,+Valencia"
+                href="https://www.google.com/maps/search/D.Z.+Tattoo+Av+Luis+Vives+12+Silla+Valencia"
                 target="_blank" rel="noopener noreferrer"
                 className="btn-outline-round px-5 py-2.5 text-xs font-bold tracking-wider uppercase flex items-center gap-2"
               >
