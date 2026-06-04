@@ -27,6 +27,7 @@
   --color-offwhite: #E8E2D9;
   --color-offwhite-dim: #B0A89E;
   --color-gold: #C8A96E;
+  --font-editorial: var(--font-cormorant), Georgia, serif;
 }
 
 :root {
@@ -451,4 +452,45 @@ html.lenis { height: auto; }
   .masonry-item {
     margin-bottom: 8px;
   }
+}
+
+/* Editorial serif font */
+.font-editorial {
+  font-family: var(--font-cormorant), Georgia, 'Times New Roman', serif;
+}
+
+/* Premium inputs */
+.input-pill {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  border-radius: 9999px;
+  color: #E8E2D9;
+  padding: 1.25rem 1.75rem;
+  font-size: 1rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+  appearance: none;
+}
+.input-pill::placeholder { color: #3a3a3a; }
+.input-pill:focus {
+  border-color: #555;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+}
+.input-box {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  border-radius: 1.25rem;
+  color: #E8E2D9;
+  padding: 1.1rem 1.5rem;
+  font-size: 1rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+  resize: none;
+}
+.input-box::placeholder { color: #3a3a3a; }
+.input-box:focus {
+  border-color: #555;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
 }

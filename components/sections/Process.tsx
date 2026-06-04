@@ -29,6 +29,14 @@ export default function Process() {
         opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
       });
+      gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
+        opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+      });
+      gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
+        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+      });
       gsap.fromTo('.process-item', { opacity: 0, y: 28 }, {
         opacity: 1, y: 0, duration: 0.65, stagger: 0.1, ease: 'power3.out',
         scrollTrigger: { trigger: '.process-grid', start: 'top 84%' },
@@ -60,7 +68,7 @@ export default function Process() {
               <span className="text-gradient">paso a paso</span>
             </h2>
           </div>
-          <p className="text-[#555] text-xs font-mono max-w-[220px] leading-relaxed">
+          <p className="sec-meta text-[#555] text-xs font-mono max-w-[220px] leading-relaxed">
             De la idea al resultado final.<br />6 etapas con total transparencia.
           </p>
         </div>
@@ -102,7 +110,7 @@ export default function Process() {
         </div>
 
         <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-[#111]">
-          <p className="text-[#555] text-xs font-mono">Proceso claro · Sin sorpresas · Arte garantizado</p>
+          <p className="sec-meta text-[#555] text-xs font-mono">Proceso claro · Sin sorpresas · Arte garantizado</p>
           <a
             href="#booking"
             onClick={(e) => { e.preventDefault(); document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' }); }}

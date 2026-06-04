@@ -33,6 +33,14 @@ export default function Services() {
         opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
       });
+      gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
+        opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+      });
+      gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
+        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+      });
       gsap.fromTo('.svc-row', { opacity: 0, x: -30 }, {
         opacity: 1, x: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out',
         scrollTrigger: { trigger: '.svc-list', start: 'top 84%' },
@@ -62,7 +70,7 @@ export default function Services() {
           </div>
           <div className="font-mono text-right text-[#555] text-xs">
             <p className="text-[#E8E2D9] text-2xl font-black mb-1">08</p>
-            <p className="tracking-widest uppercase">Especialidades</p>
+            <p className="sec-meta tracking-widest uppercase">Especialidades</p>
           </div>
         </div>
 
@@ -125,7 +133,7 @@ export default function Services() {
         </div>
 
         <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-[#111]">
-          <p className="text-[#555] text-xs font-mono">Primera consulta gratuita · Presencial o WhatsApp</p>
+          <p className="sec-meta text-[#555] text-xs font-mono">Primera consulta gratuita · Presencial o WhatsApp</p>
           <a
             href="#booking"
             onClick={(e) => { e.preventDefault(); document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' }); }}

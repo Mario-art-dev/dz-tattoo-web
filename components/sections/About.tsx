@@ -35,6 +35,14 @@ export default function About() {
         opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
       });
+      gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
+        opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+      });
+      gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
+        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+      });
       gsap.fromTo('.about-stat', { opacity: 0, y: 24 }, {
         opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
         scrollTrigger: { trigger: '.about-stats', start: 'top 84%' },
@@ -75,7 +83,7 @@ export default function About() {
               <span className="text-gradient">precisión sin límites</span>
             </h2>
           </div>
-          <p className="text-[#B0A89E] text-sm leading-relaxed max-w-xs font-mono">
+          <p className="sec-desc text-[#B0A89E] text-sm leading-relaxed max-w-xs font-mono">
             D.Z Tattoo Studio — Silla, Valencia.<br />
             Estudio de tatuajes premium est. 2018.
           </p>

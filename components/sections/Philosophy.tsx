@@ -28,6 +28,14 @@ export default function Philosophy() {
         opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' },
       });
+      gsap.fromTo('.sec-desc', { opacity: 0, y: 18 }, {
+        opacity: 1, y: 0, duration: 0.75, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+      });
+      gsap.fromTo('.sec-meta', { opacity: 0, y: 12 }, {
+        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
+      });
       gsap.fromTo('.phil-card', { opacity: 0, y: 35 }, {
         opacity: 1, y: 0, duration: 0.65, stagger: 0.12, ease: 'power3.out',
         scrollTrigger: { trigger: '.phil-grid', start: 'top 82%' },
@@ -70,7 +78,7 @@ export default function Philosophy() {
               <span className="text-gradient">Hacemos arte.</span>
             </h2>
           </div>
-          <p className="text-[#B0A89E] text-sm max-w-xs leading-relaxed">
+          <p className="sec-desc text-[#B0A89E] text-sm max-w-xs leading-relaxed">
             Cada visita es el inicio de una transformación. Creemos que el arte corporal es la expresión más íntima del ser humano.
           </p>
         </div>

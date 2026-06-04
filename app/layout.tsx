@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
 import CursorFollower from "@/components/ui/CursorFollower";
 import CookieBanner from "@/components/ui/CookieBanner";
 import Navigation from "@/components/ui/Navigation";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +15,14 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -66,12 +75,13 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased grain-overlay`}
+      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} antialiased grain-overlay`}
     >
       <body className="bg-[#050505] text-[#E8E2D9] min-h-screen overflow-x-hidden">
         <SmoothScrollProvider>
           <CursorFollower />
           <Navigation />
+          <ScrollReveal />
           {children}
           <CookieBanner />
         </SmoothScrollProvider>

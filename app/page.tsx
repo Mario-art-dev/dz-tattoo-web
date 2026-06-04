@@ -9,20 +9,21 @@ import Testimonials from '@/components/sections/Testimonials';
 import Booking from '@/components/sections/Booking';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/sections/Footer';
+import MarqueeBand from '@/components/ui/MarqueeBand';
 
 export default function HomePage() {
   return (
     <main id="top">
-      {/* Scroll-driven 3D hero with tattoo machine */}
       <LandingPage />
-
-      {/* Full website sections — OpenCodeDesign style */}
       <About />
+      <MarqueeBand items={['Premium', 'Valencia', 'Arte con Alma', 'Silla', 'Custom Tattoo', 'Realismo', 'Fine Line', 'Cover Up']} speed={0.8} />
       <Philosophy />
       <Services />
+      <MarqueeBand items={['6+ Años', '1K+ Tatuajes', '5.0 Rating', 'Higiene Certificada', 'Arte Exclusivo', 'Primera Consulta Gratis']} speed={0.7} direction="right" />
       <Artists />
       <Gallery />
       <Process />
+      <MarqueeBand items={['Consulta Gratuita', 'Diseño Exclusivo', 'Revisión Incluida', 'Arte Garantizado', 'WhatsApp 24h', 'Proceso Transparente']} speed={0.9} />
       <Testimonials />
       <Booking />
       <Contact />
