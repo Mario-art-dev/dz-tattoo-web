@@ -61,10 +61,11 @@ export default function Testimonials() {
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#8B0000]/6 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-12 sm:mb-20 lg:mb-24 border-b border-[#111] pb-8 t-reveal">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-16 sm:mb-24 lg:mb-32 border-b border-[#111] pb-8 t-reveal">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[#666] text-xs font-mono tracking-[0.3em]">05 /</span>
@@ -79,7 +80,7 @@ export default function Testimonials() {
 
         {/* Review display */}
         <div ref={trackRef} className="t-reveal mb-12">
-          <div className="border border-[#111] bg-[#080808] p-8 sm:p-12">
+          <div className="border border-[#111] bg-[#080808] p-10 sm:p-16">
             {/* Stars + rating */}
             <div className="flex items-center gap-3 mb-6">
               <div className="flex gap-1">
@@ -88,9 +89,12 @@ export default function Testimonials() {
               <span className="text-[#E8E2D9] text-sm font-black font-mono">{r.rating}.0</span>
             </div>
 
-            <blockquote className="text-[#E8E2D9] text-xl sm:text-2xl font-light leading-relaxed italic mb-8 max-w-3xl">
-              &ldquo;{r.text}&rdquo;
-            </blockquote>
+            <div className="relative mb-8">
+              <span className="absolute -top-6 -left-2 text-[6rem] leading-none text-[#8B0000]/15 font-serif select-none pointer-events-none">&ldquo;</span>
+              <blockquote className="text-[#E8E2D9] text-2xl sm:text-3xl lg:text-4xl font-light leading-[1.3] italic max-w-3xl relative z-10">
+                &ldquo;{r.text}&rdquo;
+              </blockquote>
+            </div>
 
             <div className="flex items-center justify-between border-t border-[#111] pt-6">
               <div className="flex items-center gap-4">

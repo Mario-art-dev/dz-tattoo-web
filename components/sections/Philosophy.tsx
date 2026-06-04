@@ -7,10 +7,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const pillars = [
-  { code: 'ART', n: '01', title: 'Arte personalizado', desc: 'Cada diseño nace de cero. No hacemos copias, no usamos plantillas. Creamos piezas únicas que cuentan tu historia con la firma visual de nuestros artistas.' },
-  { code: 'TEC', n: '02', title: 'Excelencia técnica', desc: 'Más de 6 años perfeccionando técnicas de realismo, fine line y micropigmentación. La precisión no es opcional, es nuestra obsesión absoluta.' },
-  { code: 'HYG', n: '03', title: 'Higiene certificada', desc: 'Material desechable, esterilización certificada, protocolos estrictos. Tu seguridad es innegociable en cada sesión sin excepción.' },
-  { code: 'DUR', n: '04', title: 'Resultados duraderos', desc: 'Tintas de primera calidad para colores vivos y líneas nítidas durante décadas. Un tatuaje premium es para siempre. Lo hacemos bien desde el inicio.' },
+  { code: 'ART', n: '01', title: 'Arte personalizado', desc: 'Cada diseño nace de cero — piezas únicas que cuentan tu historia.' },
+  { code: 'TEC', n: '02', title: 'Excelencia técnica', desc: '6 años perfeccionando realismo, fine line y micropigmentación. La precisión es nuestra obsesión.' },
+  { code: 'HYG', n: '03', title: 'Higiene certificada', desc: 'Material desechable, esterilización certificada. Tu seguridad es innegociable.' },
+  { code: 'DUR', n: '04', title: 'Resultados duraderos', desc: 'Tintas de primera calidad para resultados que perduran décadas sin perder intensidad.' },
 ];
 
 const keywords = ['Arte con alma', 'Realismo', 'Precisión', 'Fine Line', 'Transformación', 'Premium', 'Higiene', 'Creatividad', 'Arte con alma', 'Realismo', 'Precisión', 'Fine Line'];
@@ -53,6 +53,8 @@ export default function Philosophy() {
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
+      <div className="absolute top-0 right-0 w-[700px] h-[500px] bg-[#8B0000]/7 rounded-full blur-[140px] pointer-events-none translate-x-1/3 -translate-y-1/4" />
+      <span className="pointer-events-none select-none absolute right-[-3%] top-1/2 -translate-y-1/2 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">02</span>
 
       {/* Marquee */}
       <div className="overflow-hidden border-y border-[#0f0f0f] py-4 mb-10 sm:mb-16 lg:mb-20">
@@ -86,7 +88,7 @@ export default function Philosophy() {
         {/* Grid */}
         <div className="phil-grid grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#111] border border-[#111]">
           {pillars.map((p, i) => (
-            <div key={p.code} className="phil-card opacity-0 bg-[#080808] p-8 group hover:bg-[#0a0000] transition-colors duration-400">
+            <div key={p.code} className="phil-card opacity-0 bg-[#080808] p-10 sm:p-12 group hover:bg-[#0f0808] transition-colors duration-400">
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">

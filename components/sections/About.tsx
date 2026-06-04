@@ -16,10 +16,10 @@ const stats = [
 ];
 
 const values = [
-  { code: 'ART', label: 'Arte personalizado', desc: 'Cada diseño nace desde cero, exclusivo para ti.' },
-  { code: 'TEC', label: 'Técnica impecable', desc: 'Años de práctica en realismo, fine line y más.' },
-  { code: 'HYG', label: 'Higiene certificada', desc: 'Protocolo ISO. Material nuevo en cada sesión.' },
-  { code: 'EXP', label: 'Experiencia premium', desc: 'Atención personalizada de principio a fin.' },
+  { code: 'ART', label: 'Arte personalizado', desc: 'Diseños únicos desde cero, sin plantillas ni copias.' },
+  { code: 'TEC', label: 'Técnica impecable', desc: 'Años de práctica en realismo, fine line y micropigmentación.' },
+  { code: 'HYG', label: 'Higiene certificada', desc: 'Protocolo ISO. Material nuevo y esterilizado en cada sesión.' },
+  { code: 'EXP', label: 'Experiencia premium', desc: 'Atención personalizada de la primera consulta al resultado final.' },
 ];
 
 export default function About() {
@@ -69,6 +69,8 @@ export default function About() {
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#8B0000]/7 rounded-full blur-[130px] pointer-events-none translate-x-1/3" />
+      <span className="pointer-events-none select-none absolute right-[-2%] bottom-0 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">DZ</span>
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header row */}
@@ -84,8 +86,8 @@ export default function About() {
             </h2>
           </div>
           <p className="sec-desc text-[#B0A89E] text-sm leading-relaxed max-w-xs font-mono">
-            D.Z Tattoo Studio — Silla, Valencia.<br />
-            Estudio de tatuajes premium est. 2018.
+            D.Z Tattoo Studio<br />
+            Silla, Valencia · Est. 2018
           </p>
         </div>
 
@@ -93,9 +95,9 @@ export default function About() {
           {/* Left: stats + values */}
           <div className="space-y-12">
             {/* Stats grid */}
-            <div className="about-stats grid grid-cols-2 gap-px bg-[#0f0f0f] border border-[#0f0f0f]">
+            <div className="about-stats grid grid-cols-2 gap-px bg-[#111] border border-[#111]">
               {stats.map((s) => (
-                <div key={s.label} className="about-stat bg-[#050505] p-6 group hover:bg-[#080000] transition-colors duration-300">
+                <div key={s.label} className="about-stat bg-[#050505] p-6 group hover:bg-[#0f0808] transition-colors duration-300">
                   <p className="text-[#666] text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{s.meta}</p>
                   <p className="text-[#E8E2D9] text-3xl font-black mb-1">{s.value}</p>
                   <p className="text-[#555] text-[11px] tracking-wider uppercase">{s.label}</p>

@@ -8,12 +8,12 @@ import { cn } from '@/lib/utils';
 gsap.registerPlugin(ScrollTrigger);
 
 const steps = [
-  { n: '01', code: 'CONSULT', title: 'Consulta inicial', desc: 'Cuéntanos tu idea. Presencial o por WhatsApp. Primera consulta completamente gratuita.', meta: '30 min · Gratis' },
-  { n: '02', code: 'DESIGN', title: 'Diseño personalizado', desc: 'Creamos un boceto exclusivo para ti. Lo revisamos juntos hasta capturar tu visión exacta.', meta: '24–48h' },
-  { n: '03', code: 'PREP', title: 'Preparación', desc: 'Te enviamos instrucciones completas: hidratación, alimentación, ropa recomendada.', meta: 'Previo a la cita' },
-  { n: '04', code: 'SESSION', title: 'La sesión', desc: 'Ambiente impecable, música, comodidad total. Trabajamos con material nuevo y esterilizado.', meta: 'Variable' },
-  { n: '05', code: 'CARE', title: 'Cuidados post-tattoo', desc: 'Instrucciones detalladas y seguimiento de cicatrización durante 4 semanas.', meta: '4 semanas' },
-  { n: '06', code: 'REVIEW', title: 'Revisión gratuita', desc: 'A las 6–8 semanas revisamos el resultado. Retoques incluidos sin coste adicional.', meta: '6–8 semanas' },
+  { n: '01', code: 'CONSULT', title: 'Consulta inicial', desc: 'Cuéntanos tu idea presencialmente o por WhatsApp. Sin coste.', meta: '30 min · Gratis' },
+  { n: '02', code: 'DESIGN', title: 'Diseño personalizado', desc: 'Un boceto exclusivo creado para ti, ajustado hasta capturar tu visión.', meta: '24–48h' },
+  { n: '03', code: 'PREP', title: 'Preparación', desc: 'Instrucciones de hidratación, alimentación y ropa para el día de la sesión.', meta: 'Previo a la cita' },
+  { n: '04', code: 'SESSION', title: 'La sesión', desc: 'Ambiente impecable, material nuevo y esterilizado. Comodidad total.', meta: 'Variable' },
+  { n: '05', code: 'CARE', title: 'Cuidados post-tattoo', desc: 'Seguimiento personalizado durante las 4 semanas de cicatrización.', meta: '4 semanas' },
+  { n: '06', code: 'REVIEW', title: 'Revisión gratuita', desc: 'Revisamos el resultado a las 6–8 semanas. Retoques incluidos.', meta: '6–8 semanas' },
 ];
 
 export default function Process() {
@@ -54,6 +54,8 @@ export default function Process() {
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#8B0000]/6 rounded-full blur-[160px] pointer-events-none -translate-x-1/3 translate-y-1/3" />
+      <span className="pointer-events-none select-none absolute left-[-3%] top-1/2 -translate-y-1/2 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">04</span>
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -79,7 +81,7 @@ export default function Process() {
             <div
               key={s.n}
               className={cn(
-                'process-item opacity-0 bg-[#080808] p-7 group hover:bg-[#0a0000] transition-colors duration-300',
+                'process-item opacity-0 bg-[#080808] p-8 sm:p-10 group hover:bg-[#0f0808] transition-colors duration-300',
                 'flex flex-col gap-4'
               )}
             >
