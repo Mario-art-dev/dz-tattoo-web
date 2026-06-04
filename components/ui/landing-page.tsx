@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ArrowRight, MessageCircle, Star, MapPin, Phone } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const SERVICES_QUICK = ['Custom Tattoo', 'Realismo', 'Fine Line', 'Cover Up', 'Microblading', 'Micropigmentación', 'Tooth Gems', 'Láser'];
 
@@ -16,7 +16,7 @@ export default function LandingPage() {
     const ctx = gsap.context(() => {
       // Set initial hidden state before first paint
       gsap.set('.h-char', { yPercent: 115 });
-      gsap.set(['.h-badge', '.h-sub-line', '.h-sub', '.h-trust'], { opacity: 0 });
+      gsap.set(['.h-badge', '.h-sub-line', '.h-sub'], { opacity: 0 });
       gsap.set('.h-cta', { opacity: 0, y: 15 });
 
       const tl = gsap.timeline({ delay: 0.15 });
@@ -24,8 +24,7 @@ export default function LandingPage() {
         .to('.h-char', { yPercent: 0, duration: 0.85, stagger: 0.055, ease: 'power4.out' }, '-=0.2')
         .to('.h-sub-line', { opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.45')
         .to('.h-sub', { opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.35')
-        .to('.h-cta', { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out' }, '-=0.3')
-        .to('.h-trust', { opacity: 1, duration: 0.7 }, '-=0.2');
+        .to('.h-cta', { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.3');
     }, heroRef);
     return () => ctx.revert();
   }, []);
@@ -98,44 +97,14 @@ export default function LandingPage() {
           <span className="text-[#E8E2D9]">Primera consulta totalmente gratuita.</span>
         </p>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-10 sm:mb-14">
+        {/* CTA */}
+        <div className="mb-10 sm:mb-14">
           <a
             href="#booking-form"
             onClick={e => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
             className="h-cta btn-cta w-full sm:w-auto px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center"
           >
             Reservar cita gratis <ArrowRight size={16} className="flex-shrink-0" />
-          </a>
-          <a
-            href="https://wa.me/34722201072"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="h-cta btn-whatsapp w-full sm:w-auto px-8 py-5 text-sm sm:text-base font-bold tracking-[0.12em] uppercase justify-center"
-          >
-            <MessageCircle size={18} className="flex-shrink-0" />
-            WhatsApp ahora
-          </a>
-        </div>
-
-        {/* Trust strip */}
-        <div className="h-trust flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-6 border-t border-[#111] pt-5">
-          <div className="flex items-center gap-1.5">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={11} className="fill-[#8B0000] text-[#8B0000]" />
-            ))}
-            <span className="text-[#E8E2D9] text-xs font-black ml-1.5">5.0</span>
-            <span className="text-[#555] text-xs ml-0.5">Google</span>
-          </div>
-          <span className="text-[#222] hidden sm:inline">·</span>
-          <div className="flex items-center gap-1.5">
-            <MapPin size={11} className="text-[#8B0000] flex-shrink-0" />
-            <span className="text-[#B0A89E] text-xs font-mono">Av. Luis Vives 12, Silla</span>
-          </div>
-          <span className="text-[#222] hidden sm:inline">·</span>
-          <a href="tel:+34722201072" className="flex items-center gap-1.5 text-[#B0A89E] text-xs font-mono hover:text-[#E8E2D9] transition-colors">
-            <Phone size={11} className="text-[#8B0000] flex-shrink-0" />
-            +34 722 20 10 72
           </a>
         </div>
       </div>

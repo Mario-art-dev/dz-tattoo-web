@@ -132,15 +132,8 @@ export default function Services() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-[#111]">
+        <div className="mt-10 pt-6 border-t border-[#111]">
           <p className="sec-meta text-[#555] text-xs font-mono">Primera consulta gratuita · Presencial o WhatsApp</p>
-          <a
-            href="#booking-form"
-            onClick={(e) => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
-            className="btn-primary-round inline-flex items-center gap-2 px-6 py-3 text-xs tracking-wider uppercase"
-          >
-            Reservar consulta <ArrowRight size={14} />
-          </a>
         </div>
       </div>
     </section>
