@@ -36,15 +36,45 @@ export default function Process() {
     return Math.max(0, totalW - wrapperRef.current.clientWidth);
   };
 
-  const slide = (dir: -1 | 1) => {
+  const snapTo = (targetX: number) => {
     if (!trackRef.current) return;
-    const currentX = (gsap.getProperty(trackRef.current, 'x') as number) || 0;
-    const step = getStep();
     const maxOffset = getMaxOffset();
-    const targetX = Math.max(-maxOffset, Math.min(0, currentX - dir * step));
-    setCanPrev(targetX < -2);
-    setCanNext(targetX > -(maxOffset - 2));
-    gsap.to(trackRef.current, { x: targetX, duration: 0.65, ease: 'power3.inOut' });
+    const clamped = Math.max(-maxOffset, Math.min(0, targetX));
+    setCanPrev(clamped < -2);
+    setCanNext(clamped > -(maxOffset - 2));
+    gsap.to(trackRef.current, { x: clamped, duration: 0.65, ease: 'power3.inOut' });
+  };
+
+  const slide = (dir: -1 | 1) => {
+    const currentX = (gsap.getProperty(trackRef.current!, 'x') as number) || 0;
+    snapTo(currentX - dir * getStep());
+  };
+
+  const touchStartX = useRef(0);
+  const baseX = useRef(0);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    gsap.killTweensOf(trackRef.current);
+    touchStartX.current = e.touches[0].clientX;
+    baseX.current = (gsap.getProperty(trackRef.current!, 'x') as number) || 0;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!trackRef.current) return;
+    const delta = e.touches[0].clientX - touchStartX.current;
+    const maxOffset = getMaxOffset();
+    const rawX = baseX.current + delta;
+    const newX = rawX > 0 ? rawX * 0.15 : rawX < -maxOffset ? -maxOffset + (rawX + maxOffset) * 0.15 : rawX;
+    gsap.set(trackRef.current, { x: newX });
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 50) {
+      snapTo(baseX.current - (delta > 0 ? -1 : 1) * getStep());
+    } else {
+      snapTo(baseX.current);
+    }
   };
 
   useEffect(() => {
@@ -111,7 +141,9 @@ export default function Process() {
         </div>
 
         {/* Overflow clip wrapper */}
-        <div ref={wrapperRef} className="proc-slider-wrap overflow-hidden">
+        <div ref={wrapperRef} className="proc-slider-wrap overflow-hidden cursor-grab active:cursor-grabbing"
+          style={{ touchAction: 'pan-y' }}
+          onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
           {/* Sliding track */}
           <div ref={trackRef} className="flex gap-4" style={{ willChange: 'transform' }}>
             {steps.map((s) => (
