@@ -126,7 +126,7 @@ export default function Hero() {
 
         <h1
           ref={headlineRef}
-          className="text-[clamp(5rem,18vw,13rem)] font-black leading-[0.88] tracking-tight mb-6 uppercase"
+          className="text-[clamp(4rem,16vw,13rem)] font-black leading-[0.88] tracking-tight mb-6 uppercase w-full overflow-hidden"
           aria-label="DZ Tattoo Studio — Tatuajes con alma"
         >
           <span className="block overflow-hidden">

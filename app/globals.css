@@ -54,6 +54,7 @@
 html {
   background-color: var(--black);
   color: var(--offwhite);
+  overflow-x: hidden;
 }
 
 body {
@@ -61,6 +62,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), 'Helvetica Neue', Helvetica, Arial, sans-serif;
   overflow-x: hidden;
+  position: relative;
   cursor: none;
 }
 
