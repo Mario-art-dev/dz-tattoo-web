@@ -111,7 +111,7 @@ export default function Navigation() {
               </div>
             ) : (
               <button onClick={openAuth}
-                className="hidden sm:flex items-center gap-1.5 text-[#555] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest transition-colors border border-[#1a1a1a] hover:border-[#333] px-3 py-1.5">
+                className="flex items-center gap-1.5 text-[#555] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest transition-colors border border-[#1a1a1a] hover:border-[#333] px-3 py-1.5">
                 Cuenta
               </button>
             )}
@@ -168,7 +168,19 @@ export default function Navigation() {
             <a href="tel:+34722201072" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">+34 722 20 10 72</a>
             <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">@d.z.tattoo</a>
             <a href="#booking-form" onClick={e => go(e, '#booking-form')} className="mobile-link btn-primary-round inline-block mt-4 px-8 py-3.5 text-sm font-bold tracking-widest uppercase">Reservar cita ahora</a>
-            <div className="pt-4 border-t border-[#0f0f0f]">
+            <div className="pt-4 border-t border-[#0f0f0f] space-y-2">
+              {user ? (
+                <>
+                  <p className="mobile-link text-[#444] text-[10px] font-mono truncate">{user.displayName ?? user.email}</p>
+                  <button onClick={() => { signOut(); setMenuOpen(false); }} className="mobile-link block text-[#8B0000] text-[10px] font-mono tracking-[0.25em] uppercase hover:text-[#C41E1E] transition-colors py-1">
+                    Cerrar sesión
+                  </button>
+                </>
+              ) : (
+                <button onClick={() => { setMenuOpen(false); openAuth(); }} className="mobile-link block text-[#E8E2D9] text-[10px] font-mono tracking-[0.25em] uppercase hover:text-[#8B0000] transition-colors py-1">
+                  Iniciar sesión / Registrarse
+                </button>
+              )}
               {adminLinks.map((l) => (
                 <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="mobile-link block text-[#8B0000]/60 text-[10px] font-mono tracking-[0.25em] uppercase hover:text-[#8B0000] transition-colors py-1">
                   {l.label}
