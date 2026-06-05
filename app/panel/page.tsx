@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot, doc, updateDoc, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, doc, updateDoc, query, getDocsFromCache } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { LogOut, Phone, Calendar, Clock, MessageCircle, User, ChevronDown, ChevronUp, Search, X, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
 
@@ -50,22 +50,33 @@ export default function PanelPage() {
 
   useEffect(() => {
     if (!authed) return;
-    let unsub: () => void;
-    try {
-      const q = query(collection(db, 'citas'), orderBy('createdAt', 'desc'));
-      unsub = onSnapshot(q, (snap) => {
-        setBookings(snap.docs.map(d => ({ id: d.id, ...d.data() } as Booking)));
-        setLoading(false);
-      }, (err) => {
-        console.error(err);
-        setFbError('No se pudieron cargar las citas.');
-        setLoading(false);
-      });
-    } catch {
-      setFbError('Error al conectar con la base de datos.');
+
+    const sort = (docs: Booking[]) =>
+      docs.sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
+
+    const q = query(collection(db, 'citas'));
+
+    // Show cached data instantly (IndexedDB — no network needed)
+    getDocsFromCache(q)
+      .then(snap => {
+        if (!snap.empty) {
+          setBookings(sort(snap.docs.map(d => ({ id: d.id, ...d.data() } as Booking))));
+          setLoading(false);
+        }
+      })
+      .catch(() => {}); // Cache miss on first visit — live subscription takes over
+
+    // Real-time subscription (updates cache hits and catches first-visit data)
+    const unsub = onSnapshot(q, (snap) => {
+      setBookings(sort(snap.docs.map(d => ({ id: d.id, ...d.data() } as Booking))));
       setLoading(false);
-    }
-    return () => unsub?.();
+    }, (err) => {
+      console.error(err);
+      setFbError('No se pudieron cargar las citas.');
+      setLoading(false);
+    });
+
+    return () => unsub();
   }, [authed]);
 
   const handlePin = (e: React.FormEvent) => {
