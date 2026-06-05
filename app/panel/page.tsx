@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { collection, onSnapshot, doc, updateDoc, query, getDocsFromCache } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { LogOut, Phone, Calendar, Clock, MessageCircle, User, ChevronDown, ChevronUp, Search, X, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
@@ -32,6 +33,7 @@ const STATUS_STYLES = {
 const STATUS_LABELS = { pendiente: 'Pendiente', confirmado: 'Confirmado', cancelado: 'Cancelado' };
 
 export default function PanelPage() {
+  const router = useRouter();
   const [pin, setPin] = useState('');
   const [authed, setAuthed] = useState(false);
   const [pinError, setPinError] = useState(false);
@@ -92,8 +94,8 @@ export default function PanelPage() {
   };
 
   const logout = () => {
-    setAuthed(false);
     sessionStorage.removeItem('dz_panel_auth');
+    router.push('/');
   };
 
   const updateStatus = async (id: string, status: string) => {
