@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
 import SiteShell from "@/components/ui/SiteShell";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -82,10 +83,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} antialiased grain-overlay`}
     >
       <body className="bg-[#050505] text-[#E8E2D9] min-h-screen overflow-x-hidden">
-        <SmoothScrollProvider>
-          <SiteShell />
-          {children}
-        </SmoothScrollProvider>
+        <AuthProvider>
+          <SmoothScrollProvider>
+            <SiteShell />
+            {children}
+          </SmoothScrollProvider>
+        </AuthProvider>
       </body>
     </html>
   );

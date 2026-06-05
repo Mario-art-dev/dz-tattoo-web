@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { useAuth } from '@/contexts/AuthContext';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CheckCircle, ArrowRight, Star, MessageCircle, CalendarDays, Sparkles, Shield, X } from 'lucide-react';
@@ -29,6 +30,7 @@ const HORAS = ['10:00', '11:00', '12:00', '13:00', '16:00', '17:00', '18:00', '1
 
 export default function Booking() {
   const router = useRouter();
+  const { user } = useAuth();
   const sectionRef = useRef<HTMLElement>(null);
   const [form, setForm] = useState<FormData>(INITIAL);
   const [step, setStep] = useState(1);
@@ -38,6 +40,16 @@ export default function Booking() {
   const [dateError, setDateError] = useState('');
 
   const update = (f: keyof FormData, v: string | boolean) => setForm(p => ({ ...p, [f]: v }));
+
+  useEffect(() => {
+    if (user) {
+      setForm(prev => ({
+        ...prev,
+        nombre: prev.nombre || user.displayName || '',
+        email: prev.email || user.email || '',
+      }));
+    }
+  }, [user]);
 
   const handleDateChange = (v: string) => {
     if (!v) { update('fecha', ''); setDateError(''); return; }
@@ -97,7 +109,10 @@ export default function Booking() {
     // Write to Firestore and store ID for cancellation system
     try {
       const docRef = await addDoc(collection(db, 'citas'), {
-        ...snapshot, status: 'pendiente', createdAt: new Date(),
+        ...snapshot,
+        status: 'pendiente',
+        createdAt: new Date(),
+        ...(user ? { userId: user.uid, userEmail: user.email } : {}),
       });
       localStorage.setItem('dz_booking', JSON.stringify({
         id: docRef.id,

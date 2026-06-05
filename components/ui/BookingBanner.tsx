@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { useAuth } from '@/contexts/AuthContext';
 import { X, Calendar, Clock, Loader2 } from 'lucide-react';
 
-type StoredBooking = {
+type ActiveBooking = {
   id: string;
   nombre: string;
   servicio: string;
@@ -23,28 +24,48 @@ const STATUS_MAP: Record<string, { label: string; dot: string; text: string }> =
 };
 
 export default function BookingBanner() {
-  const [booking, setBooking] = useState<StoredBooking | null>(null);
+  const { user, loading: authLoading, openAuth } = useAuth();
+  const [booking, setBooking] = useState<ActiveBooking | null>(null);
   const [status, setStatus] = useState('pendiente');
   const [cancelling, setCancelling] = useState(false);
   const [done, setDone] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem('dz_booking');
-      if (!raw) return;
-      const data = JSON.parse(raw) as StoredBooking;
-      setBooking(data);
-      setStatus(data.status || 'pendiente');
-      setVisible(true);
-      getDoc(doc(db, 'citas', data.id))
-        .then(snap => { if (snap.exists()) setStatus(snap.data().status || 'pendiente'); })
-        .catch(() => {});
-    } catch {}
-  }, []);
+    if (authLoading) return;
+
+    if (user) {
+      // Logged-in: fetch from Firestore by userId
+      const q = query(collection(db, 'citas'), where('userId', '==', user.uid));
+      getDocs(q).then(snap => {
+        const active = snap.docs
+          .map(d => ({ id: d.id, ...d.data() } as ActiveBooking))
+          .filter(b => b.status !== 'cancelado')
+          .sort((a, b) => 0); // keep Firestore order
+        if (active.length > 0) {
+          setBooking(active[0]);
+          setStatus(active[0].status);
+          setVisible(true);
+        }
+      }).catch(() => {});
+    } else {
+      // Not logged in: fall back to localStorage
+      try {
+        const raw = localStorage.getItem('dz_booking');
+        if (!raw) return;
+        const data = JSON.parse(raw) as ActiveBooking;
+        setBooking(data);
+        setStatus(data.status || 'pendiente');
+        setVisible(true);
+        getDoc(doc(db, 'citas', data.id))
+          .then(snap => { if (snap.exists()) setStatus(snap.data().status || 'pendiente'); })
+          .catch(() => {});
+      } catch {}
+    }
+  }, [user, authLoading]);
 
   const dismiss = () => {
-    localStorage.removeItem('dz_booking');
+    if (!user) localStorage.removeItem('dz_booking');
     setVisible(false);
   };
 
@@ -56,7 +77,7 @@ export default function BookingBanner() {
       setStatus('cancelado');
       setDone(true);
       setTimeout(() => {
-        localStorage.removeItem('dz_booking');
+        if (!user) localStorage.removeItem('dz_booking');
         setVisible(false);
       }, 2500);
     } catch {
@@ -78,18 +99,13 @@ export default function BookingBanner() {
     <div className="pt-[80px] sm:pt-[90px] bg-[#050505] px-5 sm:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="relative border border-[#1e1e1e] bg-[#090909]">
-
-          {/* Dismiss X */}
-          <button
-            onClick={dismiss}
+          <button onClick={dismiss}
             className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center text-[#333] hover:text-[#E8E2D9] transition-colors"
-            aria-label="Cerrar"
-          >
+            aria-label="Cerrar">
             <X size={13} />
           </button>
 
           <div className="p-5 sm:p-6 pr-12">
-            {/* Status row */}
             <div className="flex items-center gap-2 mb-3">
               <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
               <span className="text-[#444] text-[9px] font-mono tracking-[0.3em] uppercase">
@@ -100,7 +116,6 @@ export default function BookingBanner() {
               </span>
             </div>
 
-            {/* Booking info + cancel button */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="flex-1 flex flex-wrap gap-x-5 gap-y-1 min-w-0">
                 <span className="text-[#E8E2D9] text-sm font-bold">{booking.nombre}</span>
@@ -119,22 +134,12 @@ export default function BookingBanner() {
               </div>
 
               {canCancel && (
-                <button
-                  onClick={cancel}
-                  disabled={cancelling}
-                  className="flex-shrink-0 flex items-center gap-2 border border-[#8B0000]/25 text-[#8B0000] hover:bg-[#8B0000]/8 px-4 py-2.5 text-[10px] font-mono tracking-[0.2em] uppercase transition-all disabled:opacity-50 whitespace-nowrap"
-                >
-                  {cancelling
-                    ? <><Loader2 size={10} className="animate-spin" /> Cancelando...</>
-                    : <><X size={10} /> Cancelar reserva</>}
+                <button onClick={cancel} disabled={cancelling}
+                  className="flex-shrink-0 flex items-center gap-2 border border-[#8B0000]/25 text-[#8B0000] hover:bg-[#8B0000]/8 px-4 py-2.5 text-[10px] font-mono tracking-[0.2em] uppercase transition-all disabled:opacity-50 whitespace-nowrap">
+                  {cancelling ? <><Loader2 size={10} className="animate-spin" /> Cancelando...</> : <><X size={10} /> Cancelar reserva</>}
                 </button>
               )}
-
-              {done && (
-                <span className="flex-shrink-0 text-zinc-500 text-[10px] font-mono tracking-wider">
-                  Reserva cancelada
-                </span>
-              )}
+              {done && <span className="flex-shrink-0 text-zinc-500 text-[10px] font-mono tracking-wider">Reserva cancelada</span>}
             </div>
           </div>
         </div>

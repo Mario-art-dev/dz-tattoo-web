@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { gsap } from 'gsap';
 import { Menu, X, Phone } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 const navLinks = [
   { label: 'Studio', href: '#about' },
@@ -21,6 +22,7 @@ const adminLinks = [
 ];
 
 export default function Navigation() {
+  const { user, openAuth, signOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -93,6 +95,26 @@ export default function Navigation() {
 
           {/* Right CTAs */}
           <div className="flex items-center gap-3">
+            {/* User/Auth button */}
+            {user ? (
+              <div className="relative group">
+                <button className="w-8 h-8 rounded-full bg-[#8B0000]/20 border border-[#8B0000]/30 flex items-center justify-center text-[#8B0000] text-xs font-black hover:bg-[#8B0000]/30 transition-colors">
+                  {(user.displayName?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()}
+                </button>
+                <div className="absolute right-0 top-full mt-2 w-48 bg-[#090909] border border-[#1a1a1a] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <p className="px-4 py-1.5 text-[#555] text-[10px] font-mono truncate">{user.displayName ?? user.email}</p>
+                  <div className="border-t border-[#111] my-1" />
+                  <button onClick={() => signOut()} className="w-full text-left px-4 py-2 text-[#E8E2D9] text-[10px] font-mono tracking-wider hover:text-[#8B0000] transition-colors">
+                    Cerrar sesión
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button onClick={openAuth}
+                className="hidden sm:flex items-center gap-1.5 text-[#555] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest transition-colors border border-[#1a1a1a] hover:border-[#333] px-3 py-1.5">
+                Cuenta
+              </button>
+            )}
             <a
               href="tel:+34722201072"
               className="hidden md:flex items-center gap-1.5 text-[#555] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest transition-colors"
