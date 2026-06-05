@@ -96,24 +96,9 @@ export default function Services() {
             </h2>
           </div>
 
-          <div className="flex items-center gap-5">
-            <div className="font-mono text-[#555] text-xs sec-meta text-right">
-              <p className="text-[#E8E2D9] text-2xl font-black mb-0.5 tabular-nums">
-                {String(activeIdx + 1).padStart(2, '0')}
-                <span className="text-[#333] text-sm font-normal"> / 08</span>
-              </p>
-              <p className="tracking-widest uppercase">Especialidades</p>
-            </div>
-            <div className="flex gap-2">
-              <button onClick={() => scroll(-1)} disabled={!canPrev} aria-label="Anterior"
-                className="svc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
-                <ChevronLeft size={16} />
-              </button>
-              <button onClick={() => scroll(1)} disabled={!canNext} aria-label="Siguiente"
-                className="svc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
-                <ChevronRight size={16} />
-              </button>
-            </div>
+          <div className="font-mono text-right text-[#555] text-xs sec-meta">
+            <p className="text-[#E8E2D9] text-2xl font-black mb-1">08</p>
+            <p className="tracking-widest uppercase">Especialidades</p>
           </div>
         </div>
 
@@ -149,10 +134,20 @@ export default function Services() {
           ))}
         </div>
 
-        {/* Progress bar */}
-        <div className="mt-5 h-px bg-[#111] relative overflow-hidden">
-          <div className="absolute left-0 top-0 h-full bg-[#8B0000]/50 transition-all duration-500 ease-out"
-            style={{ width: `${((activeIdx + 1) / services.length) * 100}%` }} />
+        {/* Controls: arrows + progress bar */}
+        <div className="mt-5 flex items-center gap-4">
+          <button onClick={() => scroll(-1)} disabled={!canPrev} aria-label="Anterior"
+            className="svc-nav-btn flex-shrink-0 w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
+            <ChevronLeft size={16} />
+          </button>
+          <button onClick={() => scroll(1)} disabled={!canNext} aria-label="Siguiente"
+            className="svc-nav-btn flex-shrink-0 w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
+            <ChevronRight size={16} />
+          </button>
+          <div className="flex-1 h-px bg-[#111] relative overflow-hidden">
+            <div className="absolute left-0 top-0 h-full bg-[#8B0000]/50 transition-all duration-500 ease-out"
+              style={{ width: `${((activeIdx + 1) / services.length) * 100}%` }} />
+          </div>
         </div>
 
         <div className="mt-8 pt-6 border-t border-[#111]">
