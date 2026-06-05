@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, onSnapshot, doc, updateDoc, query, getDocsFromCache } from 'firebase/firestore';
+import { collection, onSnapshot, doc, updateDoc, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { LogOut, Phone, Calendar, Clock, MessageCircle, User, ChevronDown, ChevronUp, Search, X, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
 
@@ -54,31 +54,25 @@ export default function PanelPage() {
     if (!authed) return;
 
     const sort = (docs: Booking[]) =>
-      docs.sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
+      [...docs].sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
 
     const q = query(collection(db, 'citas'));
 
-    // Show cached data instantly (IndexedDB — no network needed)
-    getDocsFromCache(q)
-      .then(snap => {
-        if (!snap.empty) {
-          setBookings(sort(snap.docs.map(d => ({ id: d.id, ...d.data() } as Booking))));
-          setLoading(false);
-        }
-      })
-      .catch(() => {}); // Cache miss on first visit — live subscription takes over
+    // Safety timeout — never block the panel more than 4 seconds
+    const timeout = setTimeout(() => setLoading(false), 4000);
 
-    // Real-time subscription (updates cache hits and catches first-visit data)
     const unsub = onSnapshot(q, (snap) => {
+      clearTimeout(timeout);
       setBookings(sort(snap.docs.map(d => ({ id: d.id, ...d.data() } as Booking))));
       setLoading(false);
     }, (err) => {
+      clearTimeout(timeout);
       console.error(err);
-      setFbError('No se pudieron cargar las citas.');
+      setFbError('No se pudieron cargar las citas. Comprueba la conexión.');
       setLoading(false);
     });
 
-    return () => unsub();
+    return () => { unsub(); clearTimeout(timeout); };
   }, [authed]);
 
   const handlePin = (e: React.FormEvent) => {
