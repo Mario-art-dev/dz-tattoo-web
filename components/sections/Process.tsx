@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -18,34 +18,46 @@ const steps = [
 
 export default function Process() {
   const sectionRef = useRef<HTMLElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
 
-  const updateNav = useCallback(() => {
-    const el = sliderRef.current;
-    if (!el) return;
-    setCanPrev(el.scrollLeft > 4);
-    setCanNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  }, []);
+  const getStep = () => {
+    const card = trackRef.current?.querySelector<HTMLElement>('.proc-card');
+    return card ? card.offsetWidth + 16 : 0;
+  };
 
-  const scroll = (dir: -1 | 1) => {
-    const el = sliderRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>('.proc-card');
-    if (!card) return;
-    const step = card.offsetWidth + 16;
-    const target = Math.max(0, Math.round(el.scrollLeft / step + dir) * step);
-    gsap.to(el, { scrollLeft: target, duration: 0.65, ease: 'power3.inOut' });
+  const getMaxOffset = () => {
+    if (!trackRef.current || !wrapperRef.current) return 0;
+    const cards = trackRef.current.querySelectorAll<HTMLElement>('.proc-card');
+    if (!cards.length) return 0;
+    const totalW = cards[0].offsetWidth * cards.length + 16 * (cards.length - 1);
+    return Math.max(0, totalW - wrapperRef.current.clientWidth);
+  };
+
+  const slide = (dir: -1 | 1) => {
+    if (!trackRef.current) return;
+    const currentX = (gsap.getProperty(trackRef.current, 'x') as number) || 0;
+    const step = getStep();
+    const maxOffset = getMaxOffset();
+    const targetX = Math.max(-maxOffset, Math.min(0, currentX - dir * step));
+    setCanPrev(targetX < -2);
+    setCanNext(targetX > -(maxOffset - 2));
+    gsap.to(trackRef.current, { x: targetX, duration: 0.65, ease: 'power3.inOut' });
   };
 
   useEffect(() => {
-    const el = sliderRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', updateNav, { passive: true });
-    updateNav();
-    return () => el.removeEventListener('scroll', updateNav);
-  }, [updateNav]);
+    const onResize = () => {
+      if (!trackRef.current) return;
+      const x = (gsap.getProperty(trackRef.current, 'x') as number) || 0;
+      const maxOffset = getMaxOffset();
+      setCanPrev(x < -2);
+      setCanNext(x > -(maxOffset - 2));
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -61,13 +73,13 @@ export default function Process() {
         opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
       });
+      gsap.fromTo('.proc-slider-wrap', { opacity: 0 }, {
+        opacity: 1, duration: 1.1, ease: 'power2.out',
+        scrollTrigger: { trigger: wrapperRef.current, start: 'top 88%', toggleActions: 'play none none reset' },
+      });
       gsap.fromTo('.proc-nav-btn', { opacity: 0 }, {
         opacity: 1, duration: 0.7, stagger: 0.1,
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
-      });
-      gsap.fromTo('.proc-track', { opacity: 0, y: 24 }, {
-        opacity: 1, y: 0, duration: 1.2, ease: 'power3.out',
-        scrollTrigger: { trigger: sliderRef.current, start: 'top 88%', toggleActions: 'play none none reset' },
+        scrollTrigger: { trigger: wrapperRef.current, start: 'top 88%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -93,60 +105,54 @@ export default function Process() {
               <span className="text-gradient">paso a paso</span>
             </h2>
           </div>
-
           <p className="sec-meta text-[#555] text-xs font-mono max-w-[220px] leading-relaxed">
             De la idea al resultado final.<br />6 etapas con total transparencia.
           </p>
         </div>
 
-        {/* Slider track */}
-        <div
-          ref={sliderRef}
-          className="proc-track flex gap-4 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          style={{ scrollSnapType: 'x mandatory' }}
-        >
-          {steps.map((s) => (
-            <div
-              key={s.n}
-              className="proc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#0a0a0a] border border-[#111] p-8 flex flex-col gap-6 group hover:bg-[#0f0808] hover:border-[#8B0000]/20 transition-all duration-400 relative overflow-hidden cursor-default"
-              style={{ scrollSnapAlign: 'start' }}
-            >
-              <span className="absolute right-4 bottom-4 text-[5rem] font-black text-[#8B0000]/[0.06] leading-none select-none pointer-events-none">{s.n}</span>
+        {/* Overflow clip wrapper */}
+        <div ref={wrapperRef} className="proc-slider-wrap overflow-hidden">
+          {/* Sliding track */}
+          <div ref={trackRef} className="flex gap-4" style={{ willChange: 'transform' }}>
+            {steps.map((s) => (
+              <div
+                key={s.n}
+                className="proc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#0a0a0a] border border-[#111] p-8 flex flex-col gap-6 group hover:bg-[#0f0808] hover:border-[#8B0000]/20 transition-colors duration-400 relative overflow-hidden"
+              >
+                <span className="absolute right-4 bottom-4 text-[5rem] font-black text-[#8B0000]/[0.06] leading-none select-none pointer-events-none">{s.n}</span>
 
-              {/* Step header */}
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 border border-[#8B0000]/30 group-hover:border-[#8B0000]/60 flex items-center justify-center flex-shrink-0 transition-colors">
-                    <span className="text-[#8B0000] text-[10px] font-mono">{s.n}</span>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 border border-[#8B0000]/30 group-hover:border-[#8B0000]/60 flex items-center justify-center flex-shrink-0 transition-colors">
+                      <span className="text-[#8B0000] text-[10px] font-mono">{s.n}</span>
+                    </div>
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-[#555] group-hover:text-[#666] transition-colors uppercase">{s.code}</span>
                   </div>
-                  <span className="text-[10px] font-mono tracking-[0.25em] text-[#555] group-hover:text-[#666] transition-colors uppercase">{s.code}</span>
+                  <span className="text-[#8B0000] text-[10px] font-mono tracking-wider border border-[#8B0000]/20 px-2.5 py-1 flex-shrink-0">{s.meta}</span>
                 </div>
-                <span className="text-[#8B0000] text-[10px] font-mono tracking-wider border border-[#8B0000]/20 px-2.5 py-1 flex-shrink-0">{s.meta}</span>
-              </div>
 
-              {/* Content */}
-              <div className="flex-1 min-h-[6rem]">
-                <h3 className="text-[#E8E2D9] font-black text-lg uppercase tracking-wide mb-3 leading-tight">{s.title}</h3>
-                <p className="text-[#B0A89E] text-sm leading-relaxed">{s.desc}</p>
-              </div>
+                <div className="flex-1 min-h-[6rem]">
+                  <h3 className="text-[#E8E2D9] font-black text-lg uppercase tracking-wide mb-3 leading-tight">{s.title}</h3>
+                  <p className="text-[#B0A89E] text-sm leading-relaxed">{s.desc}</p>
+                </div>
 
-              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8B0000]/0 group-hover:bg-[#8B0000]/35 transition-all duration-500" />
-            </div>
-          ))}
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8B0000]/0 group-hover:bg-[#8B0000]/35 transition-all duration-500" />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Arrow controls */}
         <div className="mt-5 flex gap-2">
-          <button onClick={() => scroll(-1)} disabled={!canPrev} aria-label="Anterior"
+          <button onClick={() => slide(-1)} disabled={!canPrev} aria-label="Anterior"
             className="proc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronLeft size={16} />
           </button>
-          <button onClick={() => scroll(1)} disabled={!canNext} aria-label="Siguiente"
+          <button onClick={() => slide(1)} disabled={!canNext} aria-label="Siguiente"
             className="proc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronRight size={16} />
           </button>
         </div>
-
       </div>
     </section>
   );

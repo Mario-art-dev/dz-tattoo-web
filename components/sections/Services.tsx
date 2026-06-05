@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -20,34 +20,46 @@ const services = [
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
 
-  const updateNav = useCallback(() => {
-    const el = sliderRef.current;
-    if (!el) return;
-    setCanPrev(el.scrollLeft > 4);
-    setCanNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  }, []);
+  const getStep = () => {
+    const card = trackRef.current?.querySelector<HTMLElement>('.svc-card');
+    return card ? card.offsetWidth + 16 : 0;
+  };
 
-  const scroll = (dir: -1 | 1) => {
-    const el = sliderRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>('.svc-card');
-    if (!card) return;
-    const step = card.offsetWidth + 16;
-    const target = Math.max(0, Math.round(el.scrollLeft / step + dir) * step);
-    gsap.to(el, { scrollLeft: target, duration: 0.65, ease: 'power3.inOut' });
+  const getMaxOffset = () => {
+    if (!trackRef.current || !wrapperRef.current) return 0;
+    const cards = trackRef.current.querySelectorAll<HTMLElement>('.svc-card');
+    if (!cards.length) return 0;
+    const totalW = cards[0].offsetWidth * cards.length + 16 * (cards.length - 1);
+    return Math.max(0, totalW - wrapperRef.current.clientWidth);
+  };
+
+  const slide = (dir: -1 | 1) => {
+    if (!trackRef.current) return;
+    const currentX = (gsap.getProperty(trackRef.current, 'x') as number) || 0;
+    const step = getStep();
+    const maxOffset = getMaxOffset();
+    const targetX = Math.max(-maxOffset, Math.min(0, currentX - dir * step));
+    setCanPrev(targetX < -2);
+    setCanNext(targetX > -(maxOffset - 2));
+    gsap.to(trackRef.current, { x: targetX, duration: 0.65, ease: 'power3.inOut' });
   };
 
   useEffect(() => {
-    const el = sliderRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', updateNav, { passive: true });
-    updateNav();
-    return () => el.removeEventListener('scroll', updateNav);
-  }, [updateNav]);
+    const onResize = () => {
+      if (!trackRef.current) return;
+      const x = (gsap.getProperty(trackRef.current, 'x') as number) || 0;
+      const maxOffset = getMaxOffset();
+      setCanPrev(x < -2);
+      setCanNext(x > -(maxOffset - 2));
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -63,13 +75,13 @@ export default function Services() {
         opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
       });
+      gsap.fromTo('.svc-slider-wrap', { opacity: 0 }, {
+        opacity: 1, duration: 1.1, ease: 'power2.out',
+        scrollTrigger: { trigger: wrapperRef.current, start: 'top 88%', toggleActions: 'play none none reset' },
+      });
       gsap.fromTo('.svc-nav-btn', { opacity: 0 }, {
         opacity: 1, duration: 0.7, stagger: 0.1,
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
-      });
-      gsap.fromTo('.svc-track', { opacity: 0, y: 24 }, {
-        opacity: 1, y: 0, duration: 1.2, ease: 'power3.out',
-        scrollTrigger: { trigger: sliderRef.current, start: 'top 88%', toggleActions: 'play none none reset' },
+        scrollTrigger: { trigger: wrapperRef.current, start: 'top 88%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -93,57 +105,53 @@ export default function Services() {
               <span className="text-gradient">tu piel merece</span>
             </h2>
           </div>
-
           <div className="font-mono text-right text-[#555] text-xs sec-meta">
             <p className="text-[#E8E2D9] text-2xl font-black mb-1">08</p>
             <p className="tracking-widest uppercase">Especialidades</p>
           </div>
         </div>
 
-        {/* Slider track */}
-        <div
-          ref={sliderRef}
-          className="svc-track flex gap-4 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          style={{ scrollSnapType: 'x mandatory' }}
-        >
-          {services.map((s) => (
-            <div
-              key={s.id}
-              className="svc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#0a0a0a] border border-[#111] p-8 flex flex-col gap-5 group hover:bg-[#0f0808] hover:border-[#8B0000]/20 transition-all duration-400 relative overflow-hidden cursor-default"
-              style={{ scrollSnapAlign: 'start' }}
-            >
-              <span className="absolute right-4 top-2 text-[4.5rem] font-black text-[#8B0000]/[0.07] leading-none select-none pointer-events-none">{s.id}</span>
+        {/* Overflow clip wrapper */}
+        <div ref={wrapperRef} className="svc-slider-wrap overflow-hidden">
+          {/* Sliding track */}
+          <div ref={trackRef} className="flex gap-4" style={{ willChange: 'transform' }}>
+            {services.map((s) => (
+              <div
+                key={s.id}
+                className="svc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#0a0a0a] border border-[#111] p-8 flex flex-col gap-5 group hover:bg-[#0f0808] hover:border-[#8B0000]/20 transition-colors duration-400 relative overflow-hidden"
+              >
+                <span className="absolute right-4 top-2 text-[4.5rem] font-black text-[#8B0000]/[0.07] leading-none select-none pointer-events-none">{s.id}</span>
 
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono tracking-[0.3em] text-[#8B0000] border border-[#8B0000]/25 px-2.5 py-1">{s.tag}</span>
+                <div>
+                  <span className="text-[10px] font-mono tracking-[0.3em] text-[#8B0000] border border-[#8B0000]/25 px-2.5 py-1">{s.tag}</span>
+                </div>
+
+                <div className="flex-1 min-h-[7rem]">
+                  <h3 className="text-[#E8E2D9] text-xl font-black uppercase tracking-wide mb-3 leading-tight">{s.title}</h3>
+                  <p className="text-[#B0A89E] text-sm leading-relaxed">{s.desc}</p>
+                </div>
+
+                <div className="border-t border-[#161616] pt-4">
+                  <p className="text-[#444] text-[10px] font-mono leading-relaxed tracking-wider">{s.detail}</p>
+                </div>
+
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8B0000]/0 group-hover:bg-[#8B0000]/35 transition-all duration-500" />
               </div>
-
-              <div className="flex-1 min-h-[7rem]">
-                <h3 className="text-[#E8E2D9] text-xl font-black uppercase tracking-wide mb-3 leading-tight">{s.title}</h3>
-                <p className="text-[#B0A89E] text-sm leading-relaxed">{s.desc}</p>
-              </div>
-
-              <div className="border-t border-[#161616] pt-4">
-                <p className="text-[#444] text-[10px] font-mono leading-relaxed tracking-wider">{s.detail}</p>
-              </div>
-
-              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8B0000]/0 group-hover:bg-[#8B0000]/35 transition-all duration-500" />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Arrow controls */}
         <div className="mt-5 flex gap-2">
-          <button onClick={() => scroll(-1)} disabled={!canPrev} aria-label="Anterior"
+          <button onClick={() => slide(-1)} disabled={!canPrev} aria-label="Anterior"
             className="svc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronLeft size={16} />
           </button>
-          <button onClick={() => scroll(1)} disabled={!canNext} aria-label="Siguiente"
+          <button onClick={() => slide(1)} disabled={!canNext} aria-label="Siguiente"
             className="svc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronRight size={16} />
           </button>
         </div>
-
       </div>
     </section>
   );
