@@ -1,4 +1,5 @@
 import LandingPage from '@/components/ui/landing-page';
+import BookingBanner from '@/components/ui/BookingBanner';
 import About from '@/components/sections/About';
 import Philosophy from '@/components/sections/Philosophy';
 import Services from '@/components/sections/Services';
@@ -14,6 +15,7 @@ import MarqueeBand from '@/components/ui/MarqueeBand';
 export default function HomePage() {
   return (
     <main id="top">
+      <BookingBanner />
       <LandingPage />
       <About />
       <MarqueeBand items={['Premium', 'Valencia', 'Arte con Alma', 'Silla', 'Custom Tattoo', 'Realismo', 'Fine Line', 'Cover Up']} speed={0.8} />

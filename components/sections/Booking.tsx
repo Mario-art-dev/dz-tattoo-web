@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CheckCircle, ArrowRight, Star, MessageCircle, CalendarDays, Sparkles, Shield } from 'lucide-react';
+import { CheckCircle, ArrowRight, Star, MessageCircle, CalendarDays, Sparkles, Shield, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,10 +28,12 @@ const TALLAS = ['XS — menos de 5cm', 'S — 5 a 10cm', 'M — 10 a 20cm', 'L �
 const HORAS = ['10:00', '11:00', '12:00', '13:00', '16:00', '17:00', '18:00', '19:00'];
 
 export default function Booking() {
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
   const [form, setForm] = useState<FormData>(INITIAL);
   const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
+  const [submittedData, setSubmittedData] = useState<FormData | null>(null);
   const [error, setError] = useState('');
   const [dateError, setDateError] = useState('');
 
@@ -74,43 +77,112 @@ export default function Booking() {
     return () => ctx.revert();
   }, []);
 
-  const submit = (e: React.FormEvent) => {
+  const formatDate = (s: string) => {
+    if (!s) return '—';
+    try { const [y, m, d] = s.split('-'); return `${d}/${m}/${y}`; } catch { return s; }
+  };
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.mayorEdad) { setError('Debes confirmar que eres mayor de 18 años.'); return; }
     if (!form.privacidad) { setError('Acepta la política de privacidad para continuar.'); return; }
     if (dateError) { setError(dateError); return; }
 
-    // Show success instantly — write to Firestore in background
-    const data = { ...form, status: 'pendiente', createdAt: new Date() };
+    const snapshot = { ...form };
+    setSubmittedData(snapshot);
     setSuccess(true);
     setForm(INITIAL);
     setStep(1);
 
-    addDoc(collection(db, 'citas'), data).catch(err => console.error('Booking write failed:', err));
+    // Write to Firestore and store ID for cancellation system
+    try {
+      const docRef = await addDoc(collection(db, 'citas'), {
+        ...snapshot, status: 'pendiente', createdAt: new Date(),
+      });
+      localStorage.setItem('dz_booking', JSON.stringify({
+        id: docRef.id,
+        nombre: snapshot.nombre,
+        telefono: snapshot.telefono,
+        email: snapshot.email,
+        servicio: snapshot.servicio,
+        fecha: snapshot.fecha,
+        hora: snapshot.hora,
+        status: 'pendiente',
+      }));
+    } catch (err) {
+      console.error('Booking write failed:', err);
+    }
   };
 
   const labelClass = 'block text-[#777] text-[11px] tracking-[0.18em] uppercase mb-3 font-medium';
 
-  if (success) {
+  if (success && submittedData) {
+    const d = submittedData;
+    const rows = [
+      { label: 'Nombre', value: d.nombre },
+      { label: 'Teléfono', value: d.telefono },
+      { label: 'Email', value: d.email },
+      { label: 'Servicio', value: d.servicio },
+      { label: 'Fecha', value: formatDate(d.fecha) },
+      { label: 'Hora', value: d.hora || '—' },
+      d.zonaCorporal ? { label: 'Zona', value: d.zonaCorporal } : null,
+      d.tamano ? { label: 'Tamaño', value: d.tamano } : null,
+      d.idea ? { label: 'Idea', value: d.idea.length > 80 ? d.idea.slice(0, 80) + '…' : d.idea } : null,
+    ].filter(Boolean) as { label: string; value: string }[];
+
     return (
-      <section id="booking" className="relative py-20 sm:py-32 lg:py-44 bg-[#050505]">
-        <div className="max-w-2xl mx-auto px-6 text-center">
-          <div className="w-20 h-20 rounded-full bg-[#0a2010] border border-[#1a5a30]/40 flex items-center justify-center mx-auto mb-10">
-            <CheckCircle size={36} className="text-[#3a9a5a]" />
-          </div>
-          <h2 className="font-editorial text-5xl sm:text-6xl italic font-light mb-5 leading-tight">
-            Solicitud enviada
-          </h2>
-          <p className="text-[#B0A89E] leading-relaxed mb-12 text-lg max-w-md mx-auto">
-            Hemos recibido tu solicitud. Te contactamos en menos de 24 horas para confirmar todos los detalles.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button onClick={() => setSuccess(false)} className="btn-outline-round px-8 py-4 text-sm font-bold tracking-widest uppercase">
-              Nueva reserva
-            </button>
-            <a href="https://wa.me/34722201072" target="_blank" rel="noopener noreferrer" className="btn-whatsapp px-8 py-4 text-sm font-bold tracking-widest uppercase">
-              <MessageCircle size={18} /> WhatsApp
-            </a>
+      <section id="booking" className="relative min-h-screen flex items-center justify-center bg-[#050505] px-5 py-28">
+        <div className="relative w-full max-w-lg bg-[#080808] border border-[#1a1a1a]">
+          {/* X — close and go to home */}
+          <button
+            onClick={() => router.push('/')}
+            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[#444] hover:text-[#E8E2D9] hover:bg-[#111] transition-colors"
+            aria-label="Cerrar"
+          >
+            <X size={16} />
+          </button>
+
+          <div className="p-7 sm:p-10">
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                <CheckCircle size={22} className="text-emerald-400" />
+              </div>
+              <div>
+                <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.4em] uppercase">Reserva enviada</p>
+                <h2 className="text-[#E8E2D9] text-xl font-black uppercase tracking-wide">¡Solicitud recibida!</h2>
+              </div>
+            </div>
+
+            {/* Details */}
+            <div className="border-t border-[#111] mb-8">
+              {rows.map(({ label, value }) => (
+                <div key={label} className="flex justify-between gap-4 py-3 border-b border-[#0f0f0f]">
+                  <span className="text-[#444] text-[10px] font-mono tracking-[0.2em] uppercase flex-shrink-0">{label}</span>
+                  <span className="text-[#E8E2D9] text-xs text-right break-words max-w-[60%]">{value || '—'}</span>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-[#555] text-xs leading-relaxed mb-7">
+              Te contactaremos en menos de <span className="text-[#E8E2D9]">24 horas</span> para confirmar todos los detalles de tu cita.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href="https://wa.me/34722201072?text=Hola%2C%20acabo%20de%20hacer%20una%20reserva%20en%20vuestra%20web"
+                target="_blank" rel="noopener noreferrer"
+                className="btn-whatsapp flex-1 py-3.5 text-xs font-bold tracking-widest uppercase justify-center"
+              >
+                <MessageCircle size={14} /> WhatsApp
+              </a>
+              <button
+                onClick={() => router.push('/')}
+                className="btn-outline-round flex-1 py-3.5 text-xs font-bold tracking-widest uppercase"
+              >
+                Volver al inicio
+              </button>
+            </div>
           </div>
         </div>
       </section>
