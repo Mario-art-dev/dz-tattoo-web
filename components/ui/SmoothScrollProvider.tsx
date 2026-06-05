@@ -11,9 +11,19 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
       if (e.touches.length > 1) e.preventDefault();
     };
     const preventGesture = (e: Event) => e.preventDefault();
+    let lastTouchEnd = 0;
+    const preventDoubleTap = (e: TouchEvent) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) e.preventDefault();
+      lastTouchEnd = now;
+    };
+
+    document.addEventListener('touchstart', preventZoom, { passive: false });
     document.addEventListener('touchmove', preventZoom, { passive: false });
+    document.addEventListener('touchend', preventDoubleTap, false);
     document.addEventListener('gesturestart', preventGesture);
     document.addEventListener('gesturechange', preventGesture);
+    document.addEventListener('gestureend', preventGesture);
 
     const lenis = new Lenis({
       duration: 1.2,
@@ -31,9 +41,12 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
     requestAnimationFrame(raf);
 
     return () => {
+      document.removeEventListener('touchstart', preventZoom);
       document.removeEventListener('touchmove', preventZoom);
+      document.removeEventListener('touchend', preventDoubleTap);
       document.removeEventListener('gesturestart', preventGesture);
       document.removeEventListener('gesturechange', preventGesture);
+      document.removeEventListener('gestureend', preventGesture);
       lenis.destroy();
     };
   }, []);
