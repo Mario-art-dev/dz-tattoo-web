@@ -25,8 +25,8 @@ export default function Process() {
         opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reset' },
       });
-      gsap.fromTo('h2', { clipPath: 'inset(0 100% 0 0)' }, {
-        clipPath: 'inset(0 0% 0 0)', duration: 1.8, ease: 'power3.inOut',
+      gsap.fromTo('h2', { opacity: 0, skewX: -10, x: -50 }, {
+        opacity: 1, skewX: 0, x: 0, duration: 1.5, ease: 'power3.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 14 }, {

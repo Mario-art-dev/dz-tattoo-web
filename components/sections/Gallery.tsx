@@ -54,8 +54,8 @@ export default function Gallery() {
         opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reset' },
       });
-      gsap.fromTo('h2', { clipPath: 'inset(0 100% 0 0)' }, {
-        clipPath: 'inset(0 0% 0 0)', duration: 1.8, ease: 'power3.inOut',
+      gsap.fromTo('h2', { opacity: 0, scale: 0.84, filter: 'blur(10px)' }, {
+        opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.6, ease: 'power4.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 14, filter: 'blur(6px)' }, {

@@ -43,8 +43,8 @@ export default function Artists() {
         opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reset' },
       });
-      gsap.fromTo('h2', { clipPath: 'inset(0 100% 0 0)' }, {
-        clipPath: 'inset(0 0% 0 0)', duration: 1.8, ease: 'power3.inOut',
+      gsap.fromTo('h2', { clipPath: 'inset(100% 0 0 0)' }, {
+        clipPath: 'inset(0% 0 0 0)', duration: 1.7, ease: 'power4.inOut',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 14, filter: 'blur(6px)' }, {
