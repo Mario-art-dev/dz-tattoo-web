@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { gsap } from 'gsap';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, UserCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -111,7 +111,8 @@ export default function Navigation() {
               </div>
             ) : (
               <button onClick={openAuth}
-                className="flex items-center gap-1.5 text-[#555] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest transition-colors border border-[#1a1a1a] hover:border-[#333] px-3 py-1.5">
+                className="flex items-center gap-1.5 text-[#B0A89E] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest transition-colors border border-[#333] hover:border-[#555] px-3 py-2">
+                <UserCircle size={14} />
                 Cuenta
               </button>
             )}
