@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,12 +54,6 @@ const stats = [
   { value: '100%', label: 'Material desechable', meta: 'Hygiene' },
 ];
 
-const values = [
-  { code: 'ART', label: 'Arte personalizado', desc: 'Diseños únicos desde cero, sin plantillas ni copias.' },
-  { code: 'TEC', label: 'Técnica impecable', desc: 'Años de práctica en realismo, fine line y micropigmentación.' },
-  { code: 'HYG', label: 'Higiene certificada', desc: 'Protocolo ISO. Material nuevo y esterilizado en cada sesión.' },
-  { code: 'EXP', label: 'Experiencia premium', desc: 'Atención personalizada de la primera consulta al resultado final.' },
-];
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -86,10 +79,6 @@ export default function About() {
       gsap.fromTo('.about-stat', { opacity: 0, y: 24 }, {
         opacity: 1, y: 0, duration: 1.1, stagger: 0.18, ease: 'power3.out',
         scrollTrigger: { trigger: '.about-stats', start: 'top 84%', toggleActions: 'play none none reset' },
-      });
-      gsap.fromTo('.about-value', { opacity: 0, x: -20 }, {
-        opacity: 1, x: 0, duration: 1.1, stagger: 0.16, ease: 'power3.out',
-        scrollTrigger: { trigger: '.about-values', start: 'top 85%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.about-image', { clipPath: 'inset(100% 0 0 0)' }, {
         clipPath: 'inset(0% 0 0 0)', duration: 2.2, ease: 'power4.inOut',
@@ -141,22 +130,6 @@ export default function About() {
               ))}
             </div>
 
-            {/* Values list */}
-            <div className="about-values border border-[#111]">
-              {values.map((v, i) => (
-                <div key={v.code} className={cn(
-                  'about-value flex items-start gap-5 p-5 group hover:bg-[#0f0808] transition-colors duration-300',
-                  i < values.length - 1 && 'border-b border-[#111]'
-                )}>
-                  <span className="text-[#555] text-xs font-mono tracking-[0.2em] flex-shrink-0 mt-0.5">{v.code}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[#E8E2D9] text-sm font-bold uppercase tracking-wider mb-1 group-hover:text-[#E8E2D9]">{v.label}</p>
-                    <p className="text-[#B0A89E] text-xs leading-relaxed">{v.desc}</p>
-                  </div>
-                  <div className="w-1 h-full bg-[#8B0000]/0 group-hover:bg-[#8B0000]/30 transition-colors" />
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Right: image */}
