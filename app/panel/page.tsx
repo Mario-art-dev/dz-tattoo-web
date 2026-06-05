@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, onSnapshot, doc, updateDoc, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -43,6 +43,63 @@ export default function PanelPage() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('todos');
+  const [activeTab, setActiveTab] = useState<'list' | 'calendar'>('list');
+  const [calYear, setCalYear] = useState(new Date().getFullYear());
+  const [calMonth, setCalMonth] = useState(new Date().getMonth());
+  const calTouchStart = useRef(0);
+
+  const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const DAYS_ES = ['LU','MA','MI','JU','VI','SA','DO'];
+
+  const bookingsByDate = useMemo(() => {
+    const map: Record<string, Booking[]> = {};
+    bookings.forEach(b => {
+      if (!b.fecha || b.status === 'cancelado') return;
+      if (!map[b.fecha]) map[b.fecha] = [];
+      map[b.fecha].push(b);
+    });
+    return map;
+  }, [bookings]);
+
+  const calDays = useMemo(() => {
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const offset = (firstDay + 6) % 7;
+    const dim = new Date(calYear, calMonth + 1, 0).getDate();
+    const prev = new Date(calYear, calMonth, 0).getDate();
+    const days: { date: number; type: 'prev'|'cur'|'next'; key: string }[] = [];
+    for (let i = offset - 1; i >= 0; i--) {
+      const d = prev - i;
+      const m = calMonth === 0 ? 12 : calMonth;
+      const y = calMonth === 0 ? calYear - 1 : calYear;
+      days.push({ date: d, type: 'prev', key: `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}` });
+    }
+    for (let d = 1; d <= dim; d++) {
+      const key = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      days.push({ date: d, type: 'cur', key });
+    }
+    const rem = (7 - (days.length % 7)) % 7;
+    for (let d = 1; d <= rem; d++) {
+      const m = calMonth === 11 ? 1 : calMonth + 2;
+      const y = calMonth === 11 ? calYear + 1 : calYear;
+      days.push({ date: d, type: 'next', key: `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}` });
+    }
+    return days;
+  }, [calYear, calMonth]);
+
+  const changeMonth = (dir: -1 | 1) => {
+    setCalMonth(m => {
+      const next = m + dir;
+      if (next < 0) { setCalYear(y => y - 1); return 11; }
+      if (next > 11) { setCalYear(y => y + 1); return 0; }
+      return next;
+    });
+  };
+
+  const onCalTouchStart = (e: React.TouchEvent) => { calTouchStart.current = e.touches[0].clientX; };
+  const onCalTouchEnd = (e: React.TouchEvent) => {
+    const delta = e.changedTouches[0].clientX - calTouchStart.current;
+    if (Math.abs(delta) > 50) changeMonth(delta < 0 ? 1 : -1);
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -191,7 +248,7 @@ export default function PanelPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
           {[
-            { label: 'Total', value: counts.total, color: 'text-[#E8E2D9]', sub: 'Todas las solicitudes' },
+            { label: 'Total', value: counts.total, color: 'text-[#E8E2D9]', sub: 'Todas las reservas' },
             { label: 'Pendientes', value: counts.pendiente, color: 'text-amber-400', sub: 'Esperan confirmación' },
             { label: 'Confirmadas', value: counts.confirmado, color: 'text-emerald-400', sub: 'Listas para sesión' },
             { label: 'Canceladas', value: counts.cancelado, color: 'text-zinc-500', sub: 'No realizadas' },
@@ -203,6 +260,100 @@ export default function PanelPage() {
             </div>
           ))}
         </div>
+
+        {/* Tabs */}
+        <div className="flex gap-1 mb-6">
+          {(['list','calendar'] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)}
+              className={`px-4 py-2 text-[9px] font-mono tracking-[0.2em] uppercase border transition-all duration-150 ${
+                activeTab === t ? 'bg-[#E8E2D9] text-[#050505] border-[#E8E2D9]' : 'border-[#1a1a1a] text-[#444] hover:border-[#333] hover:text-[#E8E2D9]'
+              }`}>
+              {t === 'list' ? 'Reservas' : 'Calendario'}
+            </button>
+          ))}
+        </div>
+
+        {/* ── CALENDAR VIEW ── */}
+        {activeTab === 'calendar' && (
+          <div
+            className="select-none touch-pan-y"
+            onTouchStart={onCalTouchStart}
+            onTouchEnd={onCalTouchEnd}
+          >
+            {/* Month header */}
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-[#E8E2D9] text-base font-black uppercase tracking-widest">
+                {MONTHS_ES[calMonth]} <span className="text-[#333]">{calYear}</span>
+              </h2>
+              <span className="text-[#2a2a2a] text-[9px] font-mono tracking-[0.2em]">← desliza →</span>
+            </div>
+
+            {/* Day headers */}
+            <div className="grid grid-cols-7 gap-px mb-px">
+              {DAYS_ES.map(d => (
+                <div key={d} className="bg-[#080808] py-2 text-center text-[9px] font-mono tracking-widest text-[#333] uppercase">
+                  {d}
+                </div>
+              ))}
+            </div>
+
+            {/* Day cells */}
+            <div className="grid grid-cols-7 gap-px bg-[#0f0f0f]">
+              {calDays.map(({ date, type, key }) => {
+                const isToday = key === new Date().toISOString().split('T')[0];
+                const dayBookings = bookingsByDate[key] ?? [];
+                const isCur = type === 'cur';
+                return (
+                  <div key={key} className={`min-h-[80px] sm:min-h-[100px] p-1.5 sm:p-2 flex flex-col ${
+                    isCur ? 'bg-[#080808]' : 'bg-[#050505]'
+                  } ${isToday ? 'ring-1 ring-inset ring-[#8B0000]/40' : ''}`}>
+                    {/* Day number */}
+                    <span className={`text-[10px] font-mono mb-1 self-start leading-none px-1 py-0.5 ${
+                      isToday
+                        ? 'bg-[#8B0000] text-[#E8E2D9] font-black'
+                        : isCur ? 'text-[#555]' : 'text-[#1e1e1e]'
+                    }`}>{date}</span>
+
+                    {/* Bookings */}
+                    <div className="flex-1 space-y-0.5 overflow-hidden">
+                      {dayBookings.slice(0, 3).map(b => {
+                        const sc = STATUS_STYLES[b.status] ?? STATUS_STYLES.pendiente;
+                        return (
+                          <div key={b.id} className={`px-1 py-0.5 border-l-2 ${
+                            b.status === 'confirmado' ? 'border-emerald-500/70 bg-emerald-950/20' :
+                            b.status === 'pendiente' ? 'border-amber-500/60 bg-amber-950/20' : 'border-zinc-700 bg-zinc-900/20'
+                          }`}>
+                            <p className="text-[#E8E2D9] text-[8px] font-bold leading-tight truncate">{b.hora ? `${b.hora} ` : ''}{b.nombre}</p>
+                            <p className="text-[#555] text-[7px] leading-tight truncate">{b.telefono}</p>
+                          </div>
+                        );
+                      })}
+                      {dayBookings.length > 3 && (
+                        <p className="text-[#8B0000] text-[7px] font-mono px-1">+{dayBookings.length - 3} más</p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Legend */}
+            <div className="flex gap-4 mt-4 px-1">
+              {[
+                { color: 'border-l-amber-500/70 bg-amber-950/20', label: 'Pendiente' },
+                { color: 'border-l-emerald-500/70 bg-emerald-950/20', label: 'Confirmada' },
+              ].map(l => (
+                <div key={l.label} className={`flex items-center gap-1.5`}>
+                  <span className={`w-3 h-3 border-l-2 ${l.color}`} />
+                  <span className="text-[#444] text-[9px] font-mono">{l.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── LIST VIEW ── */}
+        {activeTab === 'list' && (<>
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -377,6 +528,8 @@ export default function PanelPage() {
             })}
           </div>
         )}
+
+        </>)}
 
         <p className="text-center text-[#111] text-[9px] font-mono mt-12 tracking-[0.3em] uppercase">
           D.Z Tattoo Studio · Panel Interno · {new Date().getFullYear()}

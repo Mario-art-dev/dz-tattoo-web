@@ -149,8 +149,8 @@ export default function Booking() {
                 <CheckCircle size={22} className="text-emerald-400" />
               </div>
               <div>
-                <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.4em] uppercase">Reserva enviada</p>
-                <h2 className="text-[#E8E2D9] text-xl font-black uppercase tracking-wide">¡Solicitud recibida!</h2>
+                <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.4em] uppercase">Reserva confirmada</p>
+                <h2 className="text-[#E8E2D9] text-xl font-black uppercase tracking-wide">¡Reserva recibida!</h2>
               </div>
             </div>
 
@@ -436,7 +436,7 @@ export default function Booking() {
                     <button type="submit"
                       disabled={!form.mayorEdad || !form.privacidad || !!dateError}
                       className="btn-cta flex-[2] py-5 disabled:opacity-30 disabled:cursor-not-allowed">
-                      Solicitar mi cita <ArrowRight size={16} />
+                      Confirmar mi reserva <ArrowRight size={16} />
                     </button>
                   </div>
                 </div>
