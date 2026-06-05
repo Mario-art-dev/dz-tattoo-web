@@ -23,15 +23,12 @@ export default function Services() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
-  const [activeIdx, setActiveIdx] = useState(0);
 
   const updateNav = useCallback(() => {
     const el = sliderRef.current;
     if (!el) return;
     setCanPrev(el.scrollLeft > 4);
     setCanNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-    const card = el.querySelector<HTMLElement>('.svc-card');
-    if (card) setActiveIdx(Math.round(el.scrollLeft / (card.offsetWidth + 16)));
   }, []);
 
   const scroll = (dir: -1 | 1) => {
@@ -40,7 +37,8 @@ export default function Services() {
     const card = el.querySelector<HTMLElement>('.svc-card');
     if (!card) return;
     const step = card.offsetWidth + 16;
-    el.scrollTo({ left: Math.round(el.scrollLeft / step + dir) * step, behavior: 'smooth' });
+    const target = Math.max(0, Math.round(el.scrollLeft / step + dir) * step);
+    gsap.to(el, { scrollLeft: target, duration: 0.65, ease: 'power3.inOut' });
   };
 
   useEffect(() => {
@@ -111,7 +109,7 @@ export default function Services() {
           {services.map((s) => (
             <div
               key={s.id}
-              className="flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#0a0a0a] border border-[#111] p-8 flex flex-col gap-5 group hover:bg-[#0f0808] hover:border-[#8B0000]/20 transition-all duration-400 relative overflow-hidden cursor-default"
+              className="svc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#0a0a0a] border border-[#111] p-8 flex flex-col gap-5 group hover:bg-[#0f0808] hover:border-[#8B0000]/20 transition-all duration-400 relative overflow-hidden cursor-default"
               style={{ scrollSnapAlign: 'start' }}
             >
               <span className="absolute right-4 top-2 text-[4.5rem] font-black text-[#8B0000]/[0.07] leading-none select-none pointer-events-none">{s.id}</span>
@@ -134,20 +132,16 @@ export default function Services() {
           ))}
         </div>
 
-        {/* Controls: arrows + progress bar */}
-        <div className="mt-5 flex items-center gap-4">
+        {/* Arrow controls */}
+        <div className="mt-5 flex gap-2">
           <button onClick={() => scroll(-1)} disabled={!canPrev} aria-label="Anterior"
-            className="svc-nav-btn flex-shrink-0 w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
+            className="svc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronLeft size={16} />
           </button>
           <button onClick={() => scroll(1)} disabled={!canNext} aria-label="Siguiente"
-            className="svc-nav-btn flex-shrink-0 w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
+            className="svc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronRight size={16} />
           </button>
-          <div className="flex-1 h-px bg-[#111] relative overflow-hidden">
-            <div className="absolute left-0 top-0 h-full bg-[#8B0000]/50 transition-all duration-500 ease-out"
-              style={{ width: `${((activeIdx + 1) / services.length) * 100}%` }} />
-          </div>
         </div>
 
       </div>
