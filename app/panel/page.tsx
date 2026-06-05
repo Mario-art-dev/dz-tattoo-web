@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, doc, updateDoc, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { LogOut, Phone, Calendar, Clock, MessageCircle, User, ChevronDown, ChevronUp, Search, X } from 'lucide-react';
-import Image from 'next/image';
+import { LogOut, Phone, Calendar, Clock, MessageCircle, User, ChevronDown, ChevronUp, Search, X, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
 
 const PIN = 'dztattoo';
 
@@ -24,10 +23,10 @@ type Booking = {
   createdAt: { seconds: number } | null;
 };
 
-const STATUS_COLORS = {
-  pendiente:  { bg: 'bg-[#2a1a00]', text: 'text-[#ffaa33]', border: 'border-[#5a3a00]', dot: 'bg-[#ffaa33]' },
-  confirmado: { bg: 'bg-[#001a08]', text: 'text-[#3aaa5a]', border: 'border-[#0a4020]', dot: 'bg-[#3aaa5a]' },
-  cancelado:  { bg: 'bg-[#0f0f0f]', text: 'text-[#555]',    border: 'border-[#222]',    dot: 'bg-[#555]' },
+const STATUS_STYLES = {
+  pendiente:  { bg: 'bg-amber-500/10',  text: 'text-amber-400',  border: 'border-amber-500/20',  dot: 'bg-amber-400',  icon: AlertCircle },
+  confirmado: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20', dot: 'bg-emerald-400', icon: CheckCircle },
+  cancelado:  { bg: 'bg-zinc-800/60',   text: 'text-zinc-500',   border: 'border-zinc-700/40',   dot: 'bg-zinc-600',  icon: XCircle },
 };
 
 const STATUS_LABELS = { pendiente: 'Pendiente', confirmado: 'Confirmado', cancelado: 'Cancelado' };
@@ -45,8 +44,7 @@ export default function PanelPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('dz_panel_auth');
-      if (saved === 'true') setAuthed(true);
+      if (sessionStorage.getItem('dz_panel_auth') === 'true') setAuthed(true);
     }
   }, []);
 
@@ -60,7 +58,7 @@ export default function PanelPage() {
         setLoading(false);
       }, (err) => {
         console.error(err);
-        setFbError('No se pudieron cargar las citas. Verifica la configuración de Firebase.');
+        setFbError('No se pudieron cargar las citas.');
         setLoading(false);
       });
     } catch {
@@ -88,25 +86,19 @@ export default function PanelPage() {
   };
 
   const updateStatus = async (id: string, status: string) => {
-    try {
-      await updateDoc(doc(db, 'citas', id), { status });
-    } catch (e) {
-      console.error(e);
-    }
+    try { await updateDoc(doc(db, 'citas', id), { status }); }
+    catch (e) { console.error(e); }
   };
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return '—';
-    try {
-      const [y, m, d] = dateStr.split('-');
-      return `${d}/${m}/${y}`;
-    } catch { return dateStr; }
+    try { const [y, m, d] = dateStr.split('-'); return `${d}/${m}/${y}`; }
+    catch { return dateStr; }
   };
 
   const formatCreated = (ts: { seconds: number } | null) => {
     if (!ts) return '—';
-    const d = new Date(ts.seconds * 1000);
-    return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    return new Date(ts.seconds * 1000).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
   };
 
   const filtered = bookings.filter(b => {
@@ -126,31 +118,37 @@ export default function PanelPage() {
   // ── PIN GATE ──
   if (!authed) {
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center px-5">
-        <div className="w-full max-w-sm">
-          <div className="flex justify-center mb-10">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden border border-[#1a1a1a]">
-              <Image src="/images/logo.png" alt="D.Z Tattoo" fill className="object-cover"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center px-6">
+        <div className="w-full max-w-xs">
+          {/* Monogram */}
+          <div className="flex justify-center mb-12">
+            <div className="w-14 h-14 border border-[#8B0000]/40 rotate-45 flex items-center justify-center">
+              <span className="text-[#8B0000] font-black text-lg -rotate-45">DZ</span>
             </div>
           </div>
-          <h1 className="text-center text-[#E8E2D9] text-2xl font-black uppercase tracking-widest mb-2">Panel de Control</h1>
-          <p className="text-center text-[#444] text-xs font-mono tracking-widest mb-10">D.Z Tattoo Studio</p>
-          <form onSubmit={handlePin} className="space-y-4">
+
+          <h1 className="text-center text-[#E8E2D9] text-lg font-black uppercase tracking-[0.35em] mb-1">Panel de Control</h1>
+          <p className="text-center text-[#2a2a2a] text-[10px] font-mono tracking-[0.35em] uppercase mb-10">D.Z Tattoo Studio</p>
+
+          <form onSubmit={handlePin} className="space-y-3">
             <input
               type="password"
               value={pin}
               onChange={e => { setPin(e.target.value); setPinError(false); }}
               placeholder="Contraseña"
               autoFocus
-              className={`w-full bg-[#0a0a0a] border ${pinError ? 'border-[#C41E1E]/60' : 'border-[#1a1a1a]'} rounded-2xl text-[#E8E2D9] text-center text-lg tracking-[0.3em] px-6 py-4 outline-none focus:border-[#333] transition-colors duration-200 placeholder:text-[#2a2a2a] placeholder:tracking-normal`}
+              className={`w-full bg-[#0a0a0a] border ${pinError ? 'border-[#8B0000]/60' : 'border-[#1a1a1a]'} focus:border-[#8B0000]/40 text-[#E8E2D9] text-center text-base tracking-[0.4em] px-6 py-4 outline-none transition-colors duration-200 placeholder:text-[#1f1f1f] placeholder:tracking-normal`}
             />
-            {pinError && <p className="text-[#ff6060] text-xs text-center">Contraseña incorrecta</p>}
-            <button type="submit" className="btn-primary-round w-full py-4 text-sm font-bold tracking-[0.2em] uppercase">
+            {pinError && (
+              <p className="text-[#ff6060] text-[11px] text-center font-mono tracking-wider">Contraseña incorrecta</p>
+            )}
+            <button type="submit"
+              className="w-full bg-[#8B0000] hover:bg-[#a01010] text-[#E8E2D9] py-4 text-[11px] font-bold tracking-[0.35em] uppercase transition-colors duration-200">
               Acceder
             </button>
           </form>
-          <p className="text-center text-[#222] text-[10px] font-mono mt-8 tracking-widest">USO EXCLUSIVO DEL ESTUDIO</p>
+
+          <p className="text-center text-[#161616] text-[9px] font-mono mt-10 tracking-[0.3em] uppercase">Uso exclusivo del estudio</p>
         </div>
       </div>
     );
@@ -158,45 +156,43 @@ export default function PanelPage() {
 
   // ── DASHBOARD ──
   return (
-    <div className="min-h-screen bg-[#050505]">
-      {/* Header */}
-      <div className="sticky top-0 z-40 bg-[#050505]/95 backdrop-blur-xl border-b border-[#111]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-[#050505] text-[#E8E2D9]">
+
+      {/* Top bar */}
+      <div className="sticky top-0 z-40 bg-[#080808] border-b border-[#111]">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#1a1a1a] flex-shrink-0">
-              <Image src="/images/logo.png" alt="DZ" fill className="object-cover"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-            </div>
-            <div>
-              <p className="text-[#E8E2D9] text-sm font-bold tracking-wider uppercase leading-none">Panel de Control</p>
-              <p className="text-[#444] text-[10px] font-mono tracking-widest mt-0.5">D.Z Tattoo Studio</p>
-            </div>
+            <span className="text-[#8B0000] font-black text-sm tracking-[0.2em] uppercase">DZ</span>
+            <span className="text-[#1a1a1a]">|</span>
+            <span className="text-[#E8E2D9] text-sm font-bold tracking-wider uppercase">Panel de Control</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#3aaa5a] animate-pulse" />
-              <span className="text-[#3aaa5a] text-[10px] font-mono tracking-widest hidden sm:block">EN VIVO</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-emerald-500 text-[9px] font-mono tracking-[0.3em] uppercase hidden sm:block">En vivo</span>
             </div>
-            <button onClick={logout} className="flex items-center gap-1.5 text-[#444] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest uppercase transition-colors border border-[#1a1a1a] hover:border-[#333] px-3 py-2 rounded-xl">
-              <LogOut size={12} /> Salir
+            <button onClick={logout}
+              className="flex items-center gap-1.5 text-[#444] hover:text-[#E8E2D9] text-[9px] font-mono tracking-[0.2em] uppercase transition-colors border border-[#1a1a1a] hover:border-[#333] px-3 py-1.5">
+              <LogOut size={11} /> Salir
             </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8 sm:py-10">
+
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8 sm:mb-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
           {[
-            { label: 'Total citas', value: counts.total, color: 'text-[#E8E2D9]', desc: 'Todas las solicitudes' },
-            { label: 'Pendientes', value: counts.pendiente, color: 'text-[#ffaa33]', desc: 'Esperan confirmación' },
-            { label: 'Confirmadas', value: counts.confirmado, color: 'text-[#3aaa5a]', desc: 'Listas para la sesión' },
-            { label: 'Canceladas', value: counts.cancelado, color: 'text-[#555]', desc: 'No realizadas' },
+            { label: 'Total', value: counts.total, color: 'text-[#E8E2D9]', sub: 'Todas las solicitudes' },
+            { label: 'Pendientes', value: counts.pendiente, color: 'text-amber-400', sub: 'Esperan confirmación' },
+            { label: 'Confirmadas', value: counts.confirmado, color: 'text-emerald-400', sub: 'Listas para sesión' },
+            { label: 'Canceladas', value: counts.cancelado, color: 'text-zinc-500', sub: 'No realizadas' },
           ].map(s => (
-            <div key={s.label} className="bg-[#080808] border border-[#111] rounded-2xl p-5 sm:p-6">
-              <p className="text-[#444] text-[10px] font-mono tracking-[0.2em] uppercase mb-3">{s.label}</p>
-              <p className={`text-4xl sm:text-5xl font-black mb-1 ${s.color}`}>{s.value}</p>
-              <p className="text-[#333] text-[10px]">{s.desc}</p>
+            <div key={s.label} className="bg-[#080808] border border-[#111] p-5">
+              <p className="text-[#333] text-[9px] font-mono tracking-[0.25em] uppercase mb-3">{s.label}</p>
+              <p className={`text-4xl font-black mb-1 tabular-nums ${s.color}`}>{s.value}</p>
+              <p className="text-[#2a2a2a] text-[9px] font-mono">{s.sub}</p>
             </div>
           ))}
         </div>
@@ -204,24 +200,27 @@ export default function PanelPage() {
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="relative flex-1 max-w-sm">
-            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#444]" />
+            <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#333]" />
             <input
               type="text"
               placeholder="Buscar por nombre, servicio o teléfono..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full bg-[#080808] border border-[#111] rounded-xl pl-10 pr-4 py-3 text-[#E8E2D9] text-sm placeholder-[#333] outline-none focus:border-[#333] transition-colors"
+              className="w-full bg-[#080808] border border-[#111] focus:border-[#222] pl-9 pr-9 py-2.5 text-[#E8E2D9] text-sm placeholder-[#2a2a2a] outline-none transition-colors"
             />
-            {search && <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#444] hover:text-[#E8E2D9]"><X size={13} /></button>}
+            {search && (
+              <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#333] hover:text-[#E8E2D9] transition-colors">
+                <X size={12} />
+              </button>
+            )}
           </div>
           <div className="flex gap-2">
             {(['todos', 'pendiente', 'confirmado', 'cancelado'] as const).map(s => (
-              <button key={s}
-                onClick={() => setFilterStatus(s)}
-                className={`px-3 sm:px-4 py-2.5 text-[10px] font-mono tracking-[0.15em] uppercase border rounded-xl transition-all duration-200 ${
+              <button key={s} onClick={() => setFilterStatus(s)}
+                className={`px-3 py-2 text-[9px] font-mono tracking-[0.15em] uppercase border transition-all duration-150 ${
                   filterStatus === s
                     ? 'bg-[#E8E2D9] text-[#050505] border-[#E8E2D9]'
-                    : 'border-[#1a1a1a] text-[#444] hover:border-[#333] hover:text-[#E8E2D9]'
+                    : 'border-[#1a1a1a] text-[#444] hover:border-[#2a2a2a] hover:text-[#E8E2D9]'
                 }`}>
                 {s === 'todos' ? 'Todas' : STATUS_LABELS[s]}
               </button>
@@ -229,93 +228,94 @@ export default function PanelPage() {
           </div>
         </div>
 
-        {/* Error state */}
+        {/* Error */}
         {fbError && (
-          <div className="border border-[#C41E1E]/30 rounded-2xl p-6 mb-6 bg-[#0d0000]">
-            <p className="text-[#ff6060] text-sm">{fbError}</p>
+          <div className="border border-[#8B0000]/30 p-5 mb-6 bg-[#0d0000]">
+            <p className="text-[#ff6060] text-sm font-mono">{fbError}</p>
           </div>
         )}
 
         {/* Loading */}
         {loading && !fbError && (
           <div className="text-center py-20">
-            <div className="w-8 h-8 border-2 border-[#1a1a1a] border-t-[#E8E2D9] rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-[#444] text-sm font-mono">Cargando citas...</p>
+            <div className="w-6 h-6 border border-[#1a1a1a] border-t-[#8B0000] rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-[#333] text-xs font-mono tracking-widest">Cargando citas...</p>
           </div>
         )}
 
-        {/* Empty state */}
+        {/* Empty */}
         {!loading && !fbError && filtered.length === 0 && (
-          <div className="text-center py-20 border border-[#111] rounded-2xl">
-            <p className="text-[#333] text-4xl mb-4">📭</p>
-            <p className="text-[#444] text-sm font-mono">
-              {search || filterStatus !== 'todos' ? 'No hay citas que coincidan con los filtros' : 'No hay citas todavía'}
+          <div className="text-center py-20 border border-[#0f0f0f]">
+            <p className="text-[#1a1a1a] text-5xl mb-4">—</p>
+            <p className="text-[#333] text-xs font-mono tracking-widest">
+              {search || filterStatus !== 'todos' ? 'Sin resultados para los filtros aplicados' : 'No hay citas todavía'}
             </p>
           </div>
         )}
 
-        {/* Bookings list */}
+        {/* Booking list */}
         {!loading && filtered.length > 0 && (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {filtered.map((b) => {
-              const sc = STATUS_COLORS[b.status] ?? STATUS_COLORS.pendiente;
+              const sc = STATUS_STYLES[b.status] ?? STATUS_STYLES.pendiente;
               const isOpen = expanded === b.id;
               return (
-                <div key={b.id} className="border border-[#111] rounded-2xl overflow-hidden hover:border-[#1a1a1a] transition-colors duration-200">
-                  {/* Row */}
-                  <div className="p-4 sm:p-6 flex items-start sm:items-center justify-between gap-4">
-                    <div className="flex items-start sm:items-center gap-4 flex-1 min-w-0">
-                      {/* Avatar */}
-                      <div className="w-10 h-10 rounded-full border border-[#8B0000]/20 flex items-center justify-center flex-shrink-0 bg-[#0a0000]">
-                        <span className="text-[#8B0000] font-black text-sm">{b.nombre?.charAt(0) ?? '?'}</span>
+                <div key={b.id} className="border border-[#111] hover:border-[#1a1a1a] transition-colors duration-150 bg-[#080808]">
+
+                  {/* Row summary */}
+                  <div className="px-5 py-4 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 flex-1 min-w-0">
+                      {/* Avatar initial */}
+                      <div className="w-9 h-9 border border-[#8B0000]/15 flex items-center justify-center flex-shrink-0 bg-[#0a0000]">
+                        <span className="text-[#8B0000] font-black text-xs">{b.nombre?.charAt(0)?.toUpperCase() ?? '?'}</span>
                       </div>
-                      {/* Info */}
+
                       <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                          <span className="text-[#E8E2D9] font-bold text-sm truncate">{b.nombre}</span>
-                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono border ${sc.bg} ${sc.text} ${sc.border}`}>
-                            <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <span className="text-[#E8E2D9] font-bold text-sm">{b.nombre}</span>
+                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-mono tracking-wider border ${sc.bg} ${sc.text} ${sc.border}`}>
+                            <span className={`w-1 h-1 rounded-full ${sc.dot}`} />
                             {STATUS_LABELS[b.status]}
                           </span>
                         </div>
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[#555] font-mono">
-                          <span className="flex items-center gap-1"><User size={10} /> {b.servicio || '—'}</span>
-                          <span className="flex items-center gap-1"><Calendar size={10} /> {formatDate(b.fecha)}{b.hora ? ` · ${b.hora}` : ''}</span>
-                          <span className="flex items-center gap-1"><Phone size={10} />
+                        <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-[10px] text-[#444] font-mono">
+                          <span className="flex items-center gap-1"><User size={9} /> {b.servicio || '—'}</span>
+                          <span className="flex items-center gap-1"><Calendar size={9} /> {formatDate(b.fecha)}{b.hora ? ` · ${b.hora}` : ''}</span>
+                          <span className="flex items-center gap-1"><Phone size={9} />
                             <a href={`tel:${b.telefono}`} className="hover:text-[#E8E2D9] transition-colors">{b.telefono}</a>
                           </span>
-                          <span className="hidden sm:inline text-[#2a2a2a]"><Clock size={10} className="inline" /> {formatCreated(b.createdAt)}</span>
+                          <span className="hidden sm:flex items-center gap-1 text-[#222]"><Clock size={9} /> {formatCreated(b.createdAt)}</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Actions */}
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <a href={`https://wa.me/${b.telefono?.replace(/\D/g, '')}?text=Hola%20${encodeURIComponent(b.nombre)}%2C%20te%20contactamos%20desde%20D.Z%20Tattoo%20Studio`}
                         target="_blank" rel="noopener noreferrer"
-                        className="hidden sm:flex items-center gap-1.5 text-[#1a8a3a] hover:text-[#3aaa5a] border border-[#1a3a20] hover:border-[#1a8a3a] px-3 py-2 rounded-xl text-[10px] font-mono transition-all duration-200">
-                        <MessageCircle size={12} /> WA
+                        className="hidden sm:flex items-center gap-1.5 text-emerald-600 hover:text-emerald-400 border border-emerald-900/40 hover:border-emerald-700/40 px-3 py-1.5 text-[9px] font-mono tracking-wider uppercase transition-all duration-150">
+                        <MessageCircle size={11} /> WA
                       </a>
                       <button onClick={() => setExpanded(isOpen ? null : b.id)}
-                        className="text-[#444] hover:text-[#E8E2D9] border border-[#1a1a1a] hover:border-[#333] p-2.5 rounded-xl transition-all duration-200">
-                        {isOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                        className="text-[#333] hover:text-[#E8E2D9] border border-[#1a1a1a] hover:border-[#333] p-2 transition-all duration-150">
+                        {isOpen ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
                       </button>
                     </div>
                   </div>
 
-                  {/* Expanded detail */}
+                  {/* Expanded */}
                   {isOpen && (
-                    <div className="border-t border-[#111] bg-[#080808] p-5 sm:p-6 space-y-5">
-                      {/* Status buttons */}
+                    <div className="border-t border-[#0f0f0f] bg-[#050505] p-5 space-y-5">
+
+                      {/* Status change */}
                       <div>
-                        <p className="text-[#444] text-[10px] font-mono tracking-[0.2em] uppercase mb-3">Cambiar estado</p>
+                        <p className="text-[#2a2a2a] text-[9px] font-mono tracking-[0.25em] uppercase mb-2.5">Cambiar estado</p>
                         <div className="flex gap-2 flex-wrap">
                           {(['pendiente', 'confirmado', 'cancelado'] as const).map(s => (
                             <button key={s} onClick={() => updateStatus(b.id, s)}
-                              className={`px-4 py-2 text-[10px] font-mono tracking-wider uppercase rounded-xl border transition-all duration-200 ${
+                              className={`px-4 py-2 text-[9px] font-mono tracking-wider uppercase border transition-all duration-150 ${
                                 b.status === s
-                                  ? `${STATUS_COLORS[s].bg} ${STATUS_COLORS[s].text} ${STATUS_COLORS[s].border}`
-                                  : 'border-[#1a1a1a] text-[#444] hover:border-[#333] hover:text-[#E8E2D9]'
+                                  ? `${STATUS_STYLES[s].bg} ${STATUS_STYLES[s].text} ${STATUS_STYLES[s].border}`
+                                  : 'border-[#1a1a1a] text-[#333] hover:border-[#333] hover:text-[#E8E2D9]'
                               }`}>
                               {STATUS_LABELS[s]}
                             </button>
@@ -323,8 +323,8 @@ export default function PanelPage() {
                         </div>
                       </div>
 
-                      {/* Details grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Detail fields */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         {[
                           { label: 'Email', value: b.email },
                           { label: 'Zona corporal', value: b.zonaCorporal || '—' },
@@ -332,35 +332,35 @@ export default function PanelPage() {
                           { label: 'Recibida', value: formatCreated(b.createdAt) },
                         ].map(d => (
                           <div key={d.label}>
-                            <p className="text-[#333] text-[10px] font-mono uppercase tracking-widest mb-1">{d.label}</p>
-                            <p className="text-[#B0A89E] text-sm">{d.value || '—'}</p>
+                            <p className="text-[#222] text-[9px] font-mono uppercase tracking-widest mb-1">{d.label}</p>
+                            <p className="text-[#888] text-xs font-mono">{d.value || '—'}</p>
                           </div>
                         ))}
                       </div>
 
                       {b.idea && (
                         <div>
-                          <p className="text-[#333] text-[10px] font-mono uppercase tracking-widest mb-1.5">Idea del cliente</p>
-                          <p className="text-[#B0A89E] text-sm leading-relaxed bg-[#0a0a0a] border border-[#111] rounded-xl p-4">{b.idea}</p>
+                          <p className="text-[#222] text-[9px] font-mono uppercase tracking-widest mb-2">Idea del cliente</p>
+                          <p className="text-[#888] text-xs leading-relaxed bg-[#080808] border border-[#111] p-4">{b.idea}</p>
                         </div>
                       )}
                       {b.comentarios && (
                         <div>
-                          <p className="text-[#333] text-[10px] font-mono uppercase tracking-widest mb-1.5">Comentarios adicionales</p>
-                          <p className="text-[#B0A89E] text-sm leading-relaxed bg-[#0a0a0a] border border-[#111] rounded-xl p-4">{b.comentarios}</p>
+                          <p className="text-[#222] text-[9px] font-mono uppercase tracking-widest mb-2">Comentarios adicionales</p>
+                          <p className="text-[#888] text-xs leading-relaxed bg-[#080808] border border-[#111] p-4">{b.comentarios}</p>
                         </div>
                       )}
 
                       {/* Quick contact */}
-                      <div className="flex gap-3 pt-2 border-t border-[#111]">
+                      <div className="flex gap-3 pt-3 border-t border-[#0f0f0f]">
                         <a href={`tel:${b.telefono}`}
-                          className="flex-1 flex items-center justify-center gap-2 border border-[#1a1a1a] hover:border-[#333] text-[#555] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest uppercase py-3 rounded-xl transition-all duration-200">
-                          <Phone size={12} /> Llamar
+                          className="flex-1 flex items-center justify-center gap-2 border border-[#1a1a1a] hover:border-[#333] text-[#444] hover:text-[#E8E2D9] text-[9px] font-mono tracking-widest uppercase py-3 transition-all duration-150">
+                          <Phone size={11} /> Llamar
                         </a>
                         <a href={`https://wa.me/${b.telefono?.replace(/\D/g, '')}?text=Hola%20${encodeURIComponent(b.nombre)}%2C%20te%20contactamos%20desde%20D.Z%20Tattoo%20Studio`}
                           target="_blank" rel="noopener noreferrer"
-                          className="flex-1 flex items-center justify-center gap-2 bg-[#0a1a0e] border border-[#1a3a20] hover:border-[#1a8a3a] text-[#3aaa5a] text-[10px] font-mono tracking-widest uppercase py-3 rounded-xl transition-all duration-200">
-                          <MessageCircle size={12} /> WhatsApp
+                          className="flex-1 flex items-center justify-center gap-2 bg-emerald-950/30 border border-emerald-900/30 hover:border-emerald-700/50 text-emerald-500 text-[9px] font-mono tracking-widest uppercase py-3 transition-all duration-150">
+                          <MessageCircle size={11} /> WhatsApp
                         </a>
                       </div>
                     </div>
@@ -371,8 +371,8 @@ export default function PanelPage() {
           </div>
         )}
 
-        <p className="text-center text-[#1a1a1a] text-[10px] font-mono mt-12 tracking-widest">
-          D.Z TATTOO STUDIO · PANEL INTERNO · {new Date().getFullYear()}
+        <p className="text-center text-[#111] text-[9px] font-mono mt-12 tracking-[0.3em] uppercase">
+          D.Z Tattoo Studio · Panel Interno · {new Date().getFullYear()}
         </p>
       </div>
     </div>

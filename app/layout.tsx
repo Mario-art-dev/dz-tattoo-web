@@ -2,12 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/ui/SmoothScrollProvider";
-import CursorFollower from "@/components/ui/CursorFollower";
-import CookieBanner from "@/components/ui/CookieBanner";
-import Navigation from "@/components/ui/Navigation";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import PageIntro from "@/components/ui/PageIntro";
-import ScrollProgress from "@/components/ui/ScrollProgress";
+import SiteShell from "@/components/ui/SiteShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -81,18 +76,8 @@ export default function RootLayout({
     >
       <body className="bg-[#050505] text-[#E8E2D9] min-h-screen overflow-x-hidden">
         <SmoothScrollProvider>
-          <PageIntro />
-          <ScrollProgress />
-          <CursorFollower />
-          <Navigation />
-          <ScrollReveal />
+          <SiteShell />
           {children}
-          <CookieBanner />
-          <div className="fixed bottom-0 left-0 right-0 z-[9990] pointer-events-none select-none flex items-center justify-center py-1.5 bg-[#050505]/80 backdrop-blur-sm border-t border-[#1a1a1a]">
-            <p className="text-[#444] text-[9px] font-mono tracking-[0.25em] uppercase">
-              Prototipo privado para D.Z Tattoo Studio &nbsp;·&nbsp; © 2026 Todos los derechos reservados
-            </p>
-          </div>
         </SmoothScrollProvider>
       </body>
     </html>
