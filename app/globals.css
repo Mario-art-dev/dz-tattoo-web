@@ -62,8 +62,6 @@ body {
   font-family: var(--font-sans), 'Helvetica Neue', Helvetica, Arial, sans-serif;
   overflow-x: hidden;
   cursor: none;
-  touch-action: pan-y;
-  -ms-touch-action: pan-y;
 }
 
 @media (max-width: 768px) {
