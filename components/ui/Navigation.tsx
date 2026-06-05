@@ -111,8 +111,8 @@ export default function Navigation() {
               </div>
             ) : (
               <button onClick={openAuth}
-                className="flex items-center gap-1.5 text-[#B0A89E] hover:text-[#E8E2D9] text-[10px] font-mono tracking-widest transition-colors border border-[#333] hover:border-[#555] px-3 py-2">
-                <UserCircle size={14} />
+                className="flex items-center gap-2 bg-[#8B0000] hover:bg-[#A01010] active:scale-[0.97] text-white text-xs font-bold tracking-[0.15em] uppercase px-5 py-2.5 rounded-full transition-all duration-150 shadow-lg shadow-[#8B0000]/30">
+                <UserCircle size={15} />
                 Cuenta
               </button>
             )}
