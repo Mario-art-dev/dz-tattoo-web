@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CheckCircle, Loader2, ArrowRight, Star, MessageCircle, CalendarDays, Sparkles, Shield } from 'lucide-react';
+import { CheckCircle, ArrowRight, Star, MessageCircle, CalendarDays, Sparkles, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,7 +30,6 @@ export default function Booking() {
   const sectionRef = useRef<HTMLElement>(null);
   const [form, setForm] = useState<FormData>(INITIAL);
   const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [dateError, setDateError] = useState('');
@@ -75,21 +74,19 @@ export default function Booking() {
     return () => ctx.revert();
   }, []);
 
-  const submit = async (e: React.FormEvent) => {
+  const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.mayorEdad) { setError('Debes confirmar que eres mayor de 18 años.'); return; }
     if (!form.privacidad) { setError('Acepta la política de privacidad para continuar.'); return; }
     if (dateError) { setError(dateError); return; }
-    setLoading(true); setError('');
-    try {
-      await addDoc(collection(db, 'citas'), { ...form, status: 'pendiente', createdAt: serverTimestamp() });
-      setSuccess(true); setForm(INITIAL); setStep(1);
-    } catch (err) {
-      console.error(err);
-      setError('Error al enviar. Contáctanos por WhatsApp y lo gestionamos enseguida.');
-    } finally {
-      setLoading(false);
-    }
+
+    // Show success instantly — write to Firestore in background
+    const data = { ...form, status: 'pendiente', createdAt: new Date() };
+    setSuccess(true);
+    setForm(INITIAL);
+    setStep(1);
+
+    addDoc(collection(db, 'citas'), data).catch(err => console.error('Booking write failed:', err));
   };
 
   const labelClass = 'block text-[#777] text-[11px] tracking-[0.18em] uppercase mb-3 font-medium';
@@ -365,11 +362,9 @@ export default function Booking() {
                       Atrás
                     </button>
                     <button type="submit"
-                      disabled={loading || !form.mayorEdad || !form.privacidad || !!dateError}
+                      disabled={!form.mayorEdad || !form.privacidad || !!dateError}
                       className="btn-cta flex-[2] py-5 disabled:opacity-30 disabled:cursor-not-allowed">
-                      {loading
-                        ? <><Loader2 size={16} className="animate-spin" /> Enviando...</>
-                        : <>Solicitar mi cita <ArrowRight size={16} /></>}
+                      Solicitar mi cita <ArrowRight size={16} />
                     </button>
                   </div>
                 </div>
