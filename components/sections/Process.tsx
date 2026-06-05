@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 gsap.registerPlugin(ScrollTrigger);
 
 const steps = [
-  { n: '01', code: 'CONSULT', title: 'Consulta inicial', desc: 'Cuéntanos tu idea presencialmente o por WhatsApp. Sin coste ni compromiso.', meta: '30 min · Gratis' },
+  { n: '01', code: 'CONSULT', title: 'Consulta inicial', desc: 'Cuéntanos tu idea a través del botón de reservar, por WhatsApp o presencialmente. Sin coste ni compromiso.', meta: '30 min · Gratis' },
   { n: '02', code: 'DESIGN', title: 'Diseño personalizado', desc: 'Un boceto exclusivo creado para ti, ajustado hasta capturar exactamente tu visión.', meta: '24–48h' },
   { n: '03', code: 'PREP', title: 'Preparación', desc: 'Instrucciones de hidratación, alimentación y ropa para el día de la sesión.', meta: 'Previo a la cita' },
   { n: '04', code: 'SESSION', title: 'La sesión', desc: 'Ambiente impecable, material nuevo y esterilizado en cada sesión. Comodidad total.', meta: 'Variable' },
