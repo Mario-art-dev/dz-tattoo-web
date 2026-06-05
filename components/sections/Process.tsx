@@ -153,9 +153,6 @@ export default function Process() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-[#111]">
-          <p className="sec-meta text-[#555] text-xs font-mono">Proceso claro · Sin sorpresas · Arte garantizado</p>
-        </div>
       </div>
     </section>
   );

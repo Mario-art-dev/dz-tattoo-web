@@ -150,9 +150,6 @@ export default function Services() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-[#111]">
-          <p className="sec-meta text-[#555] text-xs font-mono">Primera consulta gratuita · Presencial o WhatsApp</p>
-        </div>
       </div>
     </section>
   );
