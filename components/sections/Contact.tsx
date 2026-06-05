@@ -9,8 +9,8 @@ import { InstagramIcon } from '@/components/ui/InstagramIcon';
 gsap.registerPlugin(ScrollTrigger);
 
 const hours = [
-  { day: 'Lunes — Viernes', time: '10:00 — 20:00', open: true, note: 'Con pausa al mediodía' },
-  { day: 'Sábado', time: 'Con cita previa', open: true, note: null },
+  { day: 'Lunes — Sábado', time: '10:00 — 14:00', open: true, note: 'Mañanas' },
+  { day: 'Lunes — Sábado', time: '16:00 — 20:00', open: true, note: 'Tardes' },
   { day: 'Domingo', time: 'Cerrado', open: false, note: null },
 ];
 
