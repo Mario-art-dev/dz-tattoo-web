@@ -144,14 +144,6 @@ export default function Navigation() {
       {/* Mobile menu */}
       {menuOpen && (
         <div ref={menuRef} className="fixed inset-0 z-40 bg-[#050505] flex flex-col justify-center px-8">
-          {/* Logo in menu */}
-          <div className="absolute top-5 left-6">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden">
-              <Image src="/images/logo.png" alt="D.Z Tattoo Studio" fill className="object-cover scale-[1.2]" sizes="64px"
-                onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/logo.svg'; }} />
-            </div>
-          </div>
-
           <nav className="flex flex-col gap-7">
             {navLinks.map((l) => (
               <a
