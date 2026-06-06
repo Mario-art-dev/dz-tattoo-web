@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/contexts/AuthContext';
@@ -29,7 +28,6 @@ const TALLAS = ['XS — menos de 5cm', 'S — 5 a 10cm', 'M — 10 a 20cm', 'L �
 const HORAS = ['10:00', '11:00', '12:00', '13:00', '16:00', '17:00', '18:00', '19:00'];
 
 export default function Booking() {
-  const router = useRouter();
   const { user, openAuth } = useAuth();
   const sectionRef = useRef<HTMLElement>(null);
   const [form, setForm] = useState<FormData>(INITIAL);
@@ -133,27 +131,44 @@ export default function Booking() {
 
   const labelClass = 'block text-[#777] text-[11px] tracking-[0.18em] uppercase mb-3 font-medium';
 
-  if (success && submittedData) {
-    const d = submittedData;
-    const rows = [
-      { label: 'Nombre', value: d.nombre },
-      { label: 'Teléfono', value: d.telefono },
-      { label: 'Email', value: d.email },
-      { label: 'Servicio', value: d.servicio },
-      { label: 'Fecha', value: formatDate(d.fecha) },
-      { label: 'Hora', value: d.hora || '—' },
-      d.zonaCorporal ? { label: 'Zona', value: d.zonaCorporal } : null,
-      d.tamano ? { label: 'Tamaño', value: d.tamano } : null,
-      d.idea ? { label: 'Idea', value: d.idea.length > 80 ? d.idea.slice(0, 80) + '…' : d.idea } : null,
-    ].filter(Boolean) as { label: string; value: string }[];
+  const successRows = success && submittedData ? ([
+    { label: 'Nombre', value: submittedData.nombre },
+    { label: 'Teléfono', value: submittedData.telefono },
+    { label: 'Email', value: submittedData.email },
+    { label: 'Servicio', value: submittedData.servicio },
+    { label: 'Fecha', value: formatDate(submittedData.fecha) },
+    { label: 'Hora', value: submittedData.hora || '—' },
+    submittedData.zonaCorporal ? { label: 'Zona', value: submittedData.zonaCorporal } : null,
+    submittedData.tamano ? { label: 'Tamaño', value: submittedData.tamano } : null,
+    submittedData.idea ? { label: 'Idea', value: submittedData.idea.length > 80 ? submittedData.idea.slice(0, 80) + '…' : submittedData.idea } : null,
+  ].filter(Boolean) as { label: string; value: string }[]) : [];
 
-    return (
-      <section id="booking" className="relative min-h-screen flex items-center justify-center bg-[#050505] px-5 py-28">
-        <div className="relative w-full max-w-lg bg-[#080808] border border-[#1a1a1a]">
-          {/* X — close and go to home */}
+  return (
+    <>
+    {success && submittedData && (
+      <div className="fixed inset-0 z-[9997] flex items-center justify-center px-5 py-8" role="dialog" aria-modal="true" aria-label="Reserva confirmada">
+        <style>{`
+          @keyframes bkSuccessBg { from { opacity: 0 } to { opacity: 1 } }
+          @keyframes bkSuccessCard { from { opacity: 0; transform: translateY(22px) scale(0.97) } to { opacity: 1; transform: translateY(0) scale(1) } }
+          @keyframes bkSuccessItem { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: translateY(0) } }
+        `}</style>
+
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-[#050505]/90 backdrop-blur-md"
+          style={{ animation: 'bkSuccessBg 0.22s ease-out' }}
+          onClick={() => { setSuccess(false); setSubmittedData(null); }}
+        />
+
+        {/* Card */}
+        <div
+          className="relative w-full max-w-lg bg-[#080808] border border-[#1a1a1a] rounded-2xl overflow-hidden z-10"
+          style={{ animation: 'bkSuccessCard 0.3s ease-out', maxHeight: '90vh', overflowY: 'auto' }}
+        >
+          {/* Close */}
           <button
-            onClick={() => router.push('/')}
-            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[#444] hover:text-[#E8E2D9] hover:bg-[#111] transition-colors"
+            onClick={() => { setSuccess(false); setSubmittedData(null); }}
+            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[#444] hover:text-[#E8E2D9] hover:bg-[#111] rounded-full transition-colors z-10"
             aria-label="Cerrar"
           >
             <X size={16} />
@@ -161,8 +176,8 @@ export default function Booking() {
 
           <div className="p-7 sm:p-10">
             {/* Header */}
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+            <div className="flex items-center gap-4 mb-8" style={{ animation: 'bkSuccessItem 0.35s ease-out 0.08s both' }}>
+              <div className="w-12 h-12 rounded-xl border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
                 <CheckCircle size={22} className="text-emerald-400" />
               </div>
               <div>
@@ -172,8 +187,8 @@ export default function Booking() {
             </div>
 
             {/* Details */}
-            <div className="border-t border-[#111] mb-8">
-              {rows.map(({ label, value }) => (
+            <div className="border-t border-[#111] mb-8" style={{ animation: 'bkSuccessItem 0.35s ease-out 0.16s both' }}>
+              {successRows.map(({ label, value }) => (
                 <div key={label} className="flex justify-between gap-4 py-3 border-b border-[#0f0f0f]">
                   <span className="text-[#444] text-[10px] font-mono tracking-[0.2em] uppercase flex-shrink-0">{label}</span>
                   <span className="text-[#E8E2D9] text-xs text-right break-words max-w-[60%]">{value || '—'}</span>
@@ -181,11 +196,11 @@ export default function Booking() {
               ))}
             </div>
 
-            <p className="text-[#555] text-xs leading-relaxed mb-7">
+            <p className="text-[#555] text-xs leading-relaxed mb-7" style={{ animation: 'bkSuccessItem 0.35s ease-out 0.24s both' }}>
               Te contactaremos en menos de <span className="text-[#E8E2D9]">24 horas</span> para confirmar todos los detalles de tu cita.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3" style={{ animation: 'bkSuccessItem 0.35s ease-out 0.3s both' }}>
               <a
                 href="https://wa.me/34722201072?text=Hola%2C%20acabo%20de%20hacer%20una%20reserva%20en%20vuestra%20web"
                 target="_blank" rel="noopener noreferrer"
@@ -194,19 +209,16 @@ export default function Booking() {
                 <MessageCircle size={14} /> WhatsApp
               </a>
               <button
-                onClick={() => router.push('/')}
+                onClick={() => { setSuccess(false); setSubmittedData(null); }}
                 className="btn-outline-round flex-1 py-3.5 text-xs font-bold tracking-widest uppercase"
               >
-                Volver al inicio
+                Cerrar
               </button>
             </div>
           </div>
         </div>
-      </section>
-    );
-  }
-
-  return (
+      </div>
+    )}
     <section id="booking" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#050505] overflow-hidden" aria-label="Reservar cita">
       {/* Ambient glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[#8B0000]/6 rounded-full blur-[160px] pointer-events-none" />
@@ -501,5 +513,6 @@ export default function Booking() {
         </div>
       </div>
     </section>
+    </>
   );
 }
