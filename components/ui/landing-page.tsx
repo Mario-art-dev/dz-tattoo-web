@@ -149,7 +149,7 @@ export default function LandingPage() {
           <a
             href="#booking-form"
             onClick={e => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
-            className="btn-cta w-full px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center flex items-center gap-2 mb-3"
+            className="btn-cta w-full px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center flex items-center gap-2 mb-6"
           >
             Reservar cita gratis <ArrowRight size={16} className="flex-shrink-0" />
           </a>
