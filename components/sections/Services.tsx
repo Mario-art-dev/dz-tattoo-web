@@ -94,23 +94,23 @@ export default function Services() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.svc-eyebrow', { opacity: 0, y: 10 }, {
-        opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 0.35, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('h2', { clipPath: 'inset(0 0 0 100%)' }, {
-        clipPath: 'inset(0 0 0 0%)', duration: 1.8, ease: 'power3.inOut',
+        clipPath: 'inset(0 0 0 0%)', duration: 0.8, ease: 'power3.inOut',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.sec-meta', { opacity: 0, y: 10 }, {
-        opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 0.4, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.svc-slider-wrap', { opacity: 0 }, {
-        opacity: 1, duration: 1.1, ease: 'power2.out',
+        opacity: 1, duration: 0.5, ease: 'power2.out',
         scrollTrigger: { trigger: wrapperRef.current, start: 'top 88%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.svc-nav-btn', { opacity: 0 }, {
-        opacity: 1, duration: 0.7, stagger: 0.1,
+        opacity: 1, duration: 0.32, stagger: 0.06,
         scrollTrigger: { trigger: wrapperRef.current, start: 'top 88%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);

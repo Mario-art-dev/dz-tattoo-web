@@ -42,7 +42,7 @@ export default function Testimonials() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.t-reveal', { opacity: 0, y: 20 }, {
-        opacity: 1, y: 0, duration: 1.4, stagger: 0.2,
+        opacity: 1, y: 0, duration: 0.55, stagger: 0.1,
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);

@@ -40,27 +40,27 @@ export default function Artists() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo('.art-eyebrow', { opacity: 0, y: 10 }, {
-        opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 0.35, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('h2', { clipPath: 'inset(100% 0 0 0)' }, {
-        clipPath: 'inset(0% 0 0 0)', duration: 1.7, ease: 'power4.inOut',
+        clipPath: 'inset(0% 0 0 0)', duration: 0.75, ease: 'power4.inOut',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.sec-desc', { opacity: 0, y: 14, filter: 'blur(6px)' }, {
-        opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.4, ease: 'power2.out',
+        opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.sec-meta', { opacity: 0, y: 10 }, {
-        opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
+        opacity: 1, y: 0, duration: 0.4, ease: 'power2.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 76%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.artist-card', { opacity: 0, y: 50, scale: 0.97 }, {
-        opacity: 1, y: 0, scale: 1, duration: 1.4, stagger: 0.22, ease: 'power3.out',
+        opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: 'power3.out',
         scrollTrigger: { trigger: '.artists-grid', start: 'top 82%', toggleActions: 'play none none reset' },
       });
       gsap.fromTo('.artist-img', { clipPath: 'inset(100% 0 0 0)' }, {
-        clipPath: 'inset(0% 0 0 0)', duration: 1.2, ease: 'power4.inOut', stagger: 0.15,
+        clipPath: 'inset(0% 0 0 0)', duration: 0.55, ease: 'power4.inOut', stagger: 0.08,
         scrollTrigger: { trigger: '.artists-grid', start: 'top 80%', toggleActions: 'play none none reset' },
       });
     }, sectionRef);

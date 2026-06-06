@@ -32,37 +32,37 @@ export default function Hero() {
       tl.fromTo(
         eyebrowRef.current,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8 }
+        { opacity: 1, y: 0, duration: 0.4 }
       )
         .fromTo(
           words,
           { yPercent: 110, opacity: 0 },
-          { yPercent: 0, opacity: 1, duration: 1, stagger: 0.1 },
-          '-=0.4'
+          { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.06 },
+          '-=0.2'
         )
         .fromTo(
           lineRef.current,
           { scaleX: 0, transformOrigin: 'left' },
-          { scaleX: 1, duration: 0.8, ease: 'power2.inOut' },
-          '-=0.6'
+          { scaleX: 1, duration: 0.4, ease: 'power2.inOut' },
+          '-=0.3'
         )
         .fromTo(
           subtitleRef.current,
           { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.8 },
-          '-=0.4'
+          { opacity: 1, y: 0, duration: 0.4 },
+          '-=0.2'
         )
         .fromTo(
           ctaRef.current?.children ?? [],
           { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.6, stagger: 0.12 },
-          '-=0.4'
+          { opacity: 1, y: 0, duration: 0.3, stagger: 0.07 },
+          '-=0.2'
         )
         .fromTo(
           scrollRef.current,
           { opacity: 0 },
-          { opacity: 1, duration: 0.6 },
-          '-=0.2'
+          { opacity: 1, duration: 0.3 },
+          '-=0.1'
         );
 
       // Parallax
