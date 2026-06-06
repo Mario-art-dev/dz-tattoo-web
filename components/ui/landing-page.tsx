@@ -1,20 +1,37 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, X, Loader2 } from 'lucide-react';
+import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { useAuth } from '@/contexts/AuthContext';
 
 const SERVICES_QUICK = ['Custom Tattoo', 'Realismo', 'Fine Line', 'Cover Up', 'Microblading', 'Micropigmentación', 'Tooth Gems', 'Láser'];
 
 const DZ_LETTERS = ['D', 'Z'];
 const TATTOO_LETTERS = ['T', 'a', 't', 't', 'o', 'o'];
 
+const STATUS_MAP: Record<string, { label: string; dot: string; text: string }> = {
+  pendiente:  { label: 'Pendiente de confirmación', dot: 'bg-amber-400',  text: 'text-amber-400' },
+  confirmado: { label: 'Confirmada',                 dot: 'bg-emerald-400', text: 'text-emerald-400' },
+  cancelado:  { label: 'Cancelada',                  dot: 'bg-zinc-600',   text: 'text-zinc-500' },
+};
+
+type ActiveBooking = {
+  id: string; nombre: string; servicio: string;
+  fecha: string; hora: string; telefono: string; email: string; status: string;
+};
+
 export default function LandingPage() {
   const heroRef = useRef<HTMLElement>(null);
+  const { user } = useAuth();
+  const [booking, setBooking] = useState<ActiveBooking | null>(null);
+  const [cancelling, setCancelling] = useState(false);
+  const [cancelled, setCancelled] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial hidden state before first paint
       gsap.set('.h-char', { yPercent: 115 });
       gsap.set(['.h-badge', '.h-sub-line', '.h-sub'], { opacity: 0 });
       gsap.set('.h-cta', { opacity: 0, y: 15 });
@@ -28,6 +45,42 @@ export default function LandingPage() {
     }, heroRef);
     return () => ctx.revert();
   }, []);
+
+  // Fetch active booking for logged-in user
+  useEffect(() => {
+    if (!user) { setBooking(null); return; }
+    getDocs(query(collection(db, 'citas'), where('userId', '==', user.uid)))
+      .then(snap => {
+        const active = snap.docs
+          .map(d => ({ id: d.id, ...d.data() } as ActiveBooking))
+          .filter(b => b.status !== 'cancelado');
+        setBooking(active.length > 0 ? active[0] : null);
+        setCancelled(false);
+      })
+      .catch(() => {});
+  }, [user]);
+
+  const cancelBooking = async () => {
+    if (!booking || cancelling) return;
+    setCancelling(true);
+    try {
+      await updateDoc(doc(db, 'citas', booking.id), { status: 'cancelado' });
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: booking.email, type: 'cancel', data: booking }),
+      }).catch(() => {});
+      setCancelled(true);
+      setTimeout(() => setBooking(null), 2000);
+    } catch { setCancelling(false); }
+  };
+
+  const formatDate = (s: string) => {
+    if (!s) return '';
+    try { const [y, m, d] = s.split('-'); return `${d}/${m}/${y}`; } catch { return s; }
+  };
+
+  const cfg = booking ? (STATUS_MAP[booking.status] ?? STATUS_MAP.pendiente) : null;
 
   return (
     <section
@@ -64,20 +117,14 @@ export default function LandingPage() {
         <h1 className="mb-3 sm:mb-4">
           <div className="overflow-hidden leading-[0.88]">
             {DZ_LETTERS.map((char, i) => (
-              <span
-                key={i}
-                className="h-char text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-[#E8E2D9] inline-block"
-              >
+              <span key={i} className="h-char text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-[#E8E2D9] inline-block">
                 {char}
               </span>
             ))}
           </div>
           <div className="overflow-hidden leading-[0.88]">
             {TATTOO_LETTERS.map((char, i) => (
-              <span
-                key={i}
-                className="h-char text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-gradient inline-block"
-              >
+              <span key={i} className="h-char text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-gradient inline-block">
                 {char}
               </span>
             ))}
@@ -97,15 +144,60 @@ export default function LandingPage() {
           <span className="text-[#E8E2D9]">Primera consulta totalmente gratuita.</span>
         </p>
 
-        {/* CTA */}
-        <div className="mb-10 sm:mb-14">
+        {/* CTA + active booking */}
+        <div className="h-cta mb-10 sm:mb-14 w-full sm:max-w-md">
           <a
             href="#booking-form"
             onClick={e => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
-            className="h-cta btn-cta w-full sm:w-auto px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center"
+            className="btn-cta w-full px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center flex items-center gap-2 mb-3"
           >
             Reservar cita gratis <ArrowRight size={16} className="flex-shrink-0" />
           </a>
+
+          {/* Active booking card */}
+          {booking && cfg && (
+            <div className="w-full border border-[#1e1e1e] bg-[#090909] rounded-2xl overflow-hidden">
+              <div className="px-5 py-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
+                  <span className="text-[#444] text-[9px] font-mono tracking-[0.3em] uppercase">Tu reserva activa</span>
+                  <span className={`text-[9px] font-mono tracking-widest uppercase ${cfg.text} ml-auto`}>{cfg.label}</span>
+                </div>
+
+                <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
+                  <span className="text-[#E8E2D9] text-sm font-bold">{booking.nombre}</span>
+                  <span className="text-[#8B0000] text-sm font-mono">{booking.servicio}</span>
+                </div>
+
+                <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
+                  {booking.fecha && (
+                    <span className="text-[#B0A89E] text-xs font-mono flex items-center gap-1.5">
+                      <Calendar size={10} /> {formatDate(booking.fecha)}
+                    </span>
+                  )}
+                  {booking.hora && (
+                    <span className="text-[#B0A89E] text-xs font-mono flex items-center gap-1.5">
+                      <Clock size={10} /> {booking.hora}
+                    </span>
+                  )}
+                  <span className="text-[#444] text-xs font-mono">{booking.telefono}</span>
+                </div>
+
+                {cancelled ? (
+                  <p className="text-zinc-500 text-[10px] font-mono tracking-wider">Reserva cancelada</p>
+                ) : (
+                  <button
+                    onClick={cancelBooking}
+                    disabled={cancelling}
+                    className="flex items-center gap-1.5 text-[#8B0000] hover:text-[#C41E1E] text-[10px] font-mono tracking-[0.2em] uppercase transition-colors disabled:opacity-50"
+                  >
+                    {cancelling ? <Loader2 size={10} className="animate-spin" /> : <X size={10} />}
+                    {cancelling ? 'Cancelando...' : 'Cancelar reserva'}
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

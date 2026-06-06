@@ -89,46 +89,48 @@ export default function WelcomeScreen() {
 
   return (
     <div
-      className="fixed left-0 right-0 bottom-0 z-[9995] bg-[#050505] flex flex-col items-center justify-center px-5"
-      style={{
-        top: '60px',
-        animation: 'wsFadeIn 0.3s ease-out',
-      }}
+      className="fixed inset-0 z-[9995] flex items-center justify-center px-5"
+      style={{ animation: 'wsFadeIn 0.25s ease-out' }}
       role="dialog"
       aria-modal="true"
       aria-label="Bienvenido a DZ Tattoo Studio"
     >
       <style>{`
         @keyframes wsFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes wsSlideUp { from { opacity: 0; transform: translateY(16px) scale(0.97) } to { opacity: 1; transform: translateY(0) scale(1) } }
       `}</style>
 
-      {/* Ambient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#8B0000]/8 rounded-full blur-[120px] pointer-events-none" />
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-[#050505]/85 backdrop-blur-md" onClick={dismiss} />
 
-      <div className="relative w-full max-w-sm z-10">
+      {/* Card */}
+      <div
+        className="relative w-full max-w-sm bg-[#090909] border border-[#1e1e1e] rounded-2xl overflow-hidden z-10"
+        style={{ animation: 'wsSlideUp 0.28s ease-out' }}
+      >
 
         {/* ── WELCOME SCREEN ── */}
         {screen === 'welcome' && (
-          <div className="text-center">
+          <div className="p-7 text-center">
             {/* Logo */}
-            <div className="mb-8">
-              <p className="text-[#E8E2D9] text-[72px] font-black leading-none tracking-[-4px] select-none">DZ</p>
-              <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.5em] uppercase mt-1">Tattoo Studio</p>
-              <div className="h-px bg-gradient-to-r from-transparent via-[#8B0000]/60 to-transparent my-4" />
-              <p className="text-[#555] text-[11px] font-mono tracking-[0.3em] uppercase">Arte con alma · Silla, Valencia</p>
+            <div className="mb-7">
+              <p className="text-[#E8E2D9] text-[64px] font-black leading-none tracking-[-4px] select-none">DZ</p>
+              <p className="text-[#8B0000] text-[9px] font-mono tracking-[0.5em] uppercase mt-1">Tattoo Studio</p>
+              <div className="h-px bg-gradient-to-r from-transparent via-[#8B0000]/50 to-transparent my-4" />
+              <p className="text-[#444] text-[10px] font-mono tracking-[0.25em] uppercase">Arte con alma · Silla, Valencia</p>
             </div>
 
             {/* Action buttons */}
             <div className="flex gap-3 mb-5">
               <button
                 onClick={() => { setIsSignUp(false); setScreen('choice'); }}
-                className="flex-1 rounded-full border border-[#333] text-[#E8E2D9] py-4 text-sm font-bold tracking-widest uppercase hover:border-[#555] hover:bg-[#111] active:scale-[0.98] transition-all duration-150"
+                className="flex-1 rounded-full border border-[#333] text-[#E8E2D9] py-3.5 text-xs font-bold tracking-widest uppercase hover:border-[#555] hover:bg-[#111] active:scale-[0.98] transition-all duration-150"
               >
                 Iniciar sesión
               </button>
               <button
                 onClick={() => { setIsSignUp(true); setScreen('choice'); }}
-                className="flex-1 rounded-full bg-[#8B0000] hover:bg-[#A01010] text-white py-4 text-sm font-bold tracking-widest uppercase active:scale-[0.98] transition-all duration-150 shadow-lg shadow-[#8B0000]/20"
+                className="flex-1 rounded-full bg-[#8B0000] hover:bg-[#A01010] text-white py-3.5 text-xs font-bold tracking-widest uppercase active:scale-[0.98] transition-all duration-150 shadow-lg shadow-[#8B0000]/20"
               >
                 Registrarse
               </button>
@@ -137,7 +139,7 @@ export default function WelcomeScreen() {
             {/* Dismiss link */}
             <button
               onClick={dismiss}
-              className="text-[#444] text-[11px] font-mono hover:text-[#666] transition-colors tracking-wider"
+              className="text-[#333] text-[10px] font-mono hover:text-[#555] transition-colors tracking-wider"
             >
               Continuar sin cuenta →
             </button>
@@ -146,7 +148,7 @@ export default function WelcomeScreen() {
 
         {/* ── CHOICE: Google / Email ── */}
         {screen === 'choice' && (
-          <div>
+          <div className="p-7">
             {/* Back */}
             <button
               onClick={() => { setScreen('welcome'); setError(''); }}
@@ -209,7 +211,7 @@ export default function WelcomeScreen() {
 
         {/* ── EMAIL FORM ── */}
         {screen === 'email' && (
-          <div>
+          <div className="p-7">
             {/* Back */}
             <button
               onClick={() => { setScreen('choice'); setError(''); }}
@@ -293,7 +295,7 @@ export default function WelcomeScreen() {
         )}
 
         {/* Privacy note */}
-        <p className="text-[#222] text-[9px] font-mono text-center mt-7 leading-relaxed">
+        <p className="text-[#1e1e1e] text-[9px] font-mono text-center mt-5 pb-6 leading-relaxed">
           Al continuar aceptas nuestra{' '}
           <a href="/privacidad" className="hover:text-[#333] underline transition-colors">política de privacidad</a>
         </p>
