@@ -30,7 +30,7 @@ const HORAS = ['10:00', '11:00', '12:00', '13:00', '16:00', '17:00', '18:00', '1
 
 export default function Booking() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, openAuth } = useAuth();
   const sectionRef = useRef<HTMLElement>(null);
   const [form, setForm] = useState<FormData>(INITIAL);
   const [step, setStep] = useState(1);
@@ -96,6 +96,10 @@ export default function Booking() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Require login before submitting
+    if (!user) { openAuth(); return; }
+
     if (!form.mayorEdad) { setError('Debes confirmar que eres mayor de 18 años.'); return; }
     if (!form.privacidad) { setError('Acepta la política de privacidad para continuar.'); return; }
     if (dateError) { setError(dateError); return; }
@@ -106,24 +110,22 @@ export default function Booking() {
     setForm(INITIAL);
     setStep(1);
 
-    // Write to Firestore and store ID for cancellation system
+    // Write to Firestore
     try {
       const docRef = await addDoc(collection(db, 'citas'), {
         ...snapshot,
         status: 'pendiente',
         createdAt: new Date(),
-        ...(user ? { userId: user.uid, userEmail: user.email } : {}),
+        userId: user.uid,
+        userEmail: user.email,
       });
-      localStorage.setItem('dz_booking', JSON.stringify({
-        id: docRef.id,
-        nombre: snapshot.nombre,
-        telefono: snapshot.telefono,
-        email: snapshot.email,
-        servicio: snapshot.servicio,
-        fecha: snapshot.fecha,
-        hora: snapshot.hora,
-        status: 'pendiente',
-      }));
+      // Fire and forget - don't await
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: snapshot.email, type: 'booking', data: snapshot }),
+      }).catch(() => {});
+      void docRef;
     } catch (err) {
       console.error('Booking write failed:', err);
     }
@@ -454,6 +456,11 @@ export default function Booking() {
                       Confirmar mi reserva <ArrowRight size={16} />
                     </button>
                   </div>
+                  {!user && (
+                    <p className="text-[#555] text-[10px] font-mono text-center mt-2">
+                      Debes <button onClick={openAuth} className="text-[#8B0000] underline">iniciar sesión</button> para confirmar tu reserva
+                    </p>
+                  )}
                 </div>
               )}
             </form>

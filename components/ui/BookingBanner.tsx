@@ -76,6 +76,11 @@ export default function BookingBanner() {
       await updateDoc(doc(db, 'citas', booking.id), { status: 'cancelado' });
       setStatus('cancelado');
       setDone(true);
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: booking.email, type: 'cancel', data: booking }),
+      }).catch(() => {});
       setTimeout(() => {
         if (!user) localStorage.removeItem('dz_booking');
         setVisible(false);
