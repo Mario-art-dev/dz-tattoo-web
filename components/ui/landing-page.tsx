@@ -36,12 +36,12 @@ export default function LandingPage() {
       gsap.set(['.h-badge', '.h-sub-line', '.h-sub'], { opacity: 0 });
       gsap.set('.h-cta', { opacity: 0, y: 15 });
 
-      const tl = gsap.timeline({ delay: 1.2 });
-      tl.to('.h-badge', { opacity: 1, duration: 0.5, ease: 'power2.out' })
-        .to('.h-char', { yPercent: 0, duration: 0.6, stagger: 0.05, ease: 'power4.out' }, '-=0.3')
-        .to('.h-sub-line', { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.35')
-        .to('.h-sub', { opacity: 1, duration: 0.45, ease: 'power2.out' }, '-=0.3')
-        .to('.h-cta', { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, '-=0.25');
+      const tl = gsap.timeline({ delay: 1.8 });
+      tl.to('.h-badge', { opacity: 1, duration: 0.75, ease: 'power2.out' })
+        .to('.h-char', { yPercent: 0, duration: 0.9, stagger: 0.075, ease: 'power4.out' }, '-=0.45')
+        .to('.h-sub-line', { opacity: 1, duration: 0.75, ease: 'power2.out' }, '-=0.53')
+        .to('.h-sub', { opacity: 1, duration: 0.68, ease: 'power2.out' }, '-=0.45')
+        .to('.h-cta', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.38');
     }, heroRef);
     return () => ctx.revert();
   }, []);
