@@ -101,9 +101,9 @@ export default function BookingBanner() {
   const canCancel = !done && status !== 'cancelado';
 
   return (
-    <div className="pt-[80px] sm:pt-[90px] bg-[#050505] px-5 sm:px-8">
+    <div className="pt-[80px] sm:pt-[90px] bg-[#111111] px-5 sm:px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="relative border border-[#1e1e1e] bg-[#090909]">
+        <div className="relative border border-[#1e1e1e] bg-[#151515]">
           <button onClick={dismiss}
             className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center text-[#333] hover:text-[#E8E2D9] transition-colors"
             aria-label="Cerrar">

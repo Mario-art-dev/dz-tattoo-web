@@ -155,14 +155,14 @@ export default function Booking() {
 
         {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-[#050505]/90 backdrop-blur-md"
+          className="absolute inset-0 bg-[#111111]/90 backdrop-blur-md"
           style={{ animation: 'bkSuccessBg 0.22s ease-out' }}
           onClick={() => { setSuccess(false); setSubmittedData(null); }}
         />
 
         {/* Card */}
         <div
-          className="relative w-full max-w-lg bg-[#080808] border border-[#1a1a1a] rounded-2xl overflow-hidden z-10"
+          className="relative w-full max-w-lg bg-[#141414] border border-[#1a1a1a] rounded-2xl overflow-hidden z-10"
           style={{ animation: 'bkSuccessCard 0.3s ease-out', maxHeight: '90vh', overflowY: 'auto' }}
         >
           {/* Close */}
@@ -189,7 +189,7 @@ export default function Booking() {
             {/* Details */}
             <div className="border-t border-[#111] mb-8" style={{ animation: 'bkSuccessItem 0.35s ease-out 0.16s both' }}>
               {successRows.map(({ label, value }) => (
-                <div key={label} className="flex justify-between gap-4 py-3 border-b border-[#0f0f0f]">
+                <div key={label} className="flex justify-between gap-4 py-3 border-b border-[#1b1b1b]">
                   <span className="text-[#444] text-[10px] font-mono tracking-[0.2em] uppercase flex-shrink-0">{label}</span>
                   <span className="text-[#E8E2D9] text-xs text-right break-words max-w-[60%]">{value || '—'}</span>
                 </div>
@@ -219,7 +219,7 @@ export default function Booking() {
         </div>
       </div>
     )}
-    <section id="booking" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#050505] overflow-hidden" aria-label="Reservar cita">
+    <section id="booking" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] overflow-hidden" aria-label="Reservar cita">
       {/* Ambient glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[#8B0000]/6 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#8B0000]/4 rounded-full blur-[100px] pointer-events-none translate-x-1/3" />
@@ -267,7 +267,7 @@ export default function Booking() {
               { icon: CalendarDays, label: 'Respuesta en 24h', sub: 'Confirmamos tu cita rápidamente' },
               { icon: Sparkles, label: 'Diseño exclusivo', sub: 'Arte 100% personalizado para ti' },
             ].map((t) => (
-              <div key={t.label} className="bk-trust flex flex-col gap-5 border border-[#1a1a1a] rounded-2xl p-7 sm:p-8 hover:border-[#8B0000]/30 hover:bg-[#0a0000] transition-all duration-300">
+              <div key={t.label} className="bk-trust flex flex-col gap-5 border border-[#1a1a1a] rounded-2xl p-7 sm:p-8 hover:border-[#8B0000]/30 hover:bg-[#160c0c] transition-all duration-300">
                 <div className="w-12 h-12 rounded-2xl bg-[#141414] border border-[#1a1a1a] flex items-center justify-center flex-shrink-0">
                   <t.icon size={20} className="text-[#E8E2D9]" />
                 </div>
@@ -292,7 +292,7 @@ export default function Booking() {
                   <div className="flex items-center gap-2.5">
                     <div className={cn(
                       'w-8 h-8 rounded-full text-[11px] font-black flex items-center justify-center transition-all duration-400 flex-shrink-0',
-                      step === s.n ? 'bg-[#E8E2D9] text-[#050505]' :
+                      step === s.n ? 'bg-[#E8E2D9] text-[#111111]' :
                       step > s.n ? 'bg-[#2a2a2a] text-[#E8E2D9]' : 'border border-[#222] text-[#333]'
                     )}>
                       {step > s.n ? '✓' : s.n}
@@ -481,7 +481,7 @@ export default function Booking() {
           {/* RIGHT: Sidebar */}
           <div className="bk-card lg:col-span-2 space-y-5">
             {/* WhatsApp card */}
-            <div className="relative overflow-hidden rounded-3xl border border-[#1a3a20]/50 bg-gradient-to-br from-[#071410] to-[#050505] p-7 sm:p-8">
+            <div className="relative overflow-hidden rounded-3xl border border-[#1a3a20]/50 bg-gradient-to-br from-[#131c18] to-[#111111] p-7 sm:p-8">
               <div className="absolute top-4 right-4 text-[#1a5a30]/12 text-[5rem] font-black select-none leading-none">WA</div>
               <div className="relative z-10">
                 <div className="w-12 h-12 rounded-2xl bg-[#1a5a30]/20 flex items-center justify-center mb-5">

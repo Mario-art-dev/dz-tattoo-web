@@ -57,7 +57,7 @@ export default function Testimonials() {
   const r = reviews[idx];
 
   return (
-    <section id="testimonials" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#050505] border-t border-[#0f0f0f]" aria-label="Testimonios">
+    <section id="testimonials" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#1b1b1b]" aria-label="Testimonios">
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
@@ -80,7 +80,7 @@ export default function Testimonials() {
 
         {/* Review display */}
         <div ref={trackRef} className="t-reveal mb-12">
-          <div className="border border-[#111] bg-[#080808] p-10 sm:p-16">
+          <div className="border border-[#111] bg-[#141414] p-10 sm:p-16">
             {/* Stars + rating */}
             <div className="flex items-center gap-3 mb-6">
               <div className="flex gap-1">

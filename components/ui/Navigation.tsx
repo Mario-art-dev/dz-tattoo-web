@@ -54,7 +54,7 @@ export default function Navigation() {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-          scrolled ? 'bg-[#050505]/92 backdrop-blur-xl border-b border-[#111]' : 'bg-transparent'
+          scrolled ? 'bg-[#111111]/92 backdrop-blur-xl border-b border-[#111]' : 'bg-transparent'
         )}
         role="banner"
       >
@@ -101,7 +101,7 @@ export default function Navigation() {
                 <button className="w-8 h-8 rounded-full bg-[#8B0000]/20 border border-[#8B0000]/30 flex items-center justify-center text-[#8B0000] text-xs font-black hover:bg-[#8B0000]/30 transition-colors">
                   {(user.displayName?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()}
                 </button>
-                <div className="absolute right-0 top-full mt-2 w-48 bg-[#090909] border border-[#1a1a1a] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="absolute right-0 top-full mt-2 w-48 bg-[#151515] border border-[#1a1a1a] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                   <p className="px-4 py-1.5 text-[#555] text-[10px] font-mono truncate">{user.displayName ?? user.email}</p>
                   <div className="border-t border-[#111] my-1" />
                   <button onClick={() => signOut()} className="w-full text-left px-4 py-2 text-[#E8E2D9] text-[10px] font-mono tracking-wider hover:text-[#8B0000] transition-colors">
@@ -143,7 +143,7 @@ export default function Navigation() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div ref={menuRef} className="fixed inset-0 z-40 bg-[#050505] flex flex-col justify-center px-8">
+        <div ref={menuRef} className="fixed inset-0 z-40 bg-[#111111] flex flex-col justify-center px-8">
           <nav className="flex flex-col gap-7">
             {navLinks.map((l) => (
               <a
@@ -161,7 +161,7 @@ export default function Navigation() {
             <a href="tel:+34722201072" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">+34 722 20 10 72</a>
             <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">@d.z.tattoo</a>
             <a href="#booking-form" onClick={e => go(e, '#booking-form')} className="mobile-link btn-primary-round inline-block mt-4 px-8 py-3.5 text-sm font-bold tracking-widest uppercase">Reservar cita ahora</a>
-            <div className="pt-4 border-t border-[#0f0f0f] space-y-2">
+            <div className="pt-4 border-t border-[#1b1b1b] space-y-2">
               {user ? (
                 <>
                   <p className="mobile-link text-[#444] text-[10px] font-mono truncate">{user.displayName ?? user.email}</p>

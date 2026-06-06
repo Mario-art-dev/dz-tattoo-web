@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AvisoLegal() {
   return (
-    <main className="min-h-screen bg-[#050505] pt-32 pb-20">
+    <main className="min-h-screen bg-[#111111] pt-32 pb-20">
       <div className="max-w-3xl mx-auto px-6">
         <div className="mb-12">
           <Link href="/" className="text-[#8B0000] text-xs tracking-[0.3em] uppercase hover:text-[#E8E2D9] transition-colors">

@@ -49,7 +49,7 @@ export default function Philosophy() {
   }, []);
 
   return (
-    <section id="philosophy" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#080808] border-t border-[#0f0f0f] overflow-hidden" aria-label="Filosofía">
+    <section id="philosophy" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#141414] border-t border-[#1b1b1b] overflow-hidden" aria-label="Filosofía">
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
@@ -57,7 +57,7 @@ export default function Philosophy() {
       <span className="pointer-events-none select-none absolute right-[-3%] top-1/2 -translate-y-1/2 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">02</span>
 
       {/* Marquee */}
-      <div className="overflow-hidden border-y border-[#0f0f0f] py-4 mb-10 sm:mb-16 lg:mb-20">
+      <div className="overflow-hidden border-y border-[#1b1b1b] py-4 mb-10 sm:mb-16 lg:mb-20">
         <div className="marquee-track flex gap-12 whitespace-nowrap w-[200%]">
           {[...keywords, ...keywords].map((w, i) => (
             <span key={i} className="text-[#111] text-5xl sm:text-7xl font-black uppercase tracking-tight select-none">
@@ -88,7 +88,7 @@ export default function Philosophy() {
         {/* Grid */}
         <div className="phil-grid grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#111] border border-[#111]">
           {pillars.map((p, i) => (
-            <div key={p.code} className="phil-card opacity-0 bg-[#080808] p-10 sm:p-12 group hover:bg-[#0f0808] transition-colors duration-400">
+            <div key={p.code} className="phil-card opacity-0 bg-[#141414] p-10 sm:p-12 group hover:bg-[#0f0808] transition-colors duration-400">
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">

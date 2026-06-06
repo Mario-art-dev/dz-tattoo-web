@@ -68,7 +68,7 @@ export default function Artists() {
   }, []);
 
   return (
-    <section id="artists" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#050505] border-t border-[#0f0f0f]" aria-label="Artistas">
+    <section id="artists" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#1b1b1b]" aria-label="Artistas">
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
@@ -96,7 +96,7 @@ export default function Artists() {
           {artists.map((artist) => (
             <div
               key={artist.id}
-              className="artist-card opacity-0 bg-[#050505] group hover:bg-[#080000] transition-colors duration-500"
+              className="artist-card opacity-0 bg-[#111111] group hover:bg-[#080000] transition-colors duration-500"
             >
               {/* Image zone */}
               <div className="artist-img relative aspect-[4/3] overflow-hidden border-b border-[#111]">
@@ -108,11 +108,11 @@ export default function Artists() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#080808] via-[#0d0000]/40 to-[#050505] opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#141414] via-[#0d0000]/40 to-[#111111] opacity-80" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-[#333] text-[8rem] font-black select-none">{artist.id}</span>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent" />
 
                 {/* Code label */}
                 <div className="absolute top-4 left-4 font-mono text-[10px] tracking-[0.3em] text-[#666] border border-[#8B0000]/20 px-2 py-1">

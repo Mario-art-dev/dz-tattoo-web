@@ -86,7 +86,7 @@ export default function LandingPage() {
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-screen flex flex-col bg-[#050505] overflow-hidden"
+      className="relative min-h-screen flex flex-col bg-[#111111] overflow-hidden"
       aria-label="D.Z Tattoo Studio"
     >
       {/* Background layers */}
@@ -156,7 +156,7 @@ export default function LandingPage() {
 
           {/* Active booking card */}
           {booking && cfg && (
-            <div className="w-full border border-[#1e1e1e] bg-[#090909] rounded-2xl overflow-hidden">
+            <div className="w-full border border-[#1e1e1e] bg-[#151515] rounded-2xl overflow-hidden">
               <div className="px-5 py-4">
                 <div className="flex items-center gap-2 mb-3">
                   <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
@@ -202,7 +202,7 @@ export default function LandingPage() {
       </div>
 
       {/* Services scrollable strip */}
-      <div className="relative z-10 border-t border-[#0f0f0f] py-3.5">
+      <div className="relative z-10 border-t border-[#1b1b1b] py-3.5">
         <div className="flex gap-2.5 px-5 sm:px-8 overflow-x-auto scrollbar-hide pb-0.5">
           {SERVICES_QUICK.map(s => (
             <span

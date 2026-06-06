@@ -43,7 +43,7 @@ export default function PageIntro() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[99999] bg-[#050505] flex items-center justify-center"
+      className="fixed inset-0 z-[99999] bg-[#111111] flex items-center justify-center"
       aria-hidden="true"
     >
       <div className="text-center select-none">

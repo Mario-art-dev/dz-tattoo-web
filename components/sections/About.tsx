@@ -39,7 +39,7 @@ function AnimatedStat({ value, meta, label }: { value: string; meta: string; lab
   }, [value]);
 
   return (
-    <div ref={wrapRef} className="about-stat bg-[#050505] p-6 group hover:bg-[#0f0808] transition-colors duration-300">
+    <div ref={wrapRef} className="about-stat bg-[#111111] p-6 group hover:bg-[#0f0808] transition-colors duration-300">
       <p className="text-[#666] text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{meta}</p>
       <p ref={numRef} className="text-[#E8E2D9] text-3xl font-black mb-1">{value}</p>
       <p className="text-[#555] text-[11px] tracking-wider uppercase">{label}</p>
@@ -92,7 +92,7 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-20 sm:py-32 lg:py-44 bg-[#050505] border-t border-[#0f0f0f]"
+      className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#1b1b1b]"
       aria-label="Sobre nosotros"
     >
       {/* Grid bg */}
@@ -144,7 +144,7 @@ export default function About() {
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
               />
               {/* Fallback */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0d0d0d] via-[#150000]/60 to-[#050505]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0d0d0d] via-[#150000]/60 to-[#111111]" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="border border-[#8B0000]/20 p-12">
                   <div className="w-20 h-20 border border-[#8B0000]/40 rotate-45 mx-auto flex items-center justify-center">
@@ -152,11 +152,11 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-70" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-70" />
             </div>
 
             {/* Info label on image */}
-            <div className="absolute bottom-0 left-0 right-0 border-t border-[#111] bg-[#050505]/90 backdrop-blur-sm flex items-center justify-between px-6 py-4">
+            <div className="absolute bottom-0 left-0 right-0 border-t border-[#111] bg-[#111111]/90 backdrop-blur-sm flex items-center justify-between px-6 py-4">
               <div>
                 <p className="text-[#555] text-[10px] font-mono tracking-widest uppercase">Estudio</p>
                 <p className="text-[#E8E2D9] text-sm font-bold">Av. Luis Vives 12, Silla</p>

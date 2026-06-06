@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     : 'Tu reserva ha sido cancelada — D.Z Tattoo Studio';
 
   const sharedStyles = `
-    body { background:#050505; color:#E8E2D9; font-family:'Georgia',serif; margin:0; padding:0; }
+    body { background:#111111; color:#E8E2D9; font-family:'Georgia',serif; margin:0; padding:0; }
     .wrap { max-width:560px; margin:0 auto; padding:40px 24px; }
     .logo-text { font-size:48px; font-weight:900; letter-spacing:-2px; color:#E8E2D9; }
     .logo-sub { font-size:10px; letter-spacing:6px; color:#8B0000; text-transform:uppercase; margin-top:4px; font-family:monospace; }
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
   .dot { width:7px; height:7px; border-radius:50%; background:#3aaa5a; display:inline-block; }
   h1 { font-size:30px; font-weight:900; text-transform:uppercase; margin:0 0 6px; }
   .sub { color:#B0A89E; font-size:14px; margin:0 0 32px; line-height:1.6; }
-  .card { background:#080808; border:1px solid #1a1a1a; padding:20px 24px; margin-bottom:28px; }
+  .card { background:#141414; border:1px solid #1a1a1a; padding:20px 24px; margin-bottom:28px; }
   .note { color:#666; font-size:12px; line-height:1.8; margin-bottom:28px; }
   .cta { display:inline-block; background:#8B0000; color:#E8E2D9; padding:14px 36px; font-size:11px; font-weight:bold; letter-spacing:4px; text-transform:uppercase; text-decoration:none; margin-bottom:8px; }
   .wa { display:inline-block; border:1px solid #1a5a30; color:#3aaa5a; padding:12px 28px; font-size:11px; font-family:monospace; letter-spacing:3px; text-transform:uppercase; text-decoration:none; margin-left:10px; }
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
   .icon { font-size:36px; margin-bottom:16px; }
   h1 { font-size:26px; font-weight:900; text-transform:uppercase; margin:0 0 10px; color:#888; }
   .sub { color:#555; font-size:14px; margin:0 0 32px; line-height:1.7; }
-  .card { background:#080808; border:1px solid #151515; padding:20px 24px; margin-bottom:28px; }
+  .card { background:#141414; border:1px solid #151515; padding:20px 24px; margin-bottom:28px; }
   .rebook { display:inline-block; border:1px solid #8B0000; color:#8B0000; padding:13px 32px; font-size:11px; font-family:monospace; letter-spacing:3px; text-transform:uppercase; text-decoration:none; }
   .note { color:#444; font-size:12px; line-height:1.8; margin-bottom:28px; }
 </style></head>

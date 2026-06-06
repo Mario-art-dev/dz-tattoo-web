@@ -89,7 +89,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505]"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#111111]"
       aria-label="Sección principal"
     >
       {/* Three.js bg */}

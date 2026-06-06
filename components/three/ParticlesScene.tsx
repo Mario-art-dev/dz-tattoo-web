@@ -72,7 +72,7 @@ function AmbientSmoke() {
   return (
     <mesh ref={mesh} position={[0, 0, -3]}>
       <planeGeometry args={[20, 20, 10, 10]} />
-      <meshBasicMaterial color="#0a0000" transparent opacity={0.15} side={THREE.DoubleSide} />
+      <meshBasicMaterial color="#160c0c" transparent opacity={0.15} side={THREE.DoubleSide} />
     </mesh>
   );
 }
@@ -99,7 +99,7 @@ export default function ParticlesScene() {
       gl={{ antialias: false, alpha: true, powerPreference: 'low-power' }}
       dpr={[1, 1.5]}
     >
-      <ambientLight intensity={0.1} color="#0a0000" />
+      <ambientLight intensity={0.1} color="#160c0c" />
       <RedLight />
       <Particles count={1000} />
       <AmbientSmoke />

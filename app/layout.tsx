@@ -82,7 +82,7 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} antialiased grain-overlay`}
     >
-      <body className="bg-[#050505] text-[#E8E2D9] min-h-screen overflow-x-hidden">
+      <body className="bg-[#111111] text-[#E8E2D9] min-h-screen overflow-x-hidden">
         <AuthProvider>
           <SmoothScrollProvider>
             <SiteShell />

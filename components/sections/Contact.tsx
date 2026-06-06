@@ -28,7 +28,7 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#080808] overflow-hidden" aria-label="Contacto">
+    <section id="contact" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#141414] overflow-hidden" aria-label="Contacto">
       {/* Ambient glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#8B0000]/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
@@ -56,7 +56,7 @@ export default function Contact() {
           <a
             href="https://wa.me/34722201072?text=Hola,%20me%20gustaría%20pedir%20información"
             target="_blank" rel="noopener noreferrer"
-            className="ct-card group lg:col-span-2 relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d1a10] to-[#050505] border border-[#1a3a20]/60 p-8 hover:border-[#1a8a3a]/50 transition-all duration-400 flex flex-col gap-4"
+            className="ct-card group lg:col-span-2 relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d1a10] to-[#111111] border border-[#1a3a20]/60 p-8 hover:border-[#1a8a3a]/50 transition-all duration-400 flex flex-col gap-4"
             aria-label="Contactar por WhatsApp"
           >
             <div className="w-14 h-14 rounded-2xl bg-[#1a8a3a]/20 flex items-center justify-center">
@@ -160,7 +160,7 @@ export default function Contact() {
 
             <div className="flex-1 space-y-4">
               {hours.map((h) => (
-                <div key={h.day} className={`flex justify-between items-start gap-4 pb-4 border-b border-[#0f0f0f] last:border-b-0 last:pb-0 ${!h.open ? 'opacity-30' : ''}`}>
+                <div key={h.day} className={`flex justify-between items-start gap-4 pb-4 border-b border-[#1b1b1b] last:border-b-0 last:pb-0 ${!h.open ? 'opacity-30' : ''}`}>
                   <div>
                     <p className="text-[#E8E2D9] text-sm font-medium">{h.day}</p>
                     {h.note && <p className="text-[#555] text-[10px] mt-0.5">{h.note}</p>}

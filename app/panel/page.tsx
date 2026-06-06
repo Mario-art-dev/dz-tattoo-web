@@ -182,7 +182,7 @@ export default function PanelPage() {
   // ── PIN GATE ──
   if (!authed) {
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center px-6">
+      <div className="min-h-screen bg-[#111111] flex items-center justify-center px-6">
         <div className="w-full max-w-xs">
           {/* Monogram */}
           <div className="flex justify-center mb-12">
@@ -220,10 +220,10 @@ export default function PanelPage() {
 
   // ── DASHBOARD ──
   return (
-    <div className="min-h-screen bg-[#050505] text-[#E8E2D9]">
+    <div className="min-h-screen bg-[#111111] text-[#E8E2D9]">
 
       {/* Top bar */}
-      <div className="sticky top-0 z-40 bg-[#080808] border-b border-[#111]">
+      <div className="sticky top-0 z-40 bg-[#141414] border-b border-[#111]">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-[#8B0000] font-black text-sm tracking-[0.2em] uppercase">DZ</span>
@@ -253,7 +253,7 @@ export default function PanelPage() {
             { label: 'Confirmadas', value: counts.confirmado, color: 'text-emerald-400', sub: 'Listas para sesión' },
             { label: 'Canceladas', value: counts.cancelado, color: 'text-zinc-500', sub: 'No realizadas' },
           ].map(s => (
-            <div key={s.label} className="bg-[#080808] border border-[#111] p-5">
+            <div key={s.label} className="bg-[#141414] border border-[#111] p-5">
               <p className="text-[#333] text-[9px] font-mono tracking-[0.25em] uppercase mb-3">{s.label}</p>
               <p className={`text-4xl font-black mb-1 tabular-nums ${s.color}`}>{s.value}</p>
               <p className="text-[#2a2a2a] text-[9px] font-mono">{s.sub}</p>
@@ -266,7 +266,7 @@ export default function PanelPage() {
           {(['list','calendar'] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               className={`px-4 py-2 text-[9px] font-mono tracking-[0.2em] uppercase border transition-all duration-150 ${
-                activeTab === t ? 'bg-[#E8E2D9] text-[#050505] border-[#E8E2D9]' : 'border-[#1a1a1a] text-[#444] hover:border-[#333] hover:text-[#E8E2D9]'
+                activeTab === t ? 'bg-[#E8E2D9] text-[#111111] border-[#E8E2D9]' : 'border-[#1a1a1a] text-[#444] hover:border-[#333] hover:text-[#E8E2D9]'
               }`}>
               {t === 'list' ? 'Reservas' : 'Calendario'}
             </button>
@@ -291,21 +291,21 @@ export default function PanelPage() {
             {/* Day headers */}
             <div className="grid grid-cols-7 gap-px mb-px">
               {DAYS_ES.map(d => (
-                <div key={d} className="bg-[#080808] py-2 text-center text-[9px] font-mono tracking-widest text-[#333] uppercase">
+                <div key={d} className="bg-[#141414] py-2 text-center text-[9px] font-mono tracking-widest text-[#333] uppercase">
                   {d}
                 </div>
               ))}
             </div>
 
             {/* Day cells */}
-            <div className="grid grid-cols-7 gap-px bg-[#0f0f0f]">
+            <div className="grid grid-cols-7 gap-px bg-[#1b1b1b]">
               {calDays.map(({ date, type, key }) => {
                 const isToday = key === new Date().toISOString().split('T')[0];
                 const dayBookings = bookingsByDate[key] ?? [];
                 const isCur = type === 'cur';
                 return (
                   <div key={key} className={`min-h-[80px] sm:min-h-[100px] p-1.5 sm:p-2 flex flex-col ${
-                    isCur ? 'bg-[#080808]' : 'bg-[#050505]'
+                    isCur ? 'bg-[#141414]' : 'bg-[#111111]'
                   } ${isToday ? 'ring-1 ring-inset ring-[#8B0000]/40' : ''}`}>
                     {/* Day number */}
                     <span className={`text-[10px] font-mono mb-1 self-start leading-none px-1 py-0.5 ${
@@ -364,7 +364,7 @@ export default function PanelPage() {
               placeholder="Buscar por nombre, servicio o teléfono..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full bg-[#080808] border border-[#111] focus:border-[#222] pl-9 pr-9 py-2.5 text-[#E8E2D9] text-sm placeholder-[#2a2a2a] outline-none transition-colors"
+              className="w-full bg-[#141414] border border-[#111] focus:border-[#222] pl-9 pr-9 py-2.5 text-[#E8E2D9] text-sm placeholder-[#2a2a2a] outline-none transition-colors"
             />
             {search && (
               <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#333] hover:text-[#E8E2D9] transition-colors">
@@ -377,7 +377,7 @@ export default function PanelPage() {
               <button key={s} onClick={() => setFilterStatus(s)}
                 className={`px-3 py-2 text-[9px] font-mono tracking-[0.15em] uppercase border transition-all duration-150 ${
                   filterStatus === s
-                    ? 'bg-[#E8E2D9] text-[#050505] border-[#E8E2D9]'
+                    ? 'bg-[#E8E2D9] text-[#111111] border-[#E8E2D9]'
                     : 'border-[#1a1a1a] text-[#444] hover:border-[#2a2a2a] hover:text-[#E8E2D9]'
                 }`}>
                 {s === 'todos' ? 'Todas' : STATUS_LABELS[s]}
@@ -403,7 +403,7 @@ export default function PanelPage() {
 
         {/* Empty */}
         {!loading && !fbError && filtered.length === 0 && (
-          <div className="text-center py-20 border border-[#0f0f0f]">
+          <div className="text-center py-20 border border-[#1b1b1b]">
             <p className="text-[#1a1a1a] text-5xl mb-4">—</p>
             <p className="text-[#333] text-xs font-mono tracking-widest">
               {search || filterStatus !== 'todos' ? 'Sin resultados para los filtros aplicados' : 'No hay citas todavía'}
@@ -418,13 +418,13 @@ export default function PanelPage() {
               const sc = STATUS_STYLES[b.status] ?? STATUS_STYLES.pendiente;
               const isOpen = expanded === b.id;
               return (
-                <div key={b.id} className="border border-[#111] hover:border-[#1a1a1a] transition-colors duration-150 bg-[#080808]">
+                <div key={b.id} className="border border-[#111] hover:border-[#1a1a1a] transition-colors duration-150 bg-[#141414]">
 
                   {/* Row summary */}
                   <div className="px-5 py-4 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-4 flex-1 min-w-0">
                       {/* Avatar initial */}
-                      <div className="w-9 h-9 border border-[#8B0000]/15 flex items-center justify-center flex-shrink-0 bg-[#0a0000]">
+                      <div className="w-9 h-9 border border-[#8B0000]/15 flex items-center justify-center flex-shrink-0 bg-[#160c0c]">
                         <span className="text-[#8B0000] font-black text-xs">{b.nombre?.charAt(0)?.toUpperCase() ?? '?'}</span>
                       </div>
 
@@ -462,7 +462,7 @@ export default function PanelPage() {
 
                   {/* Expanded */}
                   {isOpen && (
-                    <div className="border-t border-[#0f0f0f] bg-[#050505] p-5 space-y-5">
+                    <div className="border-t border-[#1b1b1b] bg-[#111111] p-5 space-y-5">
 
                       {/* Status change */}
                       <div>
@@ -499,18 +499,18 @@ export default function PanelPage() {
                       {b.idea && (
                         <div>
                           <p className="text-[#222] text-[9px] font-mono uppercase tracking-widest mb-2">Idea del cliente</p>
-                          <p className="text-[#888] text-xs leading-relaxed bg-[#080808] border border-[#111] p-4">{b.idea}</p>
+                          <p className="text-[#888] text-xs leading-relaxed bg-[#141414] border border-[#111] p-4">{b.idea}</p>
                         </div>
                       )}
                       {b.comentarios && (
                         <div>
                           <p className="text-[#222] text-[9px] font-mono uppercase tracking-widest mb-2">Comentarios adicionales</p>
-                          <p className="text-[#888] text-xs leading-relaxed bg-[#080808] border border-[#111] p-4">{b.comentarios}</p>
+                          <p className="text-[#888] text-xs leading-relaxed bg-[#141414] border border-[#111] p-4">{b.comentarios}</p>
                         </div>
                       )}
 
                       {/* Quick contact */}
-                      <div className="flex gap-3 pt-3 border-t border-[#0f0f0f]">
+                      <div className="flex gap-3 pt-3 border-t border-[#1b1b1b]">
                         <a href={`tel:${b.telefono}`}
                           className="flex-1 flex items-center justify-center gap-2 border border-[#1a1a1a] hover:border-[#333] text-[#444] hover:text-[#E8E2D9] text-[9px] font-mono tracking-widest uppercase py-3 transition-all duration-150">
                           <Phone size={11} /> Llamar

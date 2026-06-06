@@ -64,7 +64,7 @@ export default function AuthModal() {
         .auth-btn-1 { animation: authBtnIn 0.22s ease-out 0.08s both }
         .auth-btn-2 { animation: authBtnIn 0.22s ease-out 0.16s both }
       `}</style>
-      <div className="absolute inset-0 bg-[#050505]/95 backdrop-blur-md" onClick={closeAuth} />
+      <div className="absolute inset-0 bg-[#111111]/95 backdrop-blur-md" onClick={closeAuth} />
 
       <div className="relative w-full max-w-md z-10" style={{ animation: 'authSlideUp 0.22s ease-out' }}>
         {/* Close */}
@@ -73,7 +73,7 @@ export default function AuthModal() {
           <X size={15} />
         </button>
 
-        <div className="bg-[#080808] border border-[#1e1e1e] rounded-2xl overflow-hidden">
+        <div className="bg-[#141414] border border-[#1e1e1e] rounded-2xl overflow-hidden">
           {/* Header */}
           <div className="px-8 pt-8 pb-6 text-center border-b border-[#111]">
             <p className="text-[#8B0000] text-[9px] font-mono tracking-[0.5em] uppercase mb-3">D.Z Tattoo Studio</p>
@@ -104,7 +104,7 @@ export default function AuthModal() {
 
                 <div className="relative py-3">
                   <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[#151515]" /></div>
-                  <div className="relative flex justify-center"><span className="bg-[#080808] px-4 text-[#2a2a2a] text-[10px] font-mono tracking-widest">O</span></div>
+                  <div className="relative flex justify-center"><span className="bg-[#141414] px-4 text-[#2a2a2a] text-[10px] font-mono tracking-widest">O</span></div>
                 </div>
 
                 {/* Email */}

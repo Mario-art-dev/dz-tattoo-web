@@ -23,7 +23,7 @@ export default function SiteShell() {
       <CookieBanner />
       <AuthModal />
       <WelcomeScreen />
-      <div className="fixed bottom-0 left-0 right-0 z-[9990] pointer-events-none select-none flex items-center justify-center py-1.5 bg-[#050505]/80 backdrop-blur-sm border-t border-[#1a1a1a]">
+      <div className="fixed bottom-0 left-0 right-0 z-[9990] pointer-events-none select-none flex items-center justify-center py-1.5 bg-[#111111]/80 backdrop-blur-sm border-t border-[#1a1a1a]">
         <p className="text-[#444] text-[9px] font-mono tracking-[0.25em] uppercase">
           Prototipo privado para D.Z Tattoo Studio &nbsp;·&nbsp; © 2026 Todos los derechos reservados
         </p>

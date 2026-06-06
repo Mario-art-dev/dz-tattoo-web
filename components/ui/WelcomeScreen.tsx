@@ -101,11 +101,11 @@ export default function WelcomeScreen() {
       `}</style>
 
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-[#050505]/85 backdrop-blur-md" onClick={dismiss} />
+      <div className="absolute inset-0 bg-[#111111]/85 backdrop-blur-md" onClick={dismiss} />
 
       {/* Card */}
       <div
-        className="relative w-full max-w-sm bg-[#090909] border border-[#1e1e1e] rounded-2xl overflow-hidden z-10"
+        className="relative w-full max-w-sm bg-[#151515] border border-[#1e1e1e] rounded-2xl overflow-hidden z-10"
         style={{ animation: 'wsSlideUp 0.28s ease-out' }}
       >
 
@@ -190,7 +190,7 @@ export default function WelcomeScreen() {
                   <div className="w-full border-t border-[#151515]" />
                 </div>
                 <div className="relative flex justify-center">
-                  <span className="bg-[#050505] px-4 text-[#2a2a2a] text-[10px] font-mono tracking-widest">O</span>
+                  <span className="bg-[#111111] px-4 text-[#2a2a2a] text-[10px] font-mono tracking-widest">O</span>
                 </div>
               </div>
 
