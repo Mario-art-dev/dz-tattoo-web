@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { ArrowRight, Calendar, Clock, X, Loader2 } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, X, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/contexts/AuthContext';
@@ -21,14 +21,16 @@ const STATUS_MAP: Record<string, { label: string; dot: string; text: string }> =
 type ActiveBooking = {
   id: string; nombre: string; servicio: string;
   fecha: string; hora: string; telefono: string; email: string; status: string;
+  idea?: string; zonaCorporal?: string; tamano?: string; comentarios?: string;
 };
 
 export default function LandingPage() {
   const heroRef = useRef<HTMLElement>(null);
   const { user } = useAuth();
-  const [booking, setBooking] = useState<ActiveBooking | null>(null);
-  const [cancelling, setCancelling] = useState(false);
-  const [cancelled, setCancelled] = useState(false);
+  const [bookings, setBookings] = useState<ActiveBooking[]>([]);
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [cancelledIds, setCancelledIds] = useState<Set<string>>(new Set());
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -46,41 +48,38 @@ export default function LandingPage() {
     return () => ctx.revert();
   }, []);
 
-  // Fetch active booking for logged-in user
   useEffect(() => {
-    if (!user) { setBooking(null); return; }
+    if (!user) { setBookings([]); return; }
     getDocs(query(collection(db, 'citas'), where('userId', '==', user.uid)))
       .then(snap => {
         const active = snap.docs
           .map(d => ({ id: d.id, ...d.data() } as ActiveBooking))
           .filter(b => b.status !== 'cancelado');
-        setBooking(active.length > 0 ? active[0] : null);
-        setCancelled(false);
+        setBookings(active);
+        setCancelledIds(new Set());
       })
       .catch(() => {});
   }, [user]);
 
-  const cancelBooking = async () => {
-    if (!booking || cancelling) return;
-    setCancelling(true);
+  const cancelBooking = async (b: ActiveBooking) => {
+    if (cancellingId) return;
+    setCancellingId(b.id);
     try {
-      await updateDoc(doc(db, 'citas', booking.id), { status: 'cancelado' });
+      await updateDoc(doc(db, 'citas', b.id), { status: 'cancelado' });
       fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ to: booking.email, type: 'cancel', data: booking }),
+        body: JSON.stringify({ to: b.email, type: 'cancel', data: b }),
       }).catch(() => {});
-      setCancelled(true);
-      setTimeout(() => setBooking(null), 2000);
-    } catch { setCancelling(false); }
+      setCancelledIds(prev => new Set([...prev, b.id]));
+      setTimeout(() => setBookings(prev => prev.filter(x => x.id !== b.id)), 2000);
+    } catch { /* empty */ } finally { setCancellingId(null); }
   };
 
   const formatDate = (s: string) => {
     if (!s) return '';
     try { const [y, m, d] = s.split('-'); return `${d}/${m}/${y}`; } catch { return s; }
   };
-
-  const cfg = booking ? (STATUS_MAP[booking.status] ?? STATUS_MAP.pendiente) : null;
 
   return (
     <section
@@ -113,7 +112,7 @@ export default function LandingPage() {
           </span>
         </div>
 
-        {/* Headline — per character */}
+        {/* Headline */}
         <h1 className="mb-3 sm:mb-4">
           <div className="overflow-hidden leading-[0.88]">
             {DZ_LETTERS.map((char, i) => (
@@ -144,58 +143,106 @@ export default function LandingPage() {
           <span className="text-[#E8E2D9]">Primera consulta totalmente gratuita.</span>
         </p>
 
-        {/* CTA + active booking */}
+        {/* CTA */}
         <div className="h-cta mb-10 sm:mb-14 w-full sm:max-w-md">
           <a
             href="#booking-form"
             onClick={e => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
-            className="btn-cta w-full px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center flex items-center gap-2 mb-6"
+            className="btn-cta w-full px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center flex items-center gap-2"
           >
             Reservar cita gratis <ArrowRight size={16} className="flex-shrink-0" />
           </a>
 
-          {/* Active booking card */}
-          {booking && cfg && (
-            <div className="w-full border border-[#1e1e1e] bg-[#151515] rounded-2xl overflow-hidden">
-              <div className="px-5 py-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
-                  <span className="text-[#444] text-[9px] font-mono tracking-[0.3em] uppercase">Tu reserva activa</span>
-                  <span className={`text-[9px] font-mono tracking-widest uppercase ${cfg.text} ml-auto`}>{cfg.label}</span>
-                </div>
+          {/* Active bookings list */}
+          {bookings.length > 0 && (
+            <div className="mt-10 space-y-3">
+              <p className="text-[#444] text-[9px] font-mono tracking-[0.3em] uppercase mb-3">
+                {bookings.length === 1 ? 'Tu reserva activa' : `Tus ${bookings.length} reservas activas`}
+              </p>
 
-                <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
-                  <span className="text-[#E8E2D9] text-sm font-bold">{booking.nombre}</span>
-                  <span className="text-[#8B0000] text-sm font-mono">{booking.servicio}</span>
-                </div>
+              {bookings.map(b => {
+                const cfg = STATUS_MAP[b.status] ?? STATUS_MAP.pendiente;
+                const isExpanded = expandedId === b.id;
+                const isCancelled = cancelledIds.has(b.id);
+                const isCancelling = cancellingId === b.id;
 
-                <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
-                  {booking.fecha && (
-                    <span className="text-[#B0A89E] text-xs font-mono flex items-center gap-1.5">
-                      <Calendar size={10} /> {formatDate(booking.fecha)}
-                    </span>
-                  )}
-                  {booking.hora && (
-                    <span className="text-[#B0A89E] text-xs font-mono flex items-center gap-1.5">
-                      <Clock size={10} /> {booking.hora}
-                    </span>
-                  )}
-                  <span className="text-[#444] text-xs font-mono">{booking.telefono}</span>
-                </div>
+                const detailRows = [
+                  { label: 'Nombre',      value: b.nombre },
+                  { label: 'Servicio',    value: b.servicio },
+                  { label: 'Fecha',       value: formatDate(b.fecha) },
+                  { label: 'Hora',        value: b.hora },
+                  { label: 'Teléfono',    value: b.telefono },
+                  { label: 'Email',       value: b.email },
+                  b.zonaCorporal ? { label: 'Zona corporal', value: b.zonaCorporal } : null,
+                  b.tamano       ? { label: 'Tamaño',        value: b.tamano }       : null,
+                  b.idea         ? { label: 'Idea',          value: b.idea }         : null,
+                  b.comentarios  ? { label: 'Comentarios',   value: b.comentarios }  : null,
+                ].filter(Boolean) as { label: string; value: string }[];
 
-                {cancelled ? (
-                  <p className="text-zinc-500 text-[10px] font-mono tracking-wider">Reserva cancelada</p>
-                ) : (
-                  <button
-                    onClick={cancelBooking}
-                    disabled={cancelling}
-                    className="flex items-center gap-1.5 text-[#8B0000] hover:text-[#C41E1E] text-[10px] font-mono tracking-[0.2em] uppercase transition-colors disabled:opacity-50"
-                  >
-                    {cancelling ? <Loader2 size={10} className="animate-spin" /> : <X size={10} />}
-                    {cancelling ? 'Cancelando...' : 'Cancelar reserva'}
-                  </button>
-                )}
-              </div>
+                return (
+                  <div key={b.id} className="border border-[#1e1e1e] bg-[#151515] rounded-2xl overflow-hidden">
+
+                    {/* Summary row — tap to expand */}
+                    <button
+                      onClick={() => setExpandedId(isExpanded ? null : b.id)}
+                      className="w-full px-5 py-4 flex items-center gap-3 text-left hover:bg-[#1a1a1a] transition-colors"
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${cfg.dot}`} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[#E8E2D9] text-sm font-bold truncate">{b.servicio}</p>
+                        <div className="flex items-center gap-3 mt-0.5">
+                          {b.fecha && (
+                            <span className="text-[#555] text-[10px] font-mono flex items-center gap-1">
+                              <Calendar size={9} /> {formatDate(b.fecha)}
+                            </span>
+                          )}
+                          {b.hora && (
+                            <span className="text-[#555] text-[10px] font-mono flex items-center gap-1">
+                              <Clock size={9} /> {b.hora}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <span className={`text-[9px] font-mono tracking-widest uppercase ${cfg.text} flex-shrink-0 hidden sm:block`}>
+                        {cfg.label}
+                      </span>
+                      {isExpanded
+                        ? <ChevronUp size={14} className="text-[#555] flex-shrink-0" />
+                        : <ChevronDown size={14} className="text-[#555] flex-shrink-0" />
+                      }
+                    </button>
+
+                    {/* Expanded details */}
+                    {isExpanded && (
+                      <div className="border-t border-[#1e1e1e] px-5 pb-4">
+                        <div className="pt-3 space-y-2.5">
+                          {detailRows.map(({ label, value }) => (
+                            <div key={label} className="flex justify-between gap-4">
+                              <span className="text-[#444] text-[10px] font-mono tracking-[0.15em] uppercase flex-shrink-0">{label}</span>
+                              <span className="text-[#B0A89E] text-[10px] text-right break-words max-w-[65%]">{value || '—'}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="mt-4 pt-3 border-t border-[#1e1e1e]">
+                          {isCancelled ? (
+                            <p className="text-zinc-500 text-[10px] font-mono tracking-wider">Reserva cancelada</p>
+                          ) : (
+                            <button
+                              onClick={() => cancelBooking(b)}
+                              disabled={!!cancellingId}
+                              className="flex items-center gap-1.5 text-[#8B0000] hover:text-[#C41E1E] text-[10px] font-mono tracking-[0.2em] uppercase transition-colors disabled:opacity-50"
+                            >
+                              {isCancelling ? <Loader2 size={10} className="animate-spin" /> : <X size={10} />}
+                              {isCancelling ? 'Cancelando...' : 'Cancelar reserva'}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
