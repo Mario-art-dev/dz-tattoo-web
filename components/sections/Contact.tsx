@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MapPin, Phone, Clock, MessageCircle, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Clock, MessageCircle, ArrowRight, Mail } from 'lucide-react';
 import { InstagramIcon } from '@/components/ui/InstagramIcon';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -51,7 +51,7 @@ export default function Contact() {
         </div>
 
         {/* MAIN CONTACT CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
           {/* WhatsApp — highlighted */}
           <a
             href="https://wa.me/34722201072?text=Hola,%20me%20gustaría%20pedir%20información"
@@ -90,6 +90,25 @@ export default function Contact() {
             </div>
             <div className="flex items-center gap-1 text-[#555] text-xs group-hover:text-[#E8E2D9] transition-colors">
               <ArrowRight size={12} /> Llamar ahora
+            </div>
+          </a>
+
+          {/* Email */}
+          <a
+            href="mailto:danizaragoza20@gmail.com"
+            className="ct-card group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-[#1a1a1a] p-7 hover:border-[#8B0000]/40 hover:bg-[#160c0c] transition-all duration-400 flex flex-col gap-4"
+            aria-label="Enviar email"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center">
+              <Mail size={22} className="text-[#E8E2D9]" />
+            </div>
+            <div>
+              <p className="text-[#555] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Email</p>
+              <h3 className="text-[#E8E2D9] text-lg font-black uppercase mb-1">Escríbenos</h3>
+              <p className="text-[#B0A89E] text-xs font-mono break-all leading-relaxed">danizaragoza20@gmail.com</p>
+            </div>
+            <div className="flex items-center gap-1 text-[#555] text-xs group-hover:text-[#E8E2D9] transition-colors">
+              <ArrowRight size={12} /> Enviar correo
             </div>
           </a>
 
