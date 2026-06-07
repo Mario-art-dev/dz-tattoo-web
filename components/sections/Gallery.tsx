@@ -37,28 +37,6 @@ export default function Gallery() {
 
   const filtered = cat === 'Todos' ? items : items.filter(i => i.cat === cat);
 
-  const applyTilt = (el: HTMLElement, px: number, py: number, w: number, h: number) => {
-    const x = px / w - 0.5;
-    const y = py / h - 0.5;
-    gsap.to(el, { rotateY: x * 16, rotateX: -y * 11, transformPerspective: 900, duration: 0.4, ease: 'power2.out' });
-  };
-  const resetTilt = (el: HTMLElement) => {
-    gsap.to(el, { rotateY: 0, rotateX: 0, duration: 0.7, ease: 'power3.out' });
-  };
-
-  const onTiltMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    applyTilt(e.currentTarget, e.clientX - r.left, e.clientY - r.top, r.width, r.height);
-  };
-  const onTiltLeave = (e: React.MouseEvent<HTMLDivElement>) => resetTilt(e.currentTarget);
-
-  const onTouchTiltMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!e.touches[0]) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    applyTilt(e.currentTarget, e.touches[0].clientX - r.left, e.touches[0].clientY - r.top, r.width, r.height);
-  };
-  const onTouchTiltEnd = (e: React.TouchEvent<HTMLDivElement>) => resetTilt(e.currentTarget);
-
   const openLb = (i: number) => { setLbIdx(i); setLb(true); document.body.style.overflow = 'hidden'; };
   const closeLb = () => { setLb(false); document.body.style.overflow = ''; };
   const lbNext = () => setLbIdx(i => (i + 1) % filtered.length);
@@ -146,12 +124,6 @@ export default function Gallery() {
               tabIndex={0}
               aria-label={item.alt}
               onKeyDown={e => e.key === 'Enter' && openLb(i)}
-              onMouseMove={onTiltMove}
-              onMouseLeave={onTiltLeave}
-              onTouchMove={onTouchTiltMove}
-              onTouchEnd={onTouchTiltEnd}
-              onTouchCancel={onTouchTiltEnd}
-              style={{ willChange: 'transform' }}
             >
               <div className={`relative w-full bg-gradient-to-br ${gradients[i % 4]}`}
                 style={{ paddingBottom: item.size === 'tall' ? '135%' : item.size === 'wide' ? '70%' : '100%' }}>
