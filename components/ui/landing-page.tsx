@@ -155,7 +155,7 @@ export default function LandingPage() {
 
           {/* Active bookings list */}
           {bookings.length > 0 && (
-            <div className="mt-10 space-y-3">
+            <div className="mt-16 space-y-3">
               <p className="text-[#444] text-[9px] font-mono tracking-[0.3em] uppercase mb-3">
                 {bookings.length === 1 ? 'Tu reserva activa' : `Tus ${bookings.length} reservas activas`}
               </p>
