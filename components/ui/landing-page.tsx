@@ -26,12 +26,14 @@ type ActiveBooking = {
 
 export default function LandingPage() {
   const heroRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
   const { user } = useAuth();
   const [bookings, setBookings] = useState<ActiveBooking[]>([]);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [cancelledIds, setCancelledIds] = useState<Set<string>>(new Set());
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
+  // Entrance animation
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.set('.h-char', { yPercent: 115 });
@@ -48,6 +50,54 @@ export default function LandingPage() {
     return () => ctx.revert();
   }, []);
 
+  // Mouse parallax — desktop only
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero || window.innerWidth < 768) return;
+
+    const orb1      = hero.querySelector<HTMLElement>('.h-orb-1');
+    const orb2      = hero.querySelector<HTMLElement>('.h-orb-2');
+    const headline  = hero.querySelector<HTMLElement>('.h-headline');
+    const watermark = hero.querySelector<HTMLElement>('.h-watermark');
+
+    if (!orb1 || !orb2 || !headline) return;
+
+    const xOrb1 = gsap.quickTo(orb1,     'x', { duration: 2.2, ease: 'power3.out' });
+    const yOrb1 = gsap.quickTo(orb1,     'y', { duration: 2.2, ease: 'power3.out' });
+    const xOrb2 = gsap.quickTo(orb2,     'x', { duration: 2.8, ease: 'power3.out' });
+    const yOrb2 = gsap.quickTo(orb2,     'y', { duration: 2.8, ease: 'power3.out' });
+    const xHead = gsap.quickTo(headline, 'x', { duration: 1.1, ease: 'power3.out' });
+    const yHead = gsap.quickTo(headline, 'y', { duration: 1.1, ease: 'power3.out' });
+    const xWm   = watermark ? gsap.quickTo(watermark, 'x', { duration: 3.2, ease: 'power3.out' }) : null;
+    const yWm   = watermark ? gsap.quickTo(watermark, 'y', { duration: 3.2, ease: 'power3.out' }) : null;
+
+    const onMove = (e: MouseEvent) => {
+      const x = e.clientX / window.innerWidth  - 0.5;
+      const y = e.clientY / window.innerHeight - 0.5;
+      xOrb1(x *  45);  yOrb1(y *  30);
+      xOrb2(x * -28);  yOrb2(y * -20);
+      xHead(x *  14);  yHead(y *   8);
+      xWm?.(x * -20);  yWm?.(y *  14);
+    };
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+
+  // Magnetic CTA button
+  const onCtaMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!ctaRef.current) return;
+    const r = ctaRef.current.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width  / 2) * 0.22;
+    const y = (e.clientY - r.top  - r.height / 2) * 0.22;
+    gsap.to(ctaRef.current, { x, y, duration: 0.35, ease: 'power2.out' });
+  };
+  const onCtaLeave = () => {
+    if (!ctaRef.current) return;
+    gsap.to(ctaRef.current, { x: 0, y: 0, duration: 0.65, ease: 'elastic.out(1, 0.5)' });
+  };
+
+  // Bookings
   useEffect(() => {
     if (!user) { setBookings([]); return; }
     getDocs(query(collection(db, 'citas'), where('userId', '==', user.uid)))
@@ -94,9 +144,9 @@ export default function LandingPage() {
           className="absolute inset-0 opacity-[0.022]"
           style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '60px 60px' }}
         />
-        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-[#8B0000]/14 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 -left-20 w-[350px] h-[350px] bg-[#8B0000]/8 rounded-full blur-[100px]" />
-        <span className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 text-[#8B0000]/[0.03] text-[18rem] sm:text-[26rem] font-black select-none leading-none">
+        <div className="h-orb-1 absolute -top-40 -right-40 w-[500px] h-[500px] bg-[#8B0000]/14 rounded-full blur-[120px]" />
+        <div className="h-orb-2 absolute bottom-0 -left-20 w-[350px] h-[350px] bg-[#8B0000]/8 rounded-full blur-[100px]" />
+        <span className="h-watermark absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 text-[#8B0000]/[0.03] text-[18rem] sm:text-[26rem] font-black select-none leading-none">
           DZ
         </span>
       </div>
@@ -112,8 +162,8 @@ export default function LandingPage() {
           </span>
         </div>
 
-        {/* Headline */}
-        <h1 className="mb-3 sm:mb-4">
+        {/* Headline — parallax layer */}
+        <h1 className="h-headline mb-3 sm:mb-4">
           <div className="overflow-hidden leading-[0.88]">
             {DZ_LETTERS.map((char, i) => (
               <span key={i} className="h-char text-[clamp(4rem,16vw,10rem)] font-black uppercase leading-[0.88] tracking-tight text-[#E8E2D9] inline-block">
@@ -143,17 +193,20 @@ export default function LandingPage() {
           <span className="text-[#E8E2D9]">Primera consulta totalmente gratuita.</span>
         </p>
 
-        {/* CTA */}
+        {/* CTA — magnetic */}
         <div className="h-cta mb-10 sm:mb-14 w-full sm:max-w-md">
           <a
+            ref={ctaRef}
             href="#booking-form"
+            onMouseMove={onCtaMove}
+            onMouseLeave={onCtaLeave}
             onClick={e => { e.preventDefault(); document.querySelector('#booking-form')?.scrollIntoView({ behavior: 'smooth' }); }}
             className="btn-cta w-full px-8 py-5 text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-center justify-center flex items-center gap-2"
           >
             Reservar cita gratis <ArrowRight size={16} className="flex-shrink-0" />
           </a>
 
-          {/* Active bookings list */}
+          {/* Active bookings */}
           {bookings.length > 0 && (
             <div className="mt-10 space-y-3">
               <p className="text-[#444] text-[9px] font-mono tracking-[0.3em] uppercase mb-3">
@@ -167,12 +220,12 @@ export default function LandingPage() {
                 const isCancelling = cancellingId === b.id;
 
                 const detailRows = [
-                  { label: 'Nombre',      value: b.nombre },
-                  { label: 'Servicio',    value: b.servicio },
-                  { label: 'Fecha',       value: formatDate(b.fecha) },
-                  { label: 'Hora',        value: b.hora },
-                  { label: 'Teléfono',    value: b.telefono },
-                  { label: 'Email',       value: b.email },
+                  { label: 'Nombre',       value: b.nombre },
+                  { label: 'Servicio',     value: b.servicio },
+                  { label: 'Fecha',        value: formatDate(b.fecha) },
+                  { label: 'Hora',         value: b.hora },
+                  { label: 'Teléfono',     value: b.telefono },
+                  { label: 'Email',        value: b.email },
                   b.zonaCorporal ? { label: 'Zona corporal', value: b.zonaCorporal } : null,
                   b.tamano       ? { label: 'Tamaño',        value: b.tamano }       : null,
                   b.idea         ? { label: 'Idea',          value: b.idea }         : null,
@@ -181,8 +234,6 @@ export default function LandingPage() {
 
                 return (
                   <div key={b.id} className="border border-[#1e1e1e] bg-[#151515] rounded-2xl overflow-hidden">
-
-                    {/* Summary row — tap to expand */}
                     <button
                       onClick={() => setExpandedId(isExpanded ? null : b.id)}
                       className="w-full px-5 py-4 flex items-center gap-3 text-left hover:bg-[#1a1a1a] transition-colors"
@@ -212,7 +263,6 @@ export default function LandingPage() {
                       }
                     </button>
 
-                    {/* Expanded details */}
                     {isExpanded && (
                       <div className="border-t border-[#1e1e1e] px-5 pb-4">
                         <div className="pt-3 space-y-2.5">
@@ -223,7 +273,6 @@ export default function LandingPage() {
                             </div>
                           ))}
                         </div>
-
                         <div className="mt-4 pt-3 border-t border-[#1e1e1e]">
                           {isCancelled ? (
                             <p className="text-zinc-500 text-[10px] font-mono tracking-wider">Reserva cancelada</p>
@@ -248,7 +297,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Services scrollable strip */}
+      {/* Services strip */}
       <div className="relative z-10 border-t border-[#1b1b1b] py-3.5">
         <div className="flex gap-2.5 px-5 sm:px-8 overflow-x-auto scrollbar-hide pb-0.5">
           {SERVICES_QUICK.map(s => (
