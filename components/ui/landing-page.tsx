@@ -50,10 +50,10 @@ export default function LandingPage() {
     return () => ctx.revert();
   }, []);
 
-  // Mouse parallax — desktop only
+  // Parallax — mouse on desktop, touch-drag on mobile
   useEffect(() => {
     const hero = heroRef.current;
-    if (!hero || window.innerWidth < 768) return;
+    if (!hero) return;
 
     const orb1      = hero.querySelector<HTMLElement>('.h-orb-1');
     const orb2      = hero.querySelector<HTMLElement>('.h-orb-2');
@@ -71,17 +71,41 @@ export default function LandingPage() {
     const xWm   = watermark ? gsap.quickTo(watermark, 'x', { duration: 3.2, ease: 'power3.out' }) : null;
     const yWm   = watermark ? gsap.quickTo(watermark, 'y', { duration: 3.2, ease: 'power3.out' }) : null;
 
-    const onMove = (e: MouseEvent) => {
-      const x = e.clientX / window.innerWidth  - 0.5;
-      const y = e.clientY / window.innerHeight - 0.5;
-      xOrb1(x *  45);  yOrb1(y *  30);
-      xOrb2(x * -28);  yOrb2(y * -20);
-      xHead(x *  14);  yHead(y *   8);
-      xWm?.(x * -20);  yWm?.(y *  14);
+    const apply = (nx: number, ny: number) => {
+      xOrb1(nx *  45);  yOrb1(ny *  30);
+      xOrb2(nx * -28);  yOrb2(ny * -20);
+      xHead(nx *  14);  yHead(ny *   8);
+      xWm?.(nx * -20);  yWm?.(ny *  14);
     };
 
-    window.addEventListener('mousemove', onMove, { passive: true });
-    return () => window.removeEventListener('mousemove', onMove);
+    const onMouse = (e: MouseEvent) => {
+      apply(e.clientX / window.innerWidth - 0.5, e.clientY / window.innerHeight - 0.5);
+    };
+
+    const onTouch = (e: TouchEvent) => {
+      if (!e.touches[0]) return;
+      const t = e.touches[0];
+      apply(t.clientX / window.innerWidth - 0.5, t.clientY / window.innerHeight - 0.5);
+    };
+
+    const onTouchEnd = () => {
+      xOrb1(0); yOrb1(0);
+      xOrb2(0); yOrb2(0);
+      xHead(0); yHead(0);
+      xWm?.(0); yWm?.(0);
+    };
+
+    window.addEventListener('mousemove', onMouse,    { passive: true });
+    hero.addEventListener('touchmove',   onTouch,    { passive: true });
+    hero.addEventListener('touchend',    onTouchEnd, { passive: true });
+    hero.addEventListener('touchcancel', onTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', onMouse);
+      hero.removeEventListener('touchmove',   onTouch);
+      hero.removeEventListener('touchend',    onTouchEnd);
+      hero.removeEventListener('touchcancel', onTouchEnd);
+    };
   }, []);
 
   // Magnetic CTA button
