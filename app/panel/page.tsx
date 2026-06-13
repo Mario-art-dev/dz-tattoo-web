@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, onSnapshot, doc, updateDoc, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { LogOut, Phone, Calendar, Clock, MessageCircle, User, ChevronDown, ChevronUp, Search, X, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
+import { LogOut, Phone, Calendar, Clock, MessageCircle, User, ChevronDown, ChevronUp, ChevronLeft, Search, X, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
 
 const PIN = 'dztattoo';
 
@@ -46,7 +46,12 @@ export default function PanelPage() {
   const [activeTab, setActiveTab] = useState<'list' | 'calendar'>('list');
   const [calYear, setCalYear] = useState(new Date().getFullYear());
   const [calMonth, setCalMonth] = useState(new Date().getMonth());
+  const [selectedCalBookingId, setSelectedCalBookingId] = useState<string | null>(null);
   const calTouchStart = useRef(0);
+
+  const selectedCalBooking = selectedCalBookingId
+    ? bookings.find(b => b.id === selectedCalBookingId) ?? null
+    : null;
 
   const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const DAYS_ES = ['LU','MA','MI','JU','VI','SA','DO'];
@@ -275,78 +280,188 @@ export default function PanelPage() {
 
         {/* ── CALENDAR VIEW ── */}
         {activeTab === 'calendar' && (
-          <div
-            className="select-none touch-pan-y"
-            onTouchStart={onCalTouchStart}
-            onTouchEnd={onCalTouchEnd}
-          >
-            {/* Month header */}
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-[#E8E2D9] text-lg font-black uppercase tracking-widest">
-                {MONTHS_ES[calMonth]} <span className="text-[#888]">{calYear}</span>
-              </h2>
-              <span className="text-[#777] text-xs font-mono tracking-[0.2em]">← desliza →</span>
-            </div>
+          selectedCalBooking ? (
+            /* ── BOOKING DETAIL (from calendar tap) ── */
+            <div>
+              <button
+                onClick={() => setSelectedCalBookingId(null)}
+                className="flex items-center gap-2 text-[#aaa] hover:text-[#E8E2D9] text-xs font-mono tracking-[0.2em] uppercase mb-6 transition-colors"
+              >
+                <ChevronLeft size={14} /> Volver al calendario
+              </button>
 
-            {/* Day headers */}
-            <div className="grid grid-cols-7 gap-px mb-px">
-              {DAYS_ES.map(d => (
-                <div key={d} className="bg-[#1e1e1e] py-2.5 text-center text-xs font-mono tracking-widest text-[#999] uppercase font-bold">
-                  {d}
-                </div>
-              ))}
-            </div>
-
-            {/* Day cells */}
-            <div className="grid grid-cols-7 gap-px bg-[#2a2a2a]">
-              {calDays.map(({ date, type, key }) => {
-                const isToday = key === new Date().toISOString().split('T')[0];
-                const dayBookings = bookingsByDate[key] ?? [];
-                const isCur = type === 'cur';
-                return (
-                  <div key={key} className={`min-h-[80px] sm:min-h-[100px] p-1.5 sm:p-2 flex flex-col ${
-                    isCur ? 'bg-[#1a1a1a]' : 'bg-[#141414]'
-                  } ${isToday ? 'ring-1 ring-inset ring-[#C41E1E]/50' : ''}`}>
-                    {/* Day number */}
-                    <span className={`text-[11px] font-mono mb-1 self-start leading-none px-1 py-0.5 ${
-                      isToday
-                        ? 'bg-[#C41E1E] text-white font-black'
-                        : isCur ? 'text-[#ccc]' : 'text-[#444]'
-                    }`}>{date}</span>
-
-                    {/* Bookings */}
-                    <div className="flex-1 space-y-0.5 overflow-hidden">
-                      {dayBookings.slice(0, 3).map(b => (
-                        <div key={b.id} className={`px-1 py-0.5 border-l-2 ${
-                          b.status === 'confirmado' ? 'border-emerald-500/80 bg-emerald-950/30' :
-                          b.status === 'pendiente' ? 'border-amber-500/70 bg-amber-950/30' : 'border-zinc-600 bg-zinc-900/30'
-                        }`}>
-                          <p className="text-[#E8E2D9] text-[9px] font-bold leading-tight truncate">{b.hora ? `${b.hora} ` : ''}{b.nombre}</p>
-                          <p className="text-[#888] text-[8px] leading-tight truncate">{b.telefono}</p>
-                        </div>
-                      ))}
-                      {dayBookings.length > 3 && (
-                        <p className="text-[#C41E1E] text-[8px] font-mono px-1">+{dayBookings.length - 3} más</p>
-                      )}
-                    </div>
+              {/* Header card */}
+              <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-5 mb-4">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 border border-[#C41E1E]/30 flex items-center justify-center flex-shrink-0 bg-[#C41E1E]/10 rounded-xl">
+                    <span className="text-[#C41E1E] font-black text-lg">{selectedCalBooking.nombre?.charAt(0)?.toUpperCase() ?? '?'}</span>
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Legend */}
-            <div className="flex gap-6 mt-4 px-1">
-              {[
-                { color: 'border-l-amber-500/70 bg-amber-950/30', label: 'Pendiente' },
-                { color: 'border-l-emerald-500/70 bg-emerald-950/30', label: 'Confirmada' },
-              ].map(l => (
-                <div key={l.label} className="flex items-center gap-2">
-                  <span className={`w-3 h-3 border-l-2 ${l.color}`} />
-                  <span className="text-[#aaa] text-xs font-mono">{l.label}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[#E8E2D9] font-black text-xl leading-tight">{selectedCalBooking.nombre}</p>
+                    <p className="text-[#888] text-xs font-mono mt-0.5">{selectedCalBooking.servicio}</p>
+                  </div>
+                  {(() => {
+                    const sc = STATUS_STYLES[selectedCalBooking.status] ?? STATUS_STYLES.pendiente;
+                    return (
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono tracking-wider border rounded-full flex-shrink-0 ${sc.bg} ${sc.text} ${sc.border}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
+                        {STATUS_LABELS[selectedCalBooking.status]}
+                      </span>
+                    );
+                  })()}
                 </div>
-              ))}
+                <div className="flex gap-5 text-sm">
+                  <span className="flex items-center gap-1.5 text-[#aaa] font-mono">
+                    <Calendar size={12} className="text-[#C41E1E]" /> {formatDate(selectedCalBooking.fecha)}
+                  </span>
+                  {selectedCalBooking.hora && (
+                    <span className="flex items-center gap-1.5 text-[#aaa] font-mono">
+                      <Clock size={12} className="text-[#C41E1E]" /> {selectedCalBooking.hora}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Status change */}
+              <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-5 mb-4">
+                <p className="text-[#999] text-xs font-mono tracking-[0.25em] uppercase mb-3">Cambiar estado</p>
+                <div className="flex gap-2 flex-wrap">
+                  {(['pendiente', 'confirmado', 'cancelado'] as const).map(s => (
+                    <button key={s} onClick={() => updateStatus(selectedCalBooking.id, s)}
+                      className={`px-4 py-2.5 text-xs font-mono tracking-wider uppercase border transition-all duration-150 rounded-lg ${
+                        selectedCalBooking.status === s
+                          ? `${STATUS_STYLES[s].bg} ${STATUS_STYLES[s].text} ${STATUS_STYLES[s].border} font-bold`
+                          : 'border-[#2a2a2a] text-[#999] hover:border-[#555] hover:text-[#E8E2D9]'
+                      }`}>
+                      {STATUS_LABELS[s]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Detail fields */}
+              <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-5 mb-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {[
+                    { label: 'Teléfono', value: selectedCalBooking.telefono },
+                    { label: 'Email', value: selectedCalBooking.email },
+                    { label: 'Zona corporal', value: selectedCalBooking.zonaCorporal || '—' },
+                    { label: 'Tamaño', value: selectedCalBooking.tamano || '—' },
+                    { label: 'Recibida', value: formatCreated(selectedCalBooking.createdAt) },
+                  ].map(d => (
+                    <div key={d.label} className="bg-[#1e1e1e] rounded-lg p-3 border border-[#2a2a2a]">
+                      <p className="text-[#888] text-[10px] font-mono uppercase tracking-widest mb-1.5">{d.label}</p>
+                      <p className="text-[#E8E2D9] text-sm font-mono break-all">{d.value || '—'}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {selectedCalBooking.idea && (
+                <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-5 mb-4">
+                  <p className="text-[#999] text-xs font-mono uppercase tracking-widest mb-2">Idea del cliente</p>
+                  <p className="text-[#E8E2D9] text-sm leading-relaxed">{selectedCalBooking.idea}</p>
+                </div>
+              )}
+              {selectedCalBooking.comentarios && (
+                <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-5 mb-4">
+                  <p className="text-[#999] text-xs font-mono uppercase tracking-widest mb-2">Comentarios adicionales</p>
+                  <p className="text-[#E8E2D9] text-sm leading-relaxed">{selectedCalBooking.comentarios}</p>
+                </div>
+              )}
+
+              {/* Quick contact */}
+              <div className="flex gap-3 mt-2">
+                <a href={`tel:${selectedCalBooking.telefono}`}
+                  className="flex-1 flex items-center justify-center gap-2 border border-[#2a2a2a] hover:border-[#555] text-[#aaa] hover:text-[#E8E2D9] text-xs font-mono tracking-widest uppercase py-3.5 transition-all duration-150 rounded-lg">
+                  <Phone size={13} /> Llamar
+                </a>
+                <a href={`https://wa.me/${selectedCalBooking.telefono?.replace(/\D/g, '')}?text=Hola%20${encodeURIComponent(selectedCalBooking.nombre)}%2C%20te%20contactamos%20desde%20D.Z%20Tattoo%20Studio`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 bg-emerald-950/40 border border-emerald-800/40 hover:border-emerald-600/60 text-emerald-400 text-xs font-mono tracking-widest uppercase py-3.5 transition-all duration-150 rounded-lg">
+                  <MessageCircle size={13} /> WhatsApp
+                </a>
+              </div>
             </div>
-          </div>
+          ) : (
+            /* ── CALENDAR GRID ── */
+            <div
+              className="select-none touch-pan-y"
+              onTouchStart={onCalTouchStart}
+              onTouchEnd={onCalTouchEnd}
+            >
+              {/* Month header */}
+              <div className="flex items-center justify-between mb-5">
+                <h2 className="text-[#E8E2D9] text-lg font-black uppercase tracking-widest">
+                  {MONTHS_ES[calMonth]} <span className="text-[#888]">{calYear}</span>
+                </h2>
+                <span className="text-[#777] text-xs font-mono tracking-[0.2em]">← desliza →</span>
+              </div>
+
+              {/* Day headers */}
+              <div className="grid grid-cols-7 gap-px mb-px">
+                {DAYS_ES.map(d => (
+                  <div key={d} className="bg-[#1e1e1e] py-2.5 text-center text-xs font-mono tracking-widest text-[#999] uppercase font-bold">
+                    {d}
+                  </div>
+                ))}
+              </div>
+
+              {/* Day cells */}
+              <div className="grid grid-cols-7 gap-px bg-[#2a2a2a]">
+                {calDays.map(({ date, type, key }) => {
+                  const isToday = key === new Date().toISOString().split('T')[0];
+                  const dayBookings = bookingsByDate[key] ?? [];
+                  const isCur = type === 'cur';
+                  return (
+                    <div key={key} className={`min-h-[80px] sm:min-h-[100px] p-1.5 sm:p-2 flex flex-col ${
+                      isCur ? 'bg-[#1a1a1a]' : 'bg-[#141414]'
+                    } ${isToday ? 'ring-1 ring-inset ring-[#C41E1E]/50' : ''}`}>
+                      {/* Day number */}
+                      <span className={`text-[11px] font-mono mb-1 self-start leading-none px-1 py-0.5 ${
+                        isToday
+                          ? 'bg-[#C41E1E] text-white font-black'
+                          : isCur ? 'text-[#ccc]' : 'text-[#444]'
+                      }`}>{date}</span>
+
+                      {/* Bookings */}
+                      <div className="flex-1 space-y-0.5 overflow-hidden">
+                        {dayBookings.slice(0, 3).map(b => (
+                          <button
+                            key={b.id}
+                            onClick={() => setSelectedCalBookingId(b.id)}
+                            className={`w-full text-left px-1 py-0.5 border-l-2 transition-opacity hover:opacity-70 active:opacity-50 ${
+                              b.status === 'confirmado' ? 'border-emerald-500/80 bg-emerald-950/30' :
+                              b.status === 'pendiente' ? 'border-amber-500/70 bg-amber-950/30' : 'border-zinc-600 bg-zinc-900/30'
+                            }`}
+                          >
+                            <p className="text-[#E8E2D9] text-[9px] font-bold leading-tight truncate">{b.hora ? `${b.hora} ` : ''}{b.nombre}</p>
+                            <p className="text-[#888] text-[8px] leading-tight truncate">{b.telefono}</p>
+                          </button>
+                        ))}
+                        {dayBookings.length > 3 && (
+                          <p className="text-[#C41E1E] text-[8px] font-mono px-1">+{dayBookings.length - 3} más</p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Legend */}
+              <div className="flex gap-6 mt-4 px-1">
+                {[
+                  { color: 'border-l-amber-500/70 bg-amber-950/30', label: 'Pendiente' },
+                  { color: 'border-l-emerald-500/70 bg-emerald-950/30', label: 'Confirmada' },
+                ].map(l => (
+                  <div key={l.label} className="flex items-center gap-2">
+                    <span className={`w-3 h-3 border-l-2 ${l.color}`} />
+                    <span className="text-[#aaa] text-xs font-mono">{l.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
         )}
 
         {/* ── LIST VIEW ── */}
@@ -361,7 +476,7 @@ export default function PanelPage() {
               placeholder="Buscar por nombre, servicio o teléfono..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full bg-[#1e1e1e] border border-[#2a2a2a] focus:border-[#555] pl-9 pr-9 py-3 text-[#E8E2D9] text-sm placeholder-[#666] outline-none transition-colors rounded-lg"
+              className="w-full bg-[#1e1e1e] border border-[#2a2a2a] focus:border-[#555] pl-10 pr-9 py-3 text-[#E8E2D9] text-sm placeholder-[#666] outline-none transition-colors rounded-lg"
             />
             {search && (
               <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#888] hover:text-[#E8E2D9] transition-colors">
