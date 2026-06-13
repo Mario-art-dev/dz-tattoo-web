@@ -57,19 +57,19 @@ export default function Testimonials() {
   const r = reviews[idx];
 
   return (
-    <section id="testimonials" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#1b1b1b]" aria-label="Testimonios">
+    <section id="testimonials" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#181818] border-t border-[#2a2a2a]" aria-label="Testimonios">
       {/* Grid bg */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
+      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#8B0000]/6 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#C41E1E]/10 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-16 sm:mb-24 lg:mb-32 border-b border-[#111] pb-8 t-reveal">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-16 sm:mb-24 lg:mb-32 border-b border-[#2a2a2a] pb-8 t-reveal">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">05 /</span>
-              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Testimonios</span>
+              <span className="text-[#999] text-xs font-mono tracking-[0.3em]">05 /</span>
+              <span className="text-[#C41E1E] text-xs font-mono tracking-[0.4em] uppercase">Testimonios</span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black uppercase leading-tight">
               Lo que dicen<br />
@@ -80,33 +80,33 @@ export default function Testimonials() {
 
         {/* Review display */}
         <div ref={trackRef} className="t-reveal mb-12">
-          <div className="border border-[#111] bg-[#141414] p-10 sm:p-16">
+          <div className="border border-[#2a2a2a] bg-[#1e1e1e] p-10 sm:p-16">
             {/* Stars + rating */}
             <div className="flex items-center gap-3 mb-6">
               <div className="flex gap-1">
-                {[...Array(r.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#8B0000] text-[#8B0000]" />)}
+                {[...Array(r.rating)].map((_, i) => <Star key={i} size={14} className="fill-[#C41E1E] text-[#C41E1E]" />)}
               </div>
               <span className="text-[#E8E2D9] text-sm font-black font-mono">{r.rating}.0</span>
             </div>
 
             <div className="relative mb-8">
-              <span className="absolute -top-6 -left-2 text-[6rem] leading-none text-[#8B0000]/15 font-serif select-none pointer-events-none">&ldquo;</span>
+              <span className="absolute -top-6 -left-2 text-[6rem] leading-none text-[#C41E1E]/20 font-serif select-none pointer-events-none">&ldquo;</span>
               <blockquote className="text-[#E8E2D9] text-2xl sm:text-3xl lg:text-4xl font-light leading-[1.3] italic max-w-3xl relative z-10">
                 &ldquo;{r.text}&rdquo;
               </blockquote>
             </div>
 
-            <div className="flex items-center justify-between border-t border-[#111] pt-6">
+            <div className="flex items-center justify-between border-t border-[#2a2a2a] pt-6">
               <div className="flex items-center gap-4">
-                <div className="w-8 h-8 border border-[#8B0000]/30 flex items-center justify-center">
-                  <span className="text-[#8B0000] text-xs font-black">{r.name.charAt(0)}</span>
+                <div className="w-8 h-8 border border-[#C41E1E]/40 flex items-center justify-center">
+                  <span className="text-[#C41E1E] text-xs font-black">{r.name.charAt(0)}</span>
                 </div>
                 <div>
                   <p className="text-[#E8E2D9] font-bold text-sm uppercase tracking-wider">{r.name}</p>
-                  <p className="text-[#555] text-[10px] font-mono">{r.service} · {r.year}</p>
+                  <p className="text-[#888] text-[10px] font-mono">{r.service} · {r.year}</p>
                 </div>
               </div>
-              <p className="text-[#333] text-xs font-mono">{idx + 1} / {reviews.length}</p>
+              <p className="text-[#666] text-xs font-mono">{idx + 1} / {reviews.length}</p>
             </div>
           </div>
         </div>
@@ -124,10 +124,10 @@ export default function Testimonials() {
             ))}
           </div>
           <div className="flex gap-3">
-            <button onClick={prev} className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl border border-[#1a1a1a] hover:border-[#8B0000]/50 hover:bg-[#8B0000]/10 text-[#555] hover:text-[#E8E2D9] transition-all duration-200 active:scale-95 group" aria-label="Anterior">
+            <button onClick={prev} className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl border border-[#2a2a2a] hover:border-[#C41E1E]/50 hover:bg-[#C41E1E]/10 text-[#888] hover:text-[#E8E2D9] transition-all duration-200 active:scale-95 group" aria-label="Anterior">
               <ChevronLeft size={24} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
             </button>
-            <button onClick={next} className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl border border-[#1a1a1a] hover:border-[#8B0000]/50 hover:bg-[#8B0000]/10 text-[#555] hover:text-[#E8E2D9] transition-all duration-200 active:scale-95 group" aria-label="Siguiente">
+            <button onClick={next} className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl border border-[#2a2a2a] hover:border-[#C41E1E]/50 hover:bg-[#C41E1E]/10 text-[#888] hover:text-[#E8E2D9] transition-all duration-200 active:scale-95 group" aria-label="Siguiente">
               <ChevronRight size={24} className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>
           </div>

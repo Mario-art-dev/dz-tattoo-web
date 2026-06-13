@@ -39,10 +39,10 @@ function AnimatedStat({ value, meta, label }: { value: string; meta: string; lab
   }, [value]);
 
   return (
-    <div ref={wrapRef} className="about-stat bg-[#111111] p-6 group hover:bg-[#0f0808] transition-colors duration-300">
-      <p className="text-[#666] text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{meta}</p>
+    <div ref={wrapRef} className="about-stat bg-[#1d1d1d] p-6 group hover:bg-[#211010] transition-colors duration-300">
+      <p className="text-[#999] text-[10px] font-mono tracking-[0.3em] uppercase mb-2">{meta}</p>
       <p ref={numRef} className="text-[#E8E2D9] text-3xl font-black mb-1">{value}</p>
-      <p className="text-[#555] text-[11px] tracking-wider uppercase">{label}</p>
+      <p className="text-[#888] text-[11px] tracking-wider uppercase">{label}</p>
     </div>
   );
 }
@@ -92,22 +92,22 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#1b1b1b]"
+      className="relative py-20 sm:py-32 lg:py-44 bg-[#181818] border-t border-[#2a2a2a]"
       aria-label="Sobre nosotros"
     >
       {/* Grid bg */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#8B0000]/7 rounded-full blur-[130px] pointer-events-none translate-x-1/3" />
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#C41E1E]/12 rounded-full blur-[130px] pointer-events-none translate-x-1/3" />
       <span className="pointer-events-none select-none absolute right-[-2%] bottom-0 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">DZ</span>
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header row */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-14 sm:mb-20 lg:mb-28 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-14 sm:mb-20 lg:mb-28 border-b border-[#2a2a2a] pb-8">
           <div>
             <div className="about-eyebrow flex items-center gap-3 mb-4">
-              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">00 /</span>
-              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Sobre nosotros</span>
+              <span className="text-[#999] text-xs font-mono tracking-[0.3em]">00 /</span>
+              <span className="text-[#C41E1E] text-xs font-mono tracking-[0.4em] uppercase">Sobre nosotros</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
               Arte con alma,<br />
@@ -124,7 +124,7 @@ export default function About() {
           {/* Left: stats + values */}
           <div className="space-y-12">
             {/* Stats grid */}
-            <div className="about-stats grid grid-cols-2 gap-px bg-[#111] border border-[#111]">
+            <div className="about-stats grid grid-cols-2 gap-px bg-[#2a2a2a] border border-[#2a2a2a]">
               {stats.map((s) => (
                 <AnimatedStat key={s.label} value={s.value} meta={s.meta} label={s.label} />
               ))}
@@ -134,7 +134,7 @@ export default function About() {
 
           {/* Right: image */}
           <div className="relative">
-            <div className="about-image relative aspect-[3/4] overflow-hidden border border-[#111]">
+            <div className="about-image relative aspect-[3/4] overflow-hidden border border-[#2a2a2a]">
               <Image
                 src="/images/about-studio.jpg"
                 alt="Interior D.Z Tattoo Studio"
@@ -156,14 +156,14 @@ export default function About() {
             </div>
 
             {/* Info label on image */}
-            <div className="absolute bottom-0 left-0 right-0 border-t border-[#111] bg-[#111111]/90 backdrop-blur-sm flex items-center justify-between px-6 py-4">
+            <div className="absolute bottom-0 left-0 right-0 border-t border-[#2a2a2a] bg-[#181818]/90 backdrop-blur-sm flex items-center justify-between px-6 py-4">
               <div>
-                <p className="text-[#555] text-[10px] font-mono tracking-widest uppercase">Estudio</p>
+                <p className="text-[#888] text-[10px] font-mono tracking-widest uppercase">Estudio</p>
                 <p className="text-[#E8E2D9] text-sm font-bold">Av. Luis Vives 12, Silla</p>
               </div>
               <div className="text-right">
-                <p className="text-[#555] text-[10px] font-mono tracking-widest uppercase">Instagram</p>
-                <p className="text-[#8B0000] text-sm font-mono">@d.z.tattoo</p>
+                <p className="text-[#888] text-[10px] font-mono tracking-widest uppercase">Instagram</p>
+                <p className="text-[#C41E1E] text-sm font-mono">@d.z.tattoo</p>
               </div>
             </div>
           </div>

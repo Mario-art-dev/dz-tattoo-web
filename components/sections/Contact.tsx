@@ -28,9 +28,9 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#141414] overflow-hidden" aria-label="Contacto">
+    <section id="contact" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#1a1a1a] overflow-hidden" aria-label="Contacto">
       {/* Ambient glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#8B0000]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#C41E1E]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
@@ -38,8 +38,8 @@ export default function Contact() {
         {/* Header — more persuasive */}
         <div className="text-center mb-12 sm:mb-20 lg:mb-24 ct-card">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="text-[#666] text-xs font-mono tracking-[0.3em]">08 /</span>
-            <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Contacto</span>
+            <span className="text-[#999] text-xs font-mono tracking-[0.3em]">08 /</span>
+            <span className="text-[#C41E1E] text-xs font-mono tracking-[0.4em] uppercase">Contacto</span>
           </div>
           <h2 className="text-[2.4rem] sm:text-5xl lg:text-7xl font-black uppercase leading-[0.9] mb-6">
             Tu tatuaje soñado<br />
@@ -77,18 +77,18 @@ export default function Contact() {
           {/* Phone */}
           <a
             href="tel:+34722201072"
-            className="ct-card group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-[#1a1a1a] p-7 hover:border-[#8B0000]/40 hover:bg-[#0d0000] transition-all duration-400 flex flex-col gap-4"
+            className="ct-card group relative overflow-hidden rounded-3xl bg-[#1e1e1e] border border-[#2a2a2a] p-7 hover:border-[#C41E1E]/40 hover:bg-[#221010] transition-all duration-400 flex flex-col gap-4"
             aria-label="Llamar al estudio"
           >
-            <div className="w-12 h-12 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-[#C41E1E]/15 flex items-center justify-center">
               <Phone size={22} className="text-[#E8E2D9]" />
             </div>
             <div>
-              <p className="text-[#555] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Teléfono</p>
+              <p className="text-[#888] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Teléfono</p>
               <h3 className="text-[#E8E2D9] text-lg font-black uppercase mb-1">Llámanos</h3>
               <p className="text-[#E8E2D9] text-sm font-mono font-bold">+34 722 20 10 72</p>
             </div>
-            <div className="flex items-center gap-1 text-[#555] text-xs group-hover:text-[#E8E2D9] transition-colors">
+            <div className="flex items-center gap-1 text-[#888] text-xs group-hover:text-[#E8E2D9] transition-colors">
               <ArrowRight size={12} /> Llamar ahora
             </div>
           </a>
@@ -96,14 +96,14 @@ export default function Contact() {
           {/* Email */}
           <a
             href="mailto:danizaragoza20@gmail.com"
-            className="ct-card group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-[#1a1a1a] p-7 hover:border-[#8B0000]/40 hover:bg-[#160c0c] transition-all duration-400 flex flex-col gap-4"
+            className="ct-card group relative overflow-hidden rounded-3xl bg-[#1e1e1e] border border-[#2a2a2a] p-7 hover:border-[#C41E1E]/40 hover:bg-[#221414] transition-all duration-400 flex flex-col gap-4"
             aria-label="Enviar email"
           >
-            <div className="w-12 h-12 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-[#C41E1E]/15 flex items-center justify-center">
               <Mail size={22} className="text-[#E8E2D9]" />
             </div>
             <div>
-              <p className="text-[#555] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Email</p>
+              <p className="text-[#888] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Email</p>
               <h3 className="text-[#E8E2D9] text-lg font-black uppercase mb-1">Escríbenos</h3>
               <p className="text-[#B0A89E] text-xs font-mono break-all leading-relaxed">danizaragoza20@gmail.com</p>
             </div>
@@ -116,14 +116,14 @@ export default function Contact() {
           <a
             href="https://www.instagram.com/d.z.tattoo"
             target="_blank" rel="noopener noreferrer"
-            className="ct-card group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-[#1a1a1a] p-7 hover:border-[#8B0000]/40 hover:bg-[#0d0000] transition-all duration-400 flex flex-col gap-4"
+            className="ct-card group relative overflow-hidden rounded-3xl bg-[#1e1e1e] border border-[#2a2a2a] p-7 hover:border-[#C41E1E]/40 hover:bg-[#221010] transition-all duration-400 flex flex-col gap-4"
             aria-label="Instagram"
           >
-            <div className="w-12 h-12 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-[#C41E1E]/15 flex items-center justify-center">
               <InstagramIcon size={22} className="text-[#E8E2D9]" />
             </div>
             <div>
-              <p className="text-[#555] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Instagram</p>
+              <p className="text-[#888] text-[10px] font-mono tracking-[0.3em] uppercase mb-1">Instagram</p>
               <h3 className="text-[#E8E2D9] text-lg font-black uppercase mb-1">@d.z.tattoo</h3>
               <p className="text-[#B0A89E] text-xs leading-relaxed">Descubre nuestro trabajo y referencias</p>
             </div>
@@ -135,7 +135,7 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Address + Map */}
-          <div className="lg:col-span-2 ct-card rounded-3xl overflow-hidden border border-[#1a1a1a] bg-[#0a0a0a]">
+          <div className="lg:col-span-2 ct-card rounded-3xl overflow-hidden border border-[#2a2a2a] bg-[#1e1e1e]">
             <div className="relative" style={{ height: '360px' }}>
               <iframe
                 src="https://www.google.com/maps?q=D.Z.+Tattoo+Av+Luis+Vives+12+Silla+Valencia&output=embed"
@@ -145,7 +145,7 @@ export default function Contact() {
                 title="Ubicación D.Z Tattoo Studio"
               />
             </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 border-t border-[#111]">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 border-t border-[#2a2a2a]">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center flex-shrink-0">
                   <MapPin size={18} className="text-[#E8E2D9]" />
@@ -166,23 +166,23 @@ export default function Contact() {
           </div>
 
           {/* Hours */}
-          <div className="ct-card rounded-3xl border border-[#1a1a1a] bg-[#0a0a0a] p-8 flex flex-col">
+          <div className="ct-card rounded-3xl border border-[#2a2a2a] bg-[#1e1e1e] p-8 flex flex-col">
             <div className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 rounded-2xl bg-[#8B0000]/15 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-2xl bg-[#C41E1E]/15 flex items-center justify-center">
                 <Clock size={18} className="text-[#E8E2D9]" />
               </div>
               <div>
                 <p className="text-[#E8E2D9] font-bold uppercase tracking-wide text-sm">Horario</p>
-                <p className="text-[#555] text-xs">Estudio D.Z Tattoo</p>
+                <p className="text-[#888] text-xs">Estudio D.Z Tattoo</p>
               </div>
             </div>
 
             <div className="flex-1 space-y-4">
               {hours.map((h) => (
-                <div key={h.day} className={`flex justify-between items-start gap-4 pb-4 border-b border-[#1b1b1b] last:border-b-0 last:pb-0 ${!h.open ? 'opacity-30' : ''}`}>
+                <div key={h.day} className={`flex justify-between items-start gap-4 pb-4 border-b border-[#2a2a2a] last:border-b-0 last:pb-0 ${!h.open ? 'opacity-30' : ''}`}>
                   <div>
                     <p className="text-[#E8E2D9] text-sm font-medium">{h.day}</p>
-                    {h.note && <p className="text-[#555] text-[10px] mt-0.5">{h.note}</p>}
+                    {h.note && <p className="text-[#888] text-[10px] mt-0.5">{h.note}</p>}
                   </div>
                   <span className={`text-xs font-mono font-bold flex-shrink-0 ${h.open && h.time !== 'Cerrado' ? 'text-[#E8E2D9]' : 'text-[#444]'}`}>
                     {h.time}

@@ -173,26 +173,26 @@ export default function AuthModal() {
               <form onSubmit={handleEmail} className="space-y-4">
                 {isSignUp && (
                   <div>
-                    <label className="block text-[#555] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Nombre</label>
+                    <label className="block text-[#888] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Nombre</label>
                     <input type="text" value={name} onChange={e => setName(e.target.value)}
                       autoComplete="name" placeholder="Tu nombre"
                       className="input-pill text-sm rounded-xl" />
                   </div>
                 )}
                 <div>
-                  <label className="block text-[#555] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Correo *</label>
+                  <label className="block text-[#888] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Correo *</label>
                   <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
                     autoComplete="email" placeholder="tu@email.com"
                     className="input-pill text-sm rounded-xl" />
                 </div>
                 <div className="relative">
-                  <label className="block text-[#555] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Contraseña *</label>
+                  <label className="block text-[#888] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Contraseña *</label>
                   <input type={showPass ? 'text' : 'password'} required value={password} onChange={e => setPassword(e.target.value)}
                     autoComplete={isSignUp ? 'new-password' : 'current-password'}
                     placeholder="Mínimo 6 caracteres"
                     className="input-pill text-sm pr-11 rounded-xl" />
                   <button type="button" onClick={() => setShowPass(v => !v)}
-                    className="absolute right-4 bottom-[14px] text-[#444] hover:text-[#E8E2D9] transition-colors">
+                    className="absolute right-4 bottom-[14px] text-[#888] hover:text-[#E8E2D9] transition-colors">
                     {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
                 </div>
@@ -200,28 +200,26 @@ export default function AuthModal() {
                 {error && <p className="text-[#ff6060] text-[11px] font-mono">{error}</p>}
 
                 <button type="submit" disabled={!!busy}
-                  className="w-full rounded-full bg-[#8B0000] hover:bg-[#A01010] active:scale-[0.98] text-white py-4 text-sm font-bold tracking-widest uppercase flex items-center justify-center gap-2 disabled:opacity-40 mt-2 transition-all duration-150 shadow-lg shadow-[#8B0000]/20">
-                  {busy === 'email' ? <Loader2 size={16} className="animate-spin" /> : null}
+                  className="w-full rounded-full bg-[#C41E1E] hover:bg-[#D42020] active:scale-[0.98] text-white py-5 text-base font-bold tracking-widest uppercase flex items-center justify-center gap-2 disabled:opacity-40 mt-2 transition-all duration-150 shadow-lg shadow-[#C41E1E]/25">
+                  {busy === 'email' ? <Loader2 size={18} className="animate-spin" /> : null}
                   {isSignUp ? 'Crear cuenta' : 'Iniciar sesión'}
                 </button>
 
-                <div className="flex items-center justify-between pt-1">
-                  <button type="button" onClick={() => { setMode('options'); setError(''); }}
-                    className="text-[#444] text-[10px] font-mono hover:text-[#E8E2D9] transition-colors">
-                    ← Volver
-                  </button>
-                  <div className="flex flex-col items-end gap-1">
-                    {!isSignUp && (
-                      <button type="button" onClick={() => { setMode('reset'); setError(''); }}
-                        className="text-[#555] text-[10px] font-mono hover:text-[#E8E2D9] transition-colors">
-                        Olvidé mi contraseña
-                      </button>
-                    )}
-                    <button type="button" onClick={() => { setIsSignUp(v => !v); setError(''); }}
-                      className="text-[#8B0000] text-[10px] font-mono hover:text-[#C41E1E] transition-colors">
-                      {isSignUp ? '¿Ya tienes cuenta?' : '¿Nuevo aquí? Regístrate'}
+                <div className="flex flex-col gap-3 pt-2">
+                  {!isSignUp && (
+                    <button type="button" onClick={() => { setMode('reset'); setError(''); }}
+                      className="w-full py-3 text-sm font-mono text-[#888] hover:text-[#E8E2D9] transition-colors text-center border border-[#2a2a2a] rounded-full hover:border-[#444]">
+                      Olvidé mi contraseña
                     </button>
-                  </div>
+                  )}
+                  <button type="button" onClick={() => { setIsSignUp(v => !v); setError(''); }}
+                    className="w-full py-3 text-sm font-mono text-[#C41E1E] hover:text-[#E02020] transition-colors text-center border border-[#C41E1E]/30 rounded-full hover:border-[#C41E1E]/60">
+                    {isSignUp ? '¿Ya tienes cuenta? Inicia sesión' : '¿Nuevo aquí? Regístrate'}
+                  </button>
+                  <button type="button" onClick={() => { setMode('options'); setError(''); }}
+                    className="text-[#666] text-xs font-mono hover:text-[#E8E2D9] transition-colors text-center py-2">
+                    ← Volver a opciones
+                  </button>
                 </div>
               </form>
             )}
@@ -233,21 +231,21 @@ export default function AuthModal() {
                   <div className="flex flex-col items-center gap-4 py-4 text-center">
                     <CheckCircle size={40} className="text-emerald-500" />
                     <p className="text-[#E8E2D9] text-sm font-semibold">Correo enviado</p>
-                    <p className="text-[#555] text-xs leading-relaxed">
+                    <p className="text-[#888] text-sm leading-relaxed">
                       Revisa tu bandeja de entrada (y spam).<br />Sigue el enlace para crear una nueva contraseña.
                     </p>
                     <button type="button" onClick={() => { setMode('email'); setResetSent(false); setError(''); }}
-                      className="text-[#8B0000] text-[10px] font-mono hover:text-[#C41E1E] transition-colors mt-2">
+                      className="text-[#C41E1E] text-sm font-mono hover:text-[#E02020] transition-colors mt-2 border border-[#C41E1E]/30 rounded-full px-6 py-3">
                       Volver al inicio de sesión
                     </button>
                   </div>
                 ) : (
                   <>
-                    <p className="text-[#555] text-xs leading-relaxed">
+                    <p className="text-[#888] text-sm leading-relaxed">
                       Introduce tu correo y te enviaremos un enlace para restablecer tu contraseña.
                     </p>
                     <div>
-                      <label className="block text-[#555] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Correo *</label>
+                      <label className="block text-[#888] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Correo *</label>
                       <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
                         autoComplete="email" placeholder="tu@email.com"
                         className="input-pill text-sm rounded-xl" />
@@ -256,14 +254,14 @@ export default function AuthModal() {
                     {error && <p className="text-[#ff6060] text-[11px] font-mono">{error}</p>}
 
                     <button type="submit" disabled={!!busy}
-                      className="w-full rounded-full bg-[#8B0000] hover:bg-[#A01010] active:scale-[0.98] text-white py-4 text-sm font-bold tracking-widest uppercase flex items-center justify-center gap-2 disabled:opacity-40 transition-all duration-150 shadow-lg shadow-[#8B0000]/20">
-                      {busy === 'reset' ? <Loader2 size={16} className="animate-spin" /> : null}
+                      className="w-full rounded-full bg-[#C41E1E] hover:bg-[#D42020] active:scale-[0.98] text-white py-5 text-base font-bold tracking-widest uppercase flex items-center justify-center gap-2 disabled:opacity-40 transition-all duration-150 shadow-lg shadow-[#C41E1E]/25">
+                      {busy === 'reset' ? <Loader2 size={18} className="animate-spin" /> : null}
                       Enviar enlace
                     </button>
 
                     <button type="button" onClick={() => { setMode('email'); setError(''); }}
-                      className="text-[#444] text-[10px] font-mono hover:text-[#E8E2D9] transition-colors">
-                      ← Volver
+                      className="w-full py-3 text-sm font-mono text-[#666] hover:text-[#E8E2D9] transition-colors text-center border border-[#2a2a2a] rounded-full hover:border-[#444]">
+                      ← Volver al inicio de sesión
                     </button>
                   </>
                 )}

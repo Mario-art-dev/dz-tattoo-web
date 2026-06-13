@@ -79,18 +79,18 @@ export default function Gallery() {
   }, [lb]);
 
   return (
-    <section id="gallery" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#1b1b1b]" aria-label="Galería">
+    <section id="gallery" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#2a2a2a]" aria-label="Galería">
       {/* Grid bg */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
+      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-12 sm:mb-20 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-12 sm:mb-20 border-b border-[#2a2a2a] pb-8">
           <div>
             <div className="gal-eyebrow flex items-center gap-3 mb-4">
-              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">06 /</span>
-              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Portfolio</span>
+              <span className="text-[#999] text-xs font-mono tracking-[0.3em]">06 /</span>
+              <span className="text-[#C41E1E] text-xs font-mono tracking-[0.4em] uppercase">Portfolio</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
               Cada pieza,<br />
@@ -105,7 +105,7 @@ export default function Gallery() {
                 onClick={() => setCat(c)}
                 className={cn(
                   'px-3 py-1.5 text-[10px] font-mono tracking-[0.2em] uppercase transition-all duration-200 border',
-                  cat === c ? 'bg-[#8B0000] border-[#8B0000] text-[#E8E2D9]' : 'border-[#1a1a1a] text-[#555] hover:border-[#8B0000]/40 hover:text-[#E8E2D9]'
+                  cat === c ? 'bg-[#C41E1E] border-[#C41E1E] text-[#E8E2D9]' : 'border-[#2a2a2a] text-[#888] hover:border-[#C41E1E]/50 hover:text-[#E8E2D9]'
                 )}
                 aria-pressed={cat === c}
               >{c}</button>
@@ -118,7 +118,7 @@ export default function Gallery() {
           {filtered.map((item, i) => (
             <div
               key={item.id}
-              className="gal-item masonry-item group relative overflow-hidden cursor-pointer opacity-0 border border-[#111] hover:border-[#8B0000]/30 transition-colors duration-300"
+              className="gal-item masonry-item group relative overflow-hidden cursor-pointer opacity-0 border border-[#1e1e1e] hover:border-[#C41E1E]/40 transition-colors duration-300"
               onClick={() => openLb(i)}
               role="button"
               tabIndex={0}
@@ -141,8 +141,8 @@ export default function Gallery() {
           ))}
         </div>
 
-        <div className="mt-12 flex items-center justify-between border-t border-[#111] pt-8">
-          <p className="sec-meta text-[#555] text-xs font-mono">Más obras en Instagram · @d.z.tattoo</p>
+        <div className="mt-12 flex items-center justify-between border-t border-[#2a2a2a] pt-8">
+          <p className="sec-meta text-[#888] text-xs font-mono">Más obras en Instagram · @d.z.tattoo</p>
           <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer"
             className="btn-outline-round inline-flex items-center gap-2 px-6 py-3 text-xs tracking-wider uppercase">
             Ver más trabajos

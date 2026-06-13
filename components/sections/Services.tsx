@@ -118,24 +118,24 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#141414] border-t border-[#1b1b1b]" aria-label="Servicios">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
+    <section id="services" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#1d1d1d] border-t border-[#2a2a2a]" aria-label="Servicios">
+      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 sm:mb-14 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 sm:mb-14 border-b border-[#2a2a2a] pb-8">
           <div>
             <div className="svc-eyebrow flex items-center gap-3 mb-4">
-              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">01 /</span>
-              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Servicios</span>
+              <span className="text-[#999] text-xs font-mono tracking-[0.3em]">01 /</span>
+              <span className="text-[#C41E1E] text-xs font-mono tracking-[0.4em] uppercase">Servicios</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
               Todo lo que<br />
               <span className="text-gradient">tu piel merece</span>
             </h2>
           </div>
-          <div className="font-mono text-right text-[#555] text-xs sec-meta">
+          <div className="font-mono text-right text-[#888] text-xs sec-meta">
             <p className="text-[#E8E2D9] text-2xl font-black mb-1">08</p>
             <p className="tracking-widest uppercase">Especialidades</p>
           </div>
@@ -150,21 +150,21 @@ export default function Services() {
             {services.map((s) => (
               <div
                 key={s.id}
-                className="svc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#0a0a0a] border border-[#111] p-8 flex flex-col gap-5 group hover:bg-[#0f0808] hover:border-[#8B0000]/20 transition-colors duration-400 relative overflow-hidden"
+                className="svc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#181818] border border-[#2a2a2a] p-8 flex flex-col gap-5 group hover:bg-[#1f1010] hover:border-[#C41E1E]/30 transition-colors duration-400 relative overflow-hidden"
               >
-                <span className="absolute right-4 top-2 text-[4.5rem] font-black text-[#8B0000]/[0.07] leading-none select-none pointer-events-none">{s.id}</span>
+                <span className="absolute right-4 top-2 text-[4.5rem] font-black text-[#C41E1E]/[0.08] leading-none select-none pointer-events-none">{s.id}</span>
 
                 <div>
-                  <span className="text-[10px] font-mono tracking-[0.3em] text-[#8B0000] border border-[#8B0000]/25 px-2.5 py-1">{s.tag}</span>
+                  <span className="text-[10px] font-mono tracking-[0.3em] text-[#C41E1E] border border-[#C41E1E]/35 px-2.5 py-1">{s.tag}</span>
                 </div>
 
                 <div className="flex-1 min-h-[7rem]">
                   <h3 className="text-[#E8E2D9] text-xl font-black uppercase tracking-wide mb-3 leading-tight">{s.title}</h3>
-                  <p className="text-[#B0A89E] text-sm leading-relaxed">{s.desc}</p>
+                  <p className="text-[#C4BDB5] text-sm leading-relaxed">{s.desc}</p>
                 </div>
 
-                <div className="border-t border-[#161616] pt-4">
-                  <p className="text-[#444] text-[10px] font-mono leading-relaxed tracking-wider">{s.detail}</p>
+                <div className="border-t border-[#2a2a2a] pt-4">
+                  <p className="text-[#777] text-[10px] font-mono leading-relaxed tracking-wider">{s.detail}</p>
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8B0000]/0 group-hover:bg-[#8B0000]/35 transition-all duration-500" />
@@ -176,11 +176,11 @@ export default function Services() {
         {/* Arrow controls */}
         <div className="mt-5 flex gap-2">
           <button onClick={() => slide(-1)} disabled={!canPrev} aria-label="Anterior"
-            className="svc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
+            className="svc-nav-btn w-10 h-10 border border-[#2a2a2a] flex items-center justify-center text-[#888] hover:text-[#E8E2D9] hover:border-[#666] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronLeft size={16} />
           </button>
           <button onClick={() => slide(1)} disabled={!canNext} aria-label="Siguiente"
-            className="svc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
+            className="svc-nav-btn w-10 h-10 border border-[#2a2a2a] flex items-center justify-center text-[#888] hover:text-[#E8E2D9] hover:border-[#666] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronRight size={16} />
           </button>
         </div>

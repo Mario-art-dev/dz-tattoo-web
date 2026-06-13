@@ -54,7 +54,7 @@ export default function Navigation() {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-          scrolled ? 'bg-[#111111]/92 backdrop-blur-xl border-b border-[#111]' : 'bg-transparent'
+          scrolled ? 'bg-[#111111]/95 backdrop-blur-xl border-b border-[#2a2a2a]' : 'bg-transparent'
         )}
         role="banner"
       >
@@ -85,10 +85,10 @@ export default function Navigation() {
                 key={l.label}
                 href={l.href}
                 onClick={e => go(e, l.href)}
-                className="text-[#666] text-[11px] font-mono tracking-[0.2em] uppercase hover:text-[#E8E2D9] transition-colors duration-200 relative group"
+                className="text-[#888] text-[11px] font-mono tracking-[0.2em] uppercase hover:text-[#E8E2D9] transition-colors duration-200 relative group"
               >
                 {l.label}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#8B0000] group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#C41E1E] group-hover:w-full transition-all duration-300" />
               </a>
             ))}
           </nav>
@@ -98,22 +98,25 @@ export default function Navigation() {
             {/* User/Auth button */}
             {user ? (
               <div className="relative group">
-                <button className="w-8 h-8 rounded-full bg-[#8B0000]/20 border border-[#8B0000]/30 flex items-center justify-center text-[#8B0000] text-xs font-black hover:bg-[#8B0000]/30 transition-colors">
+                <button className="w-9 h-9 rounded-full bg-[#C41E1E]/20 border border-[#C41E1E]/40 flex items-center justify-center text-[#C41E1E] text-sm font-black hover:bg-[#C41E1E]/30 transition-colors">
                   {(user.displayName?.[0] ?? user.email?.[0] ?? 'U').toUpperCase()}
                 </button>
-                <div className="absolute right-0 top-full mt-2 w-48 bg-[#151515] border border-[#1a1a1a] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <p className="px-4 py-1.5 text-[#555] text-[10px] font-mono truncate">{user.displayName ?? user.email}</p>
-                  <div className="border-t border-[#111] my-1" />
-                  <button onClick={() => signOut()} className="w-full text-left px-4 py-2 text-[#E8E2D9] text-[10px] font-mono tracking-wider hover:text-[#8B0000] transition-colors">
+                <div className="absolute right-0 top-full mt-2 w-52 bg-[#1a1a1a] border border-[#2a2a2a] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 rounded-xl shadow-xl">
+                  <p className="px-4 py-2 text-[#888] text-[11px] font-mono truncate">{user.displayName ?? user.email}</p>
+                  <div className="border-t border-[#2a2a2a] my-1" />
+                  <a href="/panel" className="block w-full text-left px-4 py-2.5 text-[#E8E2D9] text-xs font-mono tracking-wider hover:text-[#C41E1E] transition-colors">
+                    Panel de control
+                  </a>
+                  <button onClick={() => signOut()} className="w-full text-left px-4 py-2.5 text-[#E8E2D9] text-xs font-mono tracking-wider hover:text-[#C41E1E] transition-colors">
                     Cerrar sesión
                   </button>
                 </div>
               </div>
             ) : (
               <button onClick={openAuth}
-                className="flex items-center gap-2 bg-[#8B0000] hover:bg-[#A01010] active:scale-[0.97] text-white text-xs font-bold tracking-[0.15em] uppercase px-5 py-2.5 rounded-full transition-all duration-150 shadow-lg shadow-[#8B0000]/30">
-                <UserCircle size={15} />
-                Cuenta
+                className="flex items-center gap-2 bg-[#C41E1E] hover:bg-[#D42020] active:scale-[0.97] text-white text-xs font-bold tracking-[0.15em] uppercase px-5 py-3 rounded-full transition-all duration-150 shadow-lg shadow-[#C41E1E]/30">
+                <UserCircle size={16} />
+                Mi cuenta
               </button>
             )}
             <a
@@ -143,43 +146,45 @@ export default function Navigation() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div ref={menuRef} className="fixed inset-0 z-40 bg-[#111111] flex flex-col justify-center px-8">
-          <nav className="flex flex-col gap-7">
+        <div ref={menuRef} className="fixed inset-0 z-40 bg-[#111111] flex flex-col justify-center px-8 overflow-y-auto">
+          <nav className="flex flex-col gap-5">
             {navLinks.map((l) => (
               <a
                 key={l.label}
                 href={l.href}
                 onClick={e => go(e, l.href)}
-                className="mobile-link text-[#E8E2D9] text-4xl font-black uppercase hover:text-[#E8E2D9] transition-colors leading-none"
+                className="mobile-link text-[#E8E2D9] text-4xl font-black uppercase hover:text-gradient transition-colors leading-none"
               >
                 {l.label}
               </a>
             ))}
+
+            <div className="h-px bg-[#2a2a2a] my-2" />
+
+            {user ? (
+              <>
+                <a href="/panel" onClick={() => setMenuOpen(false)}
+                  className="mobile-link text-[#C41E1E] text-3xl font-black uppercase leading-none hover:text-[#E02020] transition-colors">
+                  Panel de control
+                </a>
+                <button onClick={() => { signOut(); setMenuOpen(false); }}
+                  className="mobile-link text-left text-[#888] text-3xl font-black uppercase leading-none hover:text-[#E8E2D9] transition-colors">
+                  Cerrar sesión
+                </button>
+                <p className="text-[#555] text-[11px] font-mono truncate mt-1">{user.displayName ?? user.email}</p>
+              </>
+            ) : (
+              <button onClick={() => { setMenuOpen(false); openAuth(); }}
+                className="mobile-link text-left text-[#C41E1E] text-3xl font-black uppercase leading-none hover:text-[#E02020] transition-colors">
+                Iniciar sesión
+              </button>
+            )}
           </nav>
 
-          <div className="mt-12 pt-8 border-t border-[#111] space-y-3">
-            <a href="tel:+34722201072" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">+34 722 20 10 72</a>
-            <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer" className="mobile-link block text-[#555] text-xs font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">@d.z.tattoo</a>
-            <a href="#booking-form" onClick={e => go(e, '#booking-form')} className="mobile-link btn-primary-round inline-block mt-4 px-8 py-3.5 text-sm font-bold tracking-widest uppercase">Reservar cita ahora</a>
-            <div className="pt-4 border-t border-[#1b1b1b] space-y-2">
-              {user ? (
-                <>
-                  <p className="mobile-link text-[#444] text-[10px] font-mono truncate">{user.displayName ?? user.email}</p>
-                  <button onClick={() => { signOut(); setMenuOpen(false); }} className="mobile-link block text-[#8B0000] text-[10px] font-mono tracking-[0.25em] uppercase hover:text-[#C41E1E] transition-colors py-1">
-                    Cerrar sesión
-                  </button>
-                </>
-              ) : (
-                <button onClick={() => { setMenuOpen(false); openAuth(); }} className="mobile-link block text-[#E8E2D9] text-[10px] font-mono tracking-[0.25em] uppercase hover:text-[#8B0000] transition-colors py-1">
-                  Iniciar sesión / Registrarse
-                </button>
-              )}
-              {adminLinks.map((l) => (
-                <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="mobile-link block text-[#8B0000]/60 text-[10px] font-mono tracking-[0.25em] uppercase hover:text-[#8B0000] transition-colors py-1">
-                  {l.label}
-                </a>
-              ))}
-            </div>
+          <div className="mt-10 pt-6 border-t border-[#2a2a2a] space-y-3">
+            <a href="tel:+34722201072" className="mobile-link block text-[#777] text-sm font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">+34 722 20 10 72</a>
+            <a href="https://www.instagram.com/d.z.tattoo" target="_blank" rel="noopener noreferrer" className="mobile-link block text-[#777] text-sm font-mono tracking-widest hover:text-[#E8E2D9] transition-colors">@d.z.tattoo</a>
+            <a href="#booking-form" onClick={e => go(e, '#booking-form')} className="mobile-link btn-primary-round inline-flex mt-4 px-8 py-4 text-sm font-bold tracking-widest uppercase">Reservar cita ahora</a>
           </div>
         </div>
       )}
