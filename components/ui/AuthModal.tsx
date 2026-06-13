@@ -1,15 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  signInWithPopup, GoogleAuthProvider,
-  signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile,
+  signInWithPopup, signInWithRedirect, getRedirectResult,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  updateProfile, sendPasswordResetEmail,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/contexts/AuthContext';
-import { X, Mail, Loader2, Eye, EyeOff } from 'lucide-react';
+import { X, Mail, Loader2, Eye, EyeOff, CheckCircle } from 'lucide-react';
 
-type Mode = 'options' | 'email';
+type Mode = 'options' | 'email' | 'reset';
+
+const isMobile = () =>
+  typeof window !== 'undefined' && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
 export default function AuthModal() {
   const { authOpen, closeAuth } = useAuth();
@@ -21,16 +26,57 @@ export default function AuthModal() {
   const [showPass, setShowPass] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState('');
+  const [resetSent, setResetSent] = useState(false);
+
+  useEffect(() => {
+    getRedirectResult(auth).catch(() => {});
+  }, []);
 
   if (!authOpen) return null;
 
-  const reset = () => { setMode('options'); setEmail(''); setPassword(''); setName(''); setError(''); setIsSignUp(false); };
+  const reset = () => {
+    setMode('options'); setEmail(''); setPassword(''); setName('');
+    setError(''); setIsSignUp(false); setResetSent(false);
+  };
+
+  const friendlyError = (code: string) => {
+    if (code.includes('user-not-found') || code.includes('wrong-password') || code.includes('invalid-credential'))
+      return 'Correo o contraseña incorrectos.';
+    if (code.includes('email-already-in-use')) return 'Este correo ya está registrado. Inicia sesión.';
+    if (code.includes('weak-password')) return 'La contraseña debe tener al menos 6 caracteres.';
+    if (code.includes('invalid-email')) return 'El correo no es válido.';
+    if (code.includes('too-many-requests')) return 'Demasiados intentos. Espera unos minutos.';
+    if (code.includes('network-request-failed')) return 'Sin conexión. Revisa tu internet.';
+    if (code.includes('popup-closed-by-user')) return 'Ventana de Google cerrada. Inténtalo de nuevo.';
+    if (code.includes('popup-blocked')) return '';
+    return 'Error al autenticar. Inténtalo de nuevo.';
+  };
 
   const signInGoogle = async () => {
     setBusy('google'); setError('');
-    try { await signInWithPopup(auth, new GoogleAuthProvider()); }
-    catch { setError('No se pudo iniciar sesión con Google. Inténtalo de nuevo.'); }
-    finally { setBusy(null); }
+    const provider = new GoogleAuthProvider();
+    try {
+      if (isMobile()) {
+        await signInWithRedirect(auth, provider);
+      } else {
+        try {
+          await signInWithPopup(auth, provider);
+        } catch (err: unknown) {
+          const code = (err as { code?: string }).code ?? '';
+          if (code.includes('popup-blocked') || code.includes('popup-closed-by-user')) {
+            await signInWithRedirect(auth, provider);
+          } else {
+            throw err;
+          }
+        }
+      }
+    } catch (err: unknown) {
+      const code = (err as { code?: string }).code ?? '';
+      const msg = friendlyError(code);
+      if (msg) setError(msg);
+    } finally {
+      setBusy(null);
+    }
   };
 
   const handleEmail = async (e: React.FormEvent) => {
@@ -44,13 +90,18 @@ export default function AuthModal() {
       }
     } catch (err: unknown) {
       const code = (err as { code?: string }).code ?? '';
-      if (code.includes('user-not-found') || code.includes('wrong-password') || code.includes('invalid-credential'))
-        setError('Correo o contraseña incorrectos.');
-      else if (code.includes('email-already-in-use'))
-        setError('Este correo ya está registrado. Inicia sesión.');
-      else if (code.includes('weak-password'))
-        setError('La contraseña debe tener al menos 6 caracteres.');
-      else setError('Error al autenticar. Inténtalo de nuevo.');
+      setError(friendlyError(code) || 'Error al autenticar. Inténtalo de nuevo.');
+    } finally { setBusy(null); }
+  };
+
+  const handleReset = async (e: React.FormEvent) => {
+    e.preventDefault(); setBusy('reset'); setError('');
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetSent(true);
+    } catch (err: unknown) {
+      const code = (err as { code?: string }).code ?? '';
+      setError(friendlyError(code) || 'No se pudo enviar el correo. Inténtalo de nuevo.');
     } finally { setBusy(null); }
   };
 
@@ -78,15 +129,15 @@ export default function AuthModal() {
           <div className="px-8 pt-8 pb-6 text-center border-b border-[#111]">
             <p className="text-[#8B0000] text-[9px] font-mono tracking-[0.5em] uppercase mb-3">D.Z Tattoo Studio</p>
             <h2 className="text-[#E8E2D9] text-2xl font-black uppercase tracking-wide">
-              {mode === 'email' ? (isSignUp ? 'Crear cuenta' : 'Iniciar sesión') : 'Tu cuenta'}
+              {mode === 'email' ? (isSignUp ? 'Crear cuenta' : 'Iniciar sesión') : mode === 'reset' ? 'Recuperar contraseña' : 'Tu cuenta'}
             </h2>
             <p className="text-[#444] text-xs mt-2">Gestiona tus reservas desde cualquier dispositivo</p>
           </div>
 
           <div className="px-8 py-7">
+            {/* Options screen */}
             {mode === 'options' && (
               <div className="space-y-3">
-                {/* Google */}
                 <button onClick={signInGoogle} disabled={!!busy}
                   className="auth-btn-1 w-full flex items-center justify-center gap-3 rounded-full bg-white hover:bg-[#f0f0f0] active:scale-[0.98] text-[#1a1a1a] px-6 py-4 text-sm font-semibold tracking-wide transition-all duration-150 disabled:opacity-40 shadow-lg shadow-black/30">
                   {busy === 'google'
@@ -107,7 +158,6 @@ export default function AuthModal() {
                   <div className="relative flex justify-center"><span className="bg-[#141414] px-4 text-[#2a2a2a] text-[10px] font-mono tracking-widest">O</span></div>
                 </div>
 
-                {/* Email */}
                 <button onClick={() => setMode('email')} disabled={!!busy}
                   className="auth-btn-2 w-full flex items-center justify-center gap-3 rounded-full border-2 border-[#8B0000] hover:bg-[#8B0000]/10 active:scale-[0.98] text-[#E8E2D9] px-6 py-4 text-sm font-semibold tracking-wide transition-all duration-150 disabled:opacity-40">
                   <Mail size={18} className="text-[#8B0000] flex-shrink-0" />
@@ -118,24 +168,29 @@ export default function AuthModal() {
               </div>
             )}
 
+            {/* Email / sign-up screen */}
             {mode === 'email' && (
               <form onSubmit={handleEmail} className="space-y-4">
                 {isSignUp && (
                   <div>
                     <label className="block text-[#555] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Nombre</label>
                     <input type="text" value={name} onChange={e => setName(e.target.value)}
-                      placeholder="Tu nombre" className="input-pill text-sm rounded-xl" />
+                      autoComplete="name" placeholder="Tu nombre"
+                      className="input-pill text-sm rounded-xl" />
                   </div>
                 )}
                 <div>
                   <label className="block text-[#555] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Correo *</label>
                   <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
-                    placeholder="tu@email.com" className="input-pill text-sm rounded-xl" />
+                    autoComplete="email" placeholder="tu@email.com"
+                    className="input-pill text-sm rounded-xl" />
                 </div>
                 <div className="relative">
                   <label className="block text-[#555] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Contraseña *</label>
                   <input type={showPass ? 'text' : 'password'} required value={password} onChange={e => setPassword(e.target.value)}
-                    placeholder="Mínimo 6 caracteres" className="input-pill text-sm pr-11 rounded-xl" />
+                    autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                    placeholder="Mínimo 6 caracteres"
+                    className="input-pill text-sm pr-11 rounded-xl" />
                   <button type="button" onClick={() => setShowPass(v => !v)}
                     className="absolute right-4 bottom-[14px] text-[#444] hover:text-[#E8E2D9] transition-colors">
                     {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -155,11 +210,63 @@ export default function AuthModal() {
                     className="text-[#444] text-[10px] font-mono hover:text-[#E8E2D9] transition-colors">
                     ← Volver
                   </button>
-                  <button type="button" onClick={() => { setIsSignUp(v => !v); setError(''); }}
-                    className="text-[#8B0000] text-[10px] font-mono hover:text-[#C41E1E] transition-colors">
-                    {isSignUp ? '¿Ya tienes cuenta?' : '¿Nuevo aquí? Regístrate'}
-                  </button>
+                  <div className="flex flex-col items-end gap-1">
+                    {!isSignUp && (
+                      <button type="button" onClick={() => { setMode('reset'); setError(''); }}
+                        className="text-[#555] text-[10px] font-mono hover:text-[#E8E2D9] transition-colors">
+                        Olvidé mi contraseña
+                      </button>
+                    )}
+                    <button type="button" onClick={() => { setIsSignUp(v => !v); setError(''); }}
+                      className="text-[#8B0000] text-[10px] font-mono hover:text-[#C41E1E] transition-colors">
+                      {isSignUp ? '¿Ya tienes cuenta?' : '¿Nuevo aquí? Regístrate'}
+                    </button>
+                  </div>
                 </div>
+              </form>
+            )}
+
+            {/* Password reset screen */}
+            {mode === 'reset' && (
+              <form onSubmit={handleReset} className="space-y-4">
+                {resetSent ? (
+                  <div className="flex flex-col items-center gap-4 py-4 text-center">
+                    <CheckCircle size={40} className="text-emerald-500" />
+                    <p className="text-[#E8E2D9] text-sm font-semibold">Correo enviado</p>
+                    <p className="text-[#555] text-xs leading-relaxed">
+                      Revisa tu bandeja de entrada (y spam).<br />Sigue el enlace para crear una nueva contraseña.
+                    </p>
+                    <button type="button" onClick={() => { setMode('email'); setResetSent(false); setError(''); }}
+                      className="text-[#8B0000] text-[10px] font-mono hover:text-[#C41E1E] transition-colors mt-2">
+                      Volver al inicio de sesión
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-[#555] text-xs leading-relaxed">
+                      Introduce tu correo y te enviaremos un enlace para restablecer tu contraseña.
+                    </p>
+                    <div>
+                      <label className="block text-[#555] text-[10px] font-mono tracking-[0.2em] uppercase mb-2">Correo *</label>
+                      <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
+                        autoComplete="email" placeholder="tu@email.com"
+                        className="input-pill text-sm rounded-xl" />
+                    </div>
+
+                    {error && <p className="text-[#ff6060] text-[11px] font-mono">{error}</p>}
+
+                    <button type="submit" disabled={!!busy}
+                      className="w-full rounded-full bg-[#8B0000] hover:bg-[#A01010] active:scale-[0.98] text-white py-4 text-sm font-bold tracking-widest uppercase flex items-center justify-center gap-2 disabled:opacity-40 transition-all duration-150 shadow-lg shadow-[#8B0000]/20">
+                      {busy === 'reset' ? <Loader2 size={16} className="animate-spin" /> : null}
+                      Enviar enlace
+                    </button>
+
+                    <button type="button" onClick={() => { setMode('email'); setError(''); }}
+                      className="text-[#444] text-[10px] font-mono hover:text-[#E8E2D9] transition-colors">
+                      ← Volver
+                    </button>
+                  </>
+                )}
               </form>
             )}
 
