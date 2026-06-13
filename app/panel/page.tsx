@@ -470,13 +470,13 @@ export default function PanelPage() {
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="relative flex-1 max-w-sm">
-            <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#888]" />
+            <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#888] pointer-events-none" />
             <input
               type="text"
               placeholder="Buscar por nombre, servicio o teléfono..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full bg-[#1e1e1e] border border-[#2a2a2a] focus:border-[#555] pl-10 pr-9 py-3 text-[#E8E2D9] text-sm placeholder-[#666] outline-none transition-colors rounded-lg"
+              className="w-full bg-[#1e1e1e] border border-[#2a2a2a] focus:border-[#555] pl-12 pr-9 py-3 text-[#E8E2D9] text-sm placeholder-[#666] outline-none transition-colors rounded-lg"
             />
             {search && (
               <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#888] hover:text-[#E8E2D9] transition-colors">
