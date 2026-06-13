@@ -33,7 +33,7 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#111111] border-t border-[#111]" role="contentinfo">
+    <footer className="bg-[#0f0f0f] border-t border-[#2a2a2a]" role="contentinfo">
 <div className="max-w-7xl mx-auto px-6 py-10 sm:py-16 lg:py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
@@ -44,7 +44,7 @@ export default function Footer() {
               </div>
               <div>
                 <p className="text-[#E8E2D9] font-bold text-sm tracking-[0.2em] uppercase">D.Z Tattoo</p>
-                <p className="text-[#8B0000] text-[10px] font-mono tracking-[0.3em] uppercase">Studio · Valencia</p>
+                <p className="text-[#C41E1E] text-[10px] font-mono tracking-[0.3em] uppercase">Studio · Valencia</p>
               </div>
             </div>
             <p className="text-[#B0A89E] text-sm leading-relaxed mb-6">
@@ -120,20 +120,20 @@ export default function Footer() {
             <p className="text-[#E8E2D9] text-xs tracking-[0.3em] uppercase font-bold mb-6">Contacto</p>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <MapPin size={16} className="text-[#8B0000] mt-0.5 flex-shrink-0" />
+                <MapPin size={16} className="text-[#C41E1E] mt-0.5 flex-shrink-0" />
                 <p className="text-[#B0A89E] text-sm leading-relaxed">
                   Av. Luis Vives 12<br />
                   46460 Silla, Valencia
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Phone size={16} className="text-[#8B0000] flex-shrink-0" />
+                <Phone size={16} className="text-[#C41E1E] flex-shrink-0" />
                 <a href="tel:+34722201072" className="text-[#B0A89E] text-sm hover:text-[#E8E2D9] transition-colors">
                   +34 722 20 10 72
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <InstagramIcon size={16} className="text-[#8B0000] flex-shrink-0" />
+                <InstagramIcon size={16} className="text-[#C41E1E] flex-shrink-0" />
                 <a
                   href="https://www.instagram.com/d.z.tattoo"
                   target="_blank"
@@ -148,8 +148,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-[#111] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[#555] text-xs tracking-widest">
+        <div className="border-t border-[#2a2a2a] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-[#888] text-xs tracking-widest">
             © {new Date().getFullYear()} D.Z Tattoo Studio. Todos los derechos reservados.
           </p>
           <div className="flex gap-6">
@@ -157,7 +157,7 @@ export default function Footer() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[#555] text-xs tracking-wider hover:text-[#E8E2D9] transition-colors"
+                className="text-[#888] text-xs tracking-wider hover:text-[#E8E2D9] transition-colors"
               >
                 {link.label}
               </Link>

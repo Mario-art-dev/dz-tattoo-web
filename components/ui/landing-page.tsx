@@ -91,12 +91,13 @@ export default function LandingPage() {
       {/* Background layers */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div
-          className="absolute inset-0 opacity-[0.022]"
+          className="absolute inset-0 opacity-[0.028]"
           style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '60px 60px' }}
         />
-        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-[#8B0000]/14 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 -left-20 w-[350px] h-[350px] bg-[#8B0000]/8 rounded-full blur-[100px]" />
-        <span className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 text-[#8B0000]/[0.03] text-[18rem] sm:text-[26rem] font-black select-none leading-none">
+        <div className="absolute -top-40 -right-40 w-[700px] h-[700px] bg-[#C41E1E]/18 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 -left-20 w-[500px] h-[500px] bg-[#C41E1E]/12 rounded-full blur-[100px]" />
+        <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[500px] h-[300px] bg-[#C41E1E]/5 rounded-full blur-[150px]" />
+        <span className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 text-[#C41E1E]/[0.06] text-[18rem] sm:text-[26rem] font-black select-none leading-none">
           DZ
         </span>
       </div>
@@ -106,7 +107,7 @@ export default function LandingPage() {
 
         {/* Badge */}
         <div className="h-badge mb-7 sm:mb-9">
-          <span className="inline-flex items-center gap-2.5 bg-[#8B0000]/10 border border-[#8B0000]/20 text-[#E8E2D9] text-[10px] sm:text-xs font-bold tracking-[0.35em] uppercase px-4 sm:px-5 py-2.5 rounded-full">
+          <span className="inline-flex items-center gap-2.5 bg-[#C41E1E]/12 border border-[#C41E1E]/30 text-[#E8E2D9] text-[10px] sm:text-xs font-bold tracking-[0.35em] uppercase px-4 sm:px-5 py-2.5 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C41E1E] animate-pulse flex-shrink-0" />
             Estudio Premium · Silla, Valencia
           </span>
@@ -156,7 +157,7 @@ export default function LandingPage() {
           {/* Active bookings list */}
           {bookings.length > 0 && (
             <div className="mt-16 space-y-3">
-              <p className="text-[#444] text-[9px] font-mono tracking-[0.3em] uppercase mb-3">
+              <p className="text-[#888] text-[9px] font-mono tracking-[0.3em] uppercase mb-3">
                 {bookings.length === 1 ? 'Tu reserva activa' : `Tus ${bookings.length} reservas activas`}
               </p>
 
@@ -180,7 +181,7 @@ export default function LandingPage() {
                 ].filter(Boolean) as { label: string; value: string }[];
 
                 return (
-                  <div key={b.id} className="border border-[#1e1e1e] bg-[#151515] rounded-2xl overflow-hidden">
+                  <div key={b.id} className="border border-[#2a2a2a] bg-[#1e1e1e] rounded-2xl overflow-hidden">
 
                     {/* Summary row — tap to expand */}
                     <button
@@ -214,24 +215,24 @@ export default function LandingPage() {
 
                     {/* Expanded details */}
                     {isExpanded && (
-                      <div className="border-t border-[#1e1e1e] px-5 pb-4">
+                      <div className="border-t border-[#2a2a2a] px-5 pb-4">
                         <div className="pt-3 space-y-2.5">
                           {detailRows.map(({ label, value }) => (
                             <div key={label} className="flex justify-between gap-4">
-                              <span className="text-[#444] text-[10px] font-mono tracking-[0.15em] uppercase flex-shrink-0">{label}</span>
-                              <span className="text-[#B0A89E] text-[10px] text-right break-words max-w-[65%]">{value || '—'}</span>
+                              <span className="text-[#777] text-[10px] font-mono tracking-[0.15em] uppercase flex-shrink-0">{label}</span>
+                              <span className="text-[#C4BDB5] text-[10px] text-right break-words max-w-[65%]">{value || '—'}</span>
                             </div>
                           ))}
                         </div>
 
-                        <div className="mt-4 pt-3 border-t border-[#1e1e1e]">
+                        <div className="mt-4 pt-3 border-t border-[#2a2a2a]">
                           {isCancelled ? (
                             <p className="text-zinc-500 text-[10px] font-mono tracking-wider">Reserva cancelada</p>
                           ) : (
                             <button
                               onClick={() => cancelBooking(b)}
                               disabled={!!cancellingId}
-                              className="flex items-center gap-1.5 text-[#8B0000] hover:text-[#C41E1E] text-[10px] font-mono tracking-[0.2em] uppercase transition-colors disabled:opacity-50"
+                              className="flex items-center gap-1.5 text-[#C41E1E] hover:text-[#E02020] text-[10px] font-mono tracking-[0.2em] uppercase transition-colors disabled:opacity-50"
                             >
                               {isCancelling ? <Loader2 size={10} className="animate-spin" /> : <X size={10} />}
                               {isCancelling ? 'Cancelando...' : 'Cancelar reserva'}
@@ -249,12 +250,12 @@ export default function LandingPage() {
       </div>
 
       {/* Services scrollable strip */}
-      <div className="relative z-10 border-t border-[#1b1b1b] py-3.5">
+      <div className="relative z-10 border-t border-[#2a2a2a] py-3.5">
         <div className="flex gap-2.5 px-5 sm:px-8 overflow-x-auto scrollbar-hide pb-0.5">
           {SERVICES_QUICK.map(s => (
             <span
               key={s}
-              className="flex-shrink-0 text-[10px] font-mono tracking-[0.18em] text-[#555] uppercase border border-[#1a1a1a] px-3 py-1.5 whitespace-nowrap hover:text-[#E8E2D9] hover:border-[#8B0000]/30 transition-colors cursor-default"
+              className="flex-shrink-0 text-[10px] font-mono tracking-[0.18em] text-[#888] uppercase border border-[#2a2a2a] px-3 py-1.5 whitespace-nowrap hover:text-[#E8E2D9] hover:border-[#C41E1E]/40 transition-colors cursor-default"
             >
               {s}
             </span>

@@ -116,26 +116,26 @@ export default function Process() {
   }, []);
 
   return (
-    <section id="process" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#141414] border-t border-[#1b1b1b]" aria-label="Proceso">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
+    <section id="process" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#2a2a2a]" aria-label="Proceso">
+      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
         style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#8B0000]/6 rounded-full blur-[160px] pointer-events-none -translate-x-1/3 translate-y-1/3" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#C41E1E]/12 rounded-full blur-[160px] pointer-events-none -translate-x-1/3 translate-y-1/3" />
       <span className="pointer-events-none select-none absolute left-[-3%] top-1/2 -translate-y-1/2 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">04</span>
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 sm:mb-14 border-b border-[#111] pb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 sm:mb-14 border-b border-[#2a2a2a] pb-8">
           <div>
             <div className="proc-eyebrow flex items-center gap-3 mb-4">
-              <span className="text-[#666] text-xs font-mono tracking-[0.3em]">04 /</span>
-              <span className="text-[#8B0000] text-xs font-mono tracking-[0.4em] uppercase">Proceso</span>
+              <span className="text-[#999] text-xs font-mono tracking-[0.3em]">04 /</span>
+              <span className="text-[#C41E1E] text-xs font-mono tracking-[0.4em] uppercase">Proceso</span>
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase leading-tight">
               Tu experiencia,<br />
               <span className="text-gradient">paso a paso</span>
             </h2>
           </div>
-          <p className="sec-meta text-[#555] text-xs font-mono max-w-[220px] leading-relaxed">
+          <p className="sec-meta text-[#888] text-xs font-mono max-w-[220px] leading-relaxed">
             De la idea al resultado final.<br />6 etapas con total transparencia.
           </p>
         </div>
@@ -149,26 +149,26 @@ export default function Process() {
             {steps.map((s) => (
               <div
                 key={s.n}
-                className="proc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#0a0a0a] border border-[#111] p-8 flex flex-col gap-6 group hover:bg-[#0f0808] hover:border-[#8B0000]/20 transition-colors duration-400 relative overflow-hidden"
+                className="proc-card flex-shrink-0 w-[82vw] sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] bg-[#1c1c1c] border border-[#2a2a2a] p-8 flex flex-col gap-6 group hover:bg-[#201010] hover:border-[#C41E1E]/30 transition-colors duration-400 relative overflow-hidden"
               >
-                <span className="absolute right-4 bottom-4 text-[5rem] font-black text-[#8B0000]/[0.06] leading-none select-none pointer-events-none">{s.n}</span>
+                <span className="absolute right-4 bottom-4 text-[5rem] font-black text-[#C41E1E]/[0.08] leading-none select-none pointer-events-none">{s.n}</span>
 
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 border border-[#8B0000]/30 group-hover:border-[#8B0000]/60 flex items-center justify-center flex-shrink-0 transition-colors">
-                      <span className="text-[#8B0000] text-[10px] font-mono">{s.n}</span>
+                    <div className="w-8 h-8 border border-[#C41E1E]/35 group-hover:border-[#C41E1E]/70 flex items-center justify-center flex-shrink-0 transition-colors">
+                      <span className="text-[#C41E1E] text-[10px] font-mono">{s.n}</span>
                     </div>
-                    <span className="text-[10px] font-mono tracking-[0.25em] text-[#555] group-hover:text-[#666] transition-colors uppercase">{s.code}</span>
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-[#888] group-hover:text-[#aaa] transition-colors uppercase">{s.code}</span>
                   </div>
-                  <span className="text-[#8B0000] text-[10px] font-mono tracking-wider border border-[#8B0000]/20 px-2.5 py-1 flex-shrink-0">{s.meta}</span>
+                  <span className="text-[#C41E1E] text-[10px] font-mono tracking-wider border border-[#C41E1E]/30 px-2.5 py-1 flex-shrink-0">{s.meta}</span>
                 </div>
 
                 <div className="flex-1 min-h-[6rem]">
                   <h3 className="text-[#E8E2D9] font-black text-lg uppercase tracking-wide mb-3 leading-tight">{s.title}</h3>
-                  <p className="text-[#B0A89E] text-sm leading-relaxed">{s.desc}</p>
+                  <p className="text-[#C4BDB5] text-sm leading-relaxed">{s.desc}</p>
                 </div>
 
-                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8B0000]/0 group-hover:bg-[#8B0000]/35 transition-all duration-500" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#C41E1E]/0 group-hover:bg-[#C41E1E]/50 transition-all duration-500" />
               </div>
             ))}
           </div>
@@ -177,11 +177,11 @@ export default function Process() {
         {/* Arrow controls */}
         <div className="mt-5 flex gap-2">
           <button onClick={() => slide(-1)} disabled={!canPrev} aria-label="Anterior"
-            className="proc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
+            className="proc-nav-btn w-10 h-10 border border-[#2a2a2a] flex items-center justify-center text-[#888] hover:text-[#E8E2D9] hover:border-[#666] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronLeft size={16} />
           </button>
           <button onClick={() => slide(1)} disabled={!canNext} aria-label="Siguiente"
-            className="proc-nav-btn w-10 h-10 border border-[#1f1f1f] flex items-center justify-center text-[#555] hover:text-[#E8E2D9] hover:border-[#444] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
+            className="proc-nav-btn w-10 h-10 border border-[#2a2a2a] flex items-center justify-center text-[#888] hover:text-[#E8E2D9] hover:border-[#666] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-200">
             <ChevronRight size={16} />
           </button>
         </div>
