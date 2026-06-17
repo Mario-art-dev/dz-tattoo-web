@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import {
-  signInWithPopup, signInWithRedirect, getRedirectResult,
+  signInWithPopup, signInWithRedirect,
   GoogleAuthProvider,
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
   updateProfile, sendPasswordResetEmail,
@@ -27,10 +27,6 @@ export default function AuthModal() {
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [resetSent, setResetSent] = useState(false);
-
-  useEffect(() => {
-    getRedirectResult(auth).catch(() => {});
-  }, []);
 
   if (!authOpen) return null;
 

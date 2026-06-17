@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import { User, onAuthStateChanged, signOut as fbSignOut } from 'firebase/auth';
+import { User, onAuthStateChanged, signOut as fbSignOut, getRedirectResult } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
 type AuthCtx = {
@@ -27,6 +27,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [authOpen, setAuthOpen] = useState(false);
 
   useEffect(() => {
+    getRedirectResult(auth).catch(() => {});
+
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
