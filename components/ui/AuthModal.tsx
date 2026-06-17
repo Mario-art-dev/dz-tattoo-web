@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import {
-  signInWithPopup, signInWithRedirect,
-  GoogleAuthProvider,
+  signInWithPopup, signInWithRedirect, GoogleAuthProvider,
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
   updateProfile, sendPasswordResetEmail,
 } from 'firebase/auth';
@@ -12,9 +11,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { X, Mail, Loader2, Eye, EyeOff, CheckCircle } from 'lucide-react';
 
 type Mode = 'options' | 'email' | 'reset';
-
-const isMobile = () =>
-  typeof window !== 'undefined' && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
 export default function AuthModal() {
   const { authOpen, closeAuth } = useAuth();
@@ -52,24 +48,15 @@ export default function AuthModal() {
     setBusy('google'); setError('');
     const provider = new GoogleAuthProvider();
     try {
-      if (isMobile()) {
-        await signInWithRedirect(auth, provider);
-      } else {
-        try {
-          await signInWithPopup(auth, provider);
-        } catch (err: unknown) {
-          const code = (err as { code?: string }).code ?? '';
-          if (code.includes('popup-blocked') || code.includes('popup-closed-by-user')) {
-            await signInWithRedirect(auth, provider);
-          } else {
-            throw err;
-          }
-        }
-      }
+      await signInWithPopup(auth, provider);
     } catch (err: unknown) {
       const code = (err as { code?: string }).code ?? '';
-      const msg = friendlyError(code);
-      if (msg) setError(msg);
+      if (code.includes('popup-blocked')) {
+        try { await signInWithRedirect(auth, provider); } catch { /* navigating */ }
+      } else if (!code.includes('popup-closed-by-user')) {
+        const msg = friendlyError(code);
+        if (msg) setError(msg);
+      }
     } finally {
       setBusy(null);
     }
