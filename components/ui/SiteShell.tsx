@@ -12,7 +12,7 @@ import WelcomeScreen from './WelcomeScreen';
 
 export default function SiteShell() {
   const pathname = usePathname();
-  if (pathname?.startsWith('/panel')) return null;
+  if (pathname?.startsWith('/panel') || pathname?.startsWith('/woman-balance')) return null;
   return (
     <>
       <PageIntro />
