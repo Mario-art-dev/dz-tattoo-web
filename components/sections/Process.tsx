@@ -117,10 +117,7 @@ export default function Process() {
 
   return (
     <section id="process" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#111111] border-t border-[#2a2a2a]" aria-label="Proceso">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
-        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#C41E1E]/12 rounded-full blur-[160px] pointer-events-none -translate-x-1/3 translate-y-1/3" />
-      <span className="pointer-events-none select-none absolute left-[-3%] top-1/2 -translate-y-1/2 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">04</span>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#C41E1E]/8 rounded-full blur-[160px] pointer-events-none -translate-x-1/3 translate-y-1/3" />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}

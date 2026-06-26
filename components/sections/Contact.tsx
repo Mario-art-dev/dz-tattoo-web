@@ -31,8 +31,6 @@ export default function Contact() {
     <section id="contact" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#1a1a1a] overflow-hidden" aria-label="Contacto">
       {/* Ambient glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#C41E1E]/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
-        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header — more persuasive */}

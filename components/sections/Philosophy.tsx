@@ -51,21 +51,7 @@ export default function Philosophy() {
   return (
     <section id="philosophy" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#131313] border-t border-[#2a2a2a] overflow-hidden" aria-label="Filosofía">
       {/* Grid bg */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
-        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
-      <div className="absolute top-0 right-0 w-[700px] h-[500px] bg-[#C41E1E]/10 rounded-full blur-[140px] pointer-events-none translate-x-1/3 -translate-y-1/4" />
-      <span className="pointer-events-none select-none absolute right-[-3%] top-1/2 -translate-y-1/2 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">02</span>
-
-      {/* Marquee */}
-      <div className="overflow-hidden border-y border-[#2a2a2a] py-4 mb-10 sm:mb-16 lg:mb-20">
-        <div className="marquee-track flex gap-12 whitespace-nowrap w-[200%]">
-          {[...keywords, ...keywords].map((w, i) => (
-            <span key={i} className="text-[#222] text-5xl sm:text-7xl font-black uppercase tracking-tight select-none">
-              {w}
-            </span>
-          ))}
-        </div>
-      </div>
+      <div className="absolute top-0 right-0 w-[500px] h-[400px] bg-[#C41E1E]/8 rounded-full blur-[150px] pointer-events-none translate-x-1/3 -translate-y-1/4" />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}

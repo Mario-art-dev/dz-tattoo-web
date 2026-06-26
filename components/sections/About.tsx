@@ -96,10 +96,7 @@ export default function About() {
       aria-label="Sobre nosotros"
     >
       {/* Grid bg */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
-        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#C41E1E]/12 rounded-full blur-[130px] pointer-events-none translate-x-1/3" />
-      <span className="pointer-events-none select-none absolute right-[-2%] bottom-0 text-[20rem] font-black text-[#8B0000]/[0.025] leading-none hidden lg:block">DZ</span>
+      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-[#C41E1E]/8 rounded-full blur-[140px] pointer-events-none translate-x-1/3" />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header row */}

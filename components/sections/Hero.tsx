@@ -105,14 +105,6 @@ export default function Hero() {
       </div>
 
       {/* Noise texture overlay */}
-      <div className="absolute inset-0 z-[1] opacity-[0.025] pointer-events-none"
-        style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")" }}
-      />
-
-      {/* Grid lines */}
-      <div className="absolute inset-0 z-[1] pointer-events-none opacity-[0.03]"
-        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px, transparent 1px), linear-gradient(90deg, rgba(232,226,217,1) 1px, transparent 1px)', backgroundSize: '80px 80px' }}
-      />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">

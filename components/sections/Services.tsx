@@ -119,8 +119,6 @@ export default function Services() {
 
   return (
     <section id="services" ref={sectionRef} className="relative py-20 sm:py-32 lg:py-44 bg-[#1d1d1d] border-t border-[#2a2a2a]" aria-label="Servicios">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
-        style={{ backgroundImage: 'linear-gradient(rgba(232,226,217,1) 1px,transparent 1px),linear-gradient(90deg,rgba(232,226,217,1) 1px,transparent 1px)', backgroundSize: '80px 80px' }} />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
